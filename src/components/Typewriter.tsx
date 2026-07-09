@@ -11,11 +11,7 @@ export function Typewriter() {
   const [text, setText] = useState("");
   const [index, setIndex] = useState(0);
   const [deleting, setDeleting] = useState(false);
-  const [reduced, setReduced] = useState(false);
-
-  useEffect(() => {
-    setReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
-  }, []);
+  const [reduced] = useState(() => window.matchMedia("(prefers-reduced-motion: reduce)").matches);
 
   useEffect(() => {
     if (reduced) return;
@@ -33,7 +29,9 @@ export function Typewriter() {
         setDeleting(false);
         setIndex((i) => (i + 1) % words.length);
       } else {
-        setText((t) => (deleting ? current.slice(0, t.length - 1) : current.slice(0, t.length + 1)));
+        setText((t) =>
+          deleting ? current.slice(0, t.length - 1) : current.slice(0, t.length + 1),
+        );
       }
     }, delay);
 
@@ -53,9 +51,7 @@ export function Typewriter() {
           <span className="caret ml-0.5 inline-block h-[1.05em] w-[2px] translate-y-[3px] bg-accent" />
         </span>
       </span>
-      <span className="sr-only">
-        Computer science student, software engineer, and AI engineer
-      </span>
+      <span className="sr-only">Computer science student, software engineer, and AI engineer</span>
     </span>
   );
 }

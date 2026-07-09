@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 const links = [
   { href: "#about", label: "About" },
@@ -28,6 +29,8 @@ function MailIcon() {
 }
 
 export function Nav() {
+  const location = useLocation();
+  const onContact = location.pathname === "/contact";
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
@@ -40,7 +43,9 @@ export function Nav() {
   }, []);
 
   useEffect(() => {
-    const ids = ["top", ...links.map((link) => link.href.slice(1)), "contact"];
+    if (onContact) return;
+
+    const ids = ["top", ...links.map((link) => link.href.slice(1))];
     const sections = ids
       .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => el !== null);
@@ -57,7 +62,7 @@ export function Nav() {
 
     sections.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
-  }, []);
+  }, [onContact]);
 
   const linkBase =
     "relative font-mono text-[13px] transition-colors " +
@@ -66,10 +71,9 @@ export function Nav() {
 
   const contactBase =
     "inline-flex items-center gap-2 rounded-lg border px-3.5 py-1.5 font-mono text-[13px] transition-colors";
-  const contactStyle =
-    active === "#contact"
-      ? "border-accent bg-accent text-background"
-      : "border-accent/40 text-accent hover:border-accent hover:bg-accent hover:text-background";
+  const contactStyle = onContact
+    ? "border-accent bg-accent text-background"
+    : "border-accent/40 text-accent hover:border-accent hover:bg-accent hover:text-background";
 
   const barLine = "absolute left-0 block h-[2px] w-5 rounded-full bg-current";
 
@@ -82,27 +86,27 @@ export function Nav() {
       }`}
     >
       <nav className="mx-auto flex min-h-16 max-w-5xl items-center justify-between gap-4 px-4 sm:px-6">
-        <a href="#top" className="font-mono text-sm font-semibold tracking-tight text-foreground">
+        <Link to="/" className="font-mono text-sm font-semibold tracking-tight text-foreground">
           Jake O'Reilly
-        </a>
+        </Link>
         <div className="hidden items-center gap-6 md:flex">
-          <a
-            href="#top"
-            aria-current={active === null ? "page" : undefined}
+          <Link
+            to="/"
+            aria-current={!onContact && active === null ? "page" : undefined}
             className={`${linkBase} ${
-              active === null
+              !onContact && active === null
                 ? "text-foreground after:scale-x-100"
                 : "text-muted after:scale-x-0 hover:text-foreground"
             }`}
           >
             Home
-          </a>
+          </Link>
           {links.map((link) => (
             <a
               key={link.href}
-              href={link.href}
+              href={onContact ? `/${link.href}` : link.href}
               className={`${linkBase} ${
-                active === link.href
+                !onContact && active === link.href
                   ? "text-foreground after:scale-x-100"
                   : "text-muted after:scale-x-0 hover:text-foreground"
               }`}
@@ -110,10 +114,10 @@ export function Nav() {
               {link.label}
             </a>
           ))}
-          <a href="#contact" className={`${contactBase} ${contactStyle}`}>
+          <Link to="/contact" className={`${contactBase} ${contactStyle}`}>
             <MailIcon />
             Contact
-          </a>
+          </Link>
         </div>
         <button
           type="button"
@@ -148,38 +152,40 @@ export function Nav() {
       >
         <div className="min-h-0 overflow-hidden">
           <div className="flex flex-col border-t border-line px-4 pt-2 pb-4">
-            <a
-              href="#top"
+            <Link
+              to="/"
               onClick={() => setOpen(false)}
               tabIndex={open ? 0 : -1}
               className={`rounded-md px-2 py-2.5 font-mono text-sm transition-colors ${
-                active === null ? "text-accent" : "text-muted hover:text-foreground"
+                !onContact && active === null ? "text-accent" : "text-muted hover:text-foreground"
               }`}
             >
               Home
-            </a>
+            </Link>
             {links.map((link) => (
               <a
                 key={link.href}
-                href={link.href}
+                href={onContact ? `/${link.href}` : link.href}
                 onClick={() => setOpen(false)}
                 tabIndex={open ? 0 : -1}
                 className={`rounded-md px-2 py-2.5 font-mono text-sm transition-colors ${
-                  active === link.href ? "text-accent" : "text-muted hover:text-foreground"
+                  !onContact && active === link.href
+                    ? "text-accent"
+                    : "text-muted hover:text-foreground"
                 }`}
               >
                 {link.label}
               </a>
             ))}
-            <a
-              href="#contact"
+            <Link
+              to="/contact"
               onClick={() => setOpen(false)}
               tabIndex={open ? 0 : -1}
               className={`${contactBase} mt-3 self-start ${contactStyle}`}
             >
               <MailIcon />
               Contact
-            </a>
+            </Link>
           </div>
         </div>
       </div>

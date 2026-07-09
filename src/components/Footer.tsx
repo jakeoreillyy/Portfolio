@@ -1,3 +1,5 @@
+import { Link, useLocation } from "react-router-dom";
+
 type FooterLink = { href: string; label: string; external?: boolean; mail?: boolean };
 
 const navLinks: FooterLink[] = [
@@ -18,7 +20,7 @@ const connectLinks: FooterLink[] = [
     external: true,
   },
   { href: "https://leetcode.com/u/jakeoreilly/", label: "LeetCode", external: true },
-  { href: "#contact", label: "Contact", mail: true },
+  { href: "/contact", label: "Contact", mail: true },
 ];
 
 function MailIcon() {
@@ -39,22 +41,47 @@ function MailIcon() {
   );
 }
 
-function FooterColumn({ title, links }: { title: string; links: FooterLink[] }) {
+function FooterColumn({
+  title,
+  links,
+  onHome,
+}: {
+  title: string;
+  links: FooterLink[];
+  onHome: boolean;
+}) {
   return (
     <div>
       <p className="font-mono text-xs tracking-[0.2em] text-faint uppercase">{title}</p>
       <ul className="mt-4 space-y-2.5">
         {links.map((link) => (
           <li key={link.label}>
-            <a
-              href={link.href}
-              {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-              className="text-sm text-muted transition-colors hover:text-accent"
-            >
-              {link.label}
-              {link.external && <span aria-hidden="true"> ↗</span>}
-              {link.mail && <MailIcon />}
-            </a>
+            {link.external ? (
+              <a
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-muted transition-colors hover:text-accent"
+              >
+                {link.label}
+                <span aria-hidden="true"> ↗</span>
+              </a>
+            ) : link.href.startsWith("#") ? (
+              <a
+                href={onHome ? link.href : `/${link.href}`}
+                className="text-sm text-muted transition-colors hover:text-accent"
+              >
+                {link.label}
+              </a>
+            ) : (
+              <Link
+                to={link.href}
+                className="text-sm text-muted transition-colors hover:text-accent"
+              >
+                {link.label}
+                {link.mail && <MailIcon />}
+              </Link>
+            )}
           </li>
         ))}
       </ul>
@@ -63,23 +90,25 @@ function FooterColumn({ title, links }: { title: string; links: FooterLink[] }) 
 }
 
 export function Footer() {
+  const onHome = useLocation().pathname === "/";
+
   return (
     <footer className="border-t border-line">
       <div className="mx-auto flex max-w-5xl flex-col gap-12 px-6 py-16 md:flex-row md:justify-between">
         <div>
-          <a
-            href="#top"
+          <Link
+            to="/"
             className="font-mono text-lg font-semibold tracking-tight text-foreground transition-colors hover:text-accent"
           >
             Jake O'Reilly
-          </a>
+          </Link>
           <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted">
             Building from Dublin, Ireland. ☘️
           </p>
         </div>
         <div className="flex gap-12 sm:gap-20">
-          <FooterColumn title="Navigate" links={navLinks} />
-          <FooterColumn title="Connect" links={connectLinks} />
+          <FooterColumn title="Navigate" links={navLinks} onHome={onHome} />
+          <FooterColumn title="Connect" links={connectLinks} onHome={onHome} />
         </div>
       </div>
 

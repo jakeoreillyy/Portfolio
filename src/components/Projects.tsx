@@ -102,6 +102,7 @@ function StartupRankerPreview() {
 
 function ReservrPreview() {
   const days = ["MON", "TUE", "WED", "THU", "FRI"];
+  // prettier-ignore
   const slots = [
     false, true, false, false, true,
     true, false, false, true, false,
@@ -111,7 +112,9 @@ function ReservrPreview() {
     <div className="h-full bg-surface">
       <div className="flex items-center justify-between border-b border-line px-3 py-2">
         <span className="font-mono text-[10.5px] font-medium text-foreground">Study rooms</span>
-        <span className="rounded bg-accent px-2 py-0.5 font-mono text-[8.5px] text-background">Book</span>
+        <span className="rounded bg-accent px-2 py-0.5 font-mono text-[8.5px] text-background">
+          Book
+        </span>
       </div>
       <div className="px-3 py-2.5">
         <div className="mb-2 flex gap-[7px]">
@@ -170,16 +173,20 @@ export function Projects() {
                     </p>
 
                     <div className="mt-2 flex items-center justify-between gap-3">
-                      <h3 className="font-mono text-lg font-medium text-foreground">{project.title}</h3>
-                      <a
-                        href={project.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={`${project.title} — ${project.link.label}`}
-                        className="flex size-[34px] shrink-0 items-center justify-center rounded-lg border border-line text-muted transition-colors hover:border-accent hover:text-accent"
-                      >
-                        {project.link.kind === "repo" ? <GithubIcon /> : <ArrowUpRightIcon />}
-                      </a>
+                      <h3 className="font-mono text-lg font-medium text-foreground">
+                        {project.title}
+                      </h3>
+                      {project.href && project.link && (
+                        <a
+                          href={project.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`${project.title} — ${project.link.label}`}
+                          className="flex size-[34px] shrink-0 items-center justify-center rounded-lg border border-line text-muted transition-colors hover:border-accent hover:text-accent"
+                        >
+                          {project.link.kind === "repo" ? <GithubIcon /> : <ArrowUpRightIcon />}
+                        </a>
+                      )}
                     </div>
 
                     <div className="mt-3 flex flex-wrap gap-1.5">
@@ -193,17 +200,21 @@ export function Projects() {
                       ))}
                     </div>
 
-                    <p className="mt-3 mb-5 text-sm leading-relaxed text-muted">{project.description}</p>
+                    <p className="mt-3 mb-5 text-sm leading-relaxed text-muted">
+                      {project.description}
+                    </p>
 
-                    <a
-                      href={project.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-auto inline-flex items-center gap-1.5 self-start rounded-lg border border-accent/40 px-3.5 py-1.5 font-mono text-[13px] text-accent transition-colors hover:border-accent hover:bg-accent hover:text-background"
-                    >
-                      {project.link.label}
-                      <span aria-hidden="true">↗</span>
-                    </a>
+                    {project.href && project.link && (
+                      <a
+                        href={project.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-auto inline-flex items-center gap-1.5 self-start rounded-lg border border-accent/40 px-3.5 py-1.5 font-mono text-[13px] text-accent transition-colors hover:border-accent hover:bg-accent hover:text-background"
+                      >
+                        {project.link.label}
+                        <span aria-hidden="true">↗</span>
+                      </a>
+                    )}
                   </div>
                 </article>
               </Reveal>

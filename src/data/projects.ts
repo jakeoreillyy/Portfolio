@@ -1,8 +1,5 @@
-// TODO(jake): replace placeholders before publishing —
-//   • Startup Ranker: real summary, stack, and link (all currently guessed)
-//   • hrefs: confirm each points at the right repo / live URL
-//     (HushPath + Startup Ranker fall back to the GitHub profile for now)
-//   • swap generated previews for real screenshots where you have them
+// TODO(jake): confirm the Startup Ranker summary/tags and swap generated
+// previews for real screenshots where you have them.
 
 export type ProjectPreview = "threadbase" | "hushpath" | "startupRanker" | "reservr";
 
@@ -12,8 +9,8 @@ export type Project = {
   eyebrow: string;
   description: string;
   tags: string[];
-  href: string;
-  link: { label: string; kind: "repo" | "external" };
+  href?: string;
+  link?: { label: string; kind: "repo" | "external" };
   preview: ProjectPreview;
 };
 
@@ -36,8 +33,6 @@ export const projects: Project[] = [
     description:
       "A sensory-friendly journey planner scoring Dublin on an 80m grid, routing around noise instead of the shortest path.",
     tags: ["Python", "Overpass API", "Google Maps"],
-    href: "https://github.com/jakeoreillyy",
-    link: { label: "Case study", kind: "external" },
     preview: "hushpath",
   },
   {
@@ -46,8 +41,8 @@ export const projects: Project[] = [
     eyebrow: "Web app",
     description: "Scores and ranks startups by traction signals into a single live leaderboard.",
     tags: ["TypeScript", "React", "Supabase"],
-    href: "https://github.com/jakeoreillyy",
-    link: { label: "View project", kind: "external" },
+    href: "https://github.com/jakeoreillyy/Startup-Idea-Ranker",
+    link: { label: "View repo", kind: "repo" },
     preview: "startupRanker",
   },
   {

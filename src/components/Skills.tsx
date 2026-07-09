@@ -68,7 +68,17 @@ type Line =
   | { kind: "tokens"; indent: number; skills: Skill[] };
 
 const lines: Line[] = [
-  { kind: "code", indent: 0, content: <><P>&lt;</P><Tag>Skills</Tag><P>&gt;</P></> },
+  {
+    kind: "code",
+    indent: 0,
+    content: (
+      <>
+        <P>&lt;</P>
+        <Tag>Skills</Tag>
+        <P>&gt;</P>
+      </>
+    ),
+  },
   ...groups.flatMap((g): Line[] => [
     {
       kind: "code",
@@ -84,9 +94,29 @@ const lines: Line[] = [
       ),
     },
     { kind: "tokens", indent: 2, skills: g.skills },
-    { kind: "code", indent: 1, content: <><P>&lt;/</P><Tag>Category</Tag><P>&gt;</P></> },
+    {
+      kind: "code",
+      indent: 1,
+      content: (
+        <>
+          <P>&lt;/</P>
+          <Tag>Category</Tag>
+          <P>&gt;</P>
+        </>
+      ),
+    },
   ]),
-  { kind: "code", indent: 0, content: <><P>&lt;/</P><Tag>Skills</Tag><P>&gt;</P></> },
+  {
+    kind: "code",
+    indent: 0,
+    content: (
+      <>
+        <P>&lt;/</P>
+        <Tag>Skills</Tag>
+        <P>&gt;</P>
+      </>
+    ),
+  },
 ];
 
 function Token({ skill }: { skill: Skill }) {

@@ -19,8 +19,9 @@ export function useLenis() {
       const hash = anchor.getAttribute("href");
       if (!hash || hash === "#") return;
 
+      // "#top" scrolls to 0 even on pages without a #top element (e.g. /contact)
       const target = document.querySelector(hash);
-      if (!target) return;
+      if (hash !== "#top" && !target) return;
 
       event.preventDefault();
       // lerp matches the manual wheel feel and scales with distance;

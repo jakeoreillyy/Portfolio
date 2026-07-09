@@ -27,8 +27,8 @@ export function About() {
                 <span className="text-faint italic">// a quick snapshot</span>
                 {"\n"}
                 <span className="text-muted">const</span>{" "}
-                <span className="text-foreground">jake</span>{" "}
-                <span className="text-faint">=</span> <span className="text-faint">{"{"}</span>
+                <span className="text-foreground">jake</span> <span className="text-faint">=</span>{" "}
+                <span className="text-faint">{"{"}</span>
                 {"\n"}
                 {facts.map(([key, value]) => (
                   <Fragment key={key}>
@@ -76,9 +76,9 @@ export function About() {
                 the person using it.
               </p>
               <p>
-                Outside of tech, I enjoy{" "}
-                <span className="text-foreground">hiking and skiing</span>, and I'm hoping to spend
-                some time backpacking through the Dolomites in the near future.
+                Outside of tech, I enjoy <span className="text-foreground">hiking and skiing</span>,
+                and I'm hoping to spend some time backpacking through the Dolomites in the near
+                future.
               </p>
             </div>
           </Reveal>

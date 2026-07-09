@@ -14,7 +14,7 @@ const jobs: Job[] = [
   {
     role: "Software Engineer Intern",
     org: "Speed-Deed",
-    date: "Jun 2026 — Present",
+    date: "Jun 2026 - Present",
     description:
       "Instrumented product analytics with PostHog on a React SPA and built an internal insights dashboard in Recharts to surface pipeline bottlenecks.",
     tags: ["React", "TypeScript", "PostHog", "Recharts"],

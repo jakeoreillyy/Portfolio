@@ -263,7 +263,7 @@ export default function Contact() {
             <p className="font-mono text-xs text-faint">Protected by reCAPTCHA.</p>
 
             {status === "sent" && (
-              <p className="font-mono text-xs text-accent">Thanks — I'll get back to you soon.</p>
+              <p className="font-mono text-xs text-accent">Thanks, I'll get back to you soon.</p>
             )}
             {status === "error" && error && (
               <p className="font-mono text-xs text-red-400">{error}</p>

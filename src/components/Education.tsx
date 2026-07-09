@@ -48,7 +48,7 @@ export function Education() {
                   BSc Computer Science{" "}
                   <span className="text-accent">@ Technological University Dublin</span>
                 </p>
-                <p className="shrink-0 font-mono text-xs text-faint">2024 — 2028</p>
+                <p className="shrink-0 font-mono text-xs text-faint">2024 - 2028</p>
               </div>
 
               <div className="mt-4 flex flex-wrap gap-1.5">

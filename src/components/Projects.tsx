@@ -42,34 +42,13 @@ function ArrowUpRightIcon() {
 }
 
 function ThreadBasePreview() {
-  const threads = [
-    { votes: 42, title: "Structuring FastAPI dependencies", meta: "jake · 12 replies" },
-    { votes: 17, title: "Alembic vs. raw migrations?", meta: "ada · 5 replies" },
-    { votes: 8, title: "JWT blacklist on logout", meta: "sam · 3 replies" },
-  ];
   return (
-    <div className="h-full bg-surface">
-      <div className="flex items-center justify-between border-b border-line px-3 py-2">
-        <span className="font-mono text-[11px] font-medium text-accent">ThreadBase</span>
-        <span className="rounded border border-line bg-background px-2 py-0.5 font-mono text-[8.5px] text-faint">
-          search…
-        </span>
-      </div>
-      <div className="flex flex-col gap-2.5 px-3 py-2.5">
-        {threads.map((thread) => (
-          <div key={thread.title} className="flex items-center gap-2.5">
-            <div className="w-6 shrink-0 text-center">
-              <div className="text-[8px] leading-none text-faint">▲</div>
-              <div className="font-mono text-[11px] text-accent">{thread.votes}</div>
-            </div>
-            <div className="min-w-0">
-              <p className="truncate text-[10.5px] text-foreground">{thread.title}</p>
-              <p className="mt-px font-mono text-[8px] text-faint">{thread.meta}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
+    <img
+      src="/threadbase.webp"
+      alt="ThreadBase — forum threads flowing into a Postgres database"
+      className="h-full w-full object-contain"
+      loading="lazy"
+    />
   );
 }
 
@@ -111,39 +90,13 @@ function HushPathPreview() {
 }
 
 function StartupRankerPreview() {
-  const rows = [
-    { rank: "1", name: "Acme", width: "92%", score: "92", fill: "bg-accent", dim: false },
-    { rank: "2", name: "Nova", width: "74%", score: "78", fill: "bg-accent opacity-75", dim: false },
-    { rank: "3", name: "Flux", width: "56%", score: "61", fill: "bg-accent opacity-[.55]", dim: false },
-    { rank: "4", name: "Orbit", width: "40%", score: "44", fill: "bg-accent opacity-40", dim: true },
-  ];
   return (
-    <div className="h-full bg-surface">
-      <div className="flex items-center justify-between border-b border-line px-3 py-2">
-        <span className="font-mono text-[10.5px] font-medium text-foreground">Leaderboard</span>
-        <span className="font-mono text-[8.5px] text-faint">Q2 · 128 tracked</span>
-      </div>
-      <div className="flex flex-col gap-2.5 px-3 py-2.5">
-        {rows.map((row) => (
-          <div key={row.name} className="flex items-center gap-2.5">
-            <span className={`w-3 font-mono text-[11px] ${row.dim ? "text-faint" : "text-accent"}`}>
-              {row.rank}
-            </span>
-            <span className="w-11 font-mono text-[10px] text-muted">{row.name}</span>
-            <span className="h-[7px] flex-1 overflow-hidden rounded bg-line">
-              <span className={`block h-full ${row.fill}`} style={{ width: row.width }} />
-            </span>
-            <span
-              className={`w-[18px] text-right font-mono text-[9.5px] ${
-                row.dim ? "text-faint" : row.rank === "1" ? "text-accent" : "text-muted"
-              }`}
-            >
-              {row.score}
-            </span>
-          </div>
-        ))}
-      </div>
-    </div>
+    <img
+      src="/ranker.webp"
+      alt="Startup Ranker — a scored startup leaderboard judged by an LLM"
+      className="h-full w-full object-contain"
+      loading="lazy"
+    />
   );
 }
 
@@ -197,55 +150,61 @@ export function Projects() {
           <h2 className="mt-2 font-mono text-3xl font-semibold tracking-tight">Projects</h2>
         </Reveal>
 
-        <div className="mt-12 grid gap-x-6 gap-y-12 sm:grid-cols-2">
+        <div className="mt-12 flex flex-wrap gap-6">
           {projects.map((project, i) => {
             const Preview = previews[project.preview];
             return (
-              <Reveal key={project.id} delay={i * 90}>
-                <article>
-                  <div className="h-[150px] overflow-hidden rounded-[10px] border border-line">
+              <Reveal
+                key={project.id}
+                delay={i * 90}
+                className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"
+              >
+                <article className="flex h-full flex-col overflow-hidden rounded-[14px] border border-line bg-surface transition-[border-color,box-shadow] duration-300 ease-out hover:border-accent/40 hover:shadow-[0_0_28px_-10px_rgba(233,204,90,0.22)]">
+                  <div className="h-[150px] border-b border-line bg-background">
                     <Preview />
                   </div>
 
-                  <p className="mt-4 font-mono text-[10.5px] tracking-[0.14em] text-accent uppercase">
-                    {project.eyebrow}
-                  </p>
+                  <div className="flex flex-1 flex-col p-5">
+                    <p className="font-mono text-[10.5px] tracking-[0.14em] text-accent uppercase">
+                      {project.eyebrow}
+                    </p>
 
-                  <div className="mt-1.5 flex items-center justify-between gap-3">
-                    <h3 className="font-mono text-lg font-medium text-foreground">{project.title}</h3>
+                    <div className="mt-2 flex items-center justify-between gap-3">
+                      <h3 className="font-mono text-lg font-medium text-foreground">{project.title}</h3>
+                      <a
+                        href={project.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`${project.title} — ${project.link.label}`}
+                        className="flex size-[34px] shrink-0 items-center justify-center rounded-lg border border-line text-muted transition-colors hover:border-accent hover:text-accent"
+                      >
+                        {project.link.kind === "repo" ? <GithubIcon /> : <ArrowUpRightIcon />}
+                      </a>
+                    </div>
+
+                    <div className="mt-3 flex flex-wrap gap-1.5">
+                      {project.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="rounded border border-line bg-surface px-2 py-0.5 font-mono text-[11px] text-muted"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    <p className="mt-3 mb-5 text-sm leading-relaxed text-muted">{project.description}</p>
+
                     <a
                       href={project.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      aria-label={`${project.title} — ${project.link.label}`}
-                      className="flex size-[34px] shrink-0 items-center justify-center rounded-lg border border-line text-muted transition-colors hover:border-accent hover:text-accent"
+                      className="mt-auto inline-flex items-center gap-1.5 self-start rounded-lg border border-accent/40 px-3.5 py-1.5 font-mono text-[13px] text-accent transition-colors hover:border-accent hover:bg-accent hover:text-background"
                     >
-                      {project.link.kind === "repo" ? <GithubIcon /> : <ArrowUpRightIcon />}
+                      {project.link.label}
+                      <span aria-hidden="true">↗</span>
                     </a>
                   </div>
-
-                  <div className="mt-3 flex flex-wrap gap-1.5">
-                    {project.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="rounded border border-line bg-surface px-2 py-0.5 font-mono text-[11px] text-muted"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  <p className="mt-3 text-sm leading-relaxed text-muted">{project.description}</p>
-
-                  <a
-                    href={project.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-4 inline-flex items-center gap-1.5 rounded-lg border border-accent/40 px-3.5 py-1.5 font-mono text-[13px] text-accent transition-colors hover:border-accent hover:bg-accent hover:text-background"
-                  >
-                    {project.link.label}
-                    <span aria-hidden="true">↗</span>
-                  </a>
                 </article>
               </Reveal>
             );

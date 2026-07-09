@@ -2,7 +2,7 @@ import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { Resend } from "resend";
 
 const TO_EMAIL = process.env.CONTACT_TO_EMAIL;
-const FROM_EMAIL = process.env.CONTACT_FROM_EMAIL ?? "Portfolio Contact <onboarding@resend.dev>";
+const FROM_EMAIL = "Portfolio Contact <onboarding@resend.dev>";
 const RECAPTCHA_SECRET = process.env.RECAPTCHA_SECRET_KEY;
 
 function isNonEmptyString(value: unknown): value is string {

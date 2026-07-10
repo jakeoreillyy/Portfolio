@@ -86,12 +86,15 @@ export function Nav() {
       }`}
     >
       <nav className="mx-auto flex min-h-16 max-w-5xl items-center justify-between gap-4 px-4 sm:px-6">
-        <Link to="/" className="font-mono text-sm font-semibold tracking-tight text-foreground">
+        <a
+          href={onContact ? "/#top" : "#top"}
+          className="font-mono text-sm font-semibold tracking-tight text-foreground"
+        >
           Jake O'Reilly
-        </Link>
+        </a>
         <div className="hidden items-center gap-6 md:flex">
-          <Link
-            to="/"
+          <a
+            href={onContact ? "/#top" : "#top"}
             aria-current={!onContact && active === null ? "page" : undefined}
             className={`${linkBase} ${
               !onContact && active === null
@@ -100,7 +103,7 @@ export function Nav() {
             }`}
           >
             Home
-          </Link>
+          </a>
           {links.map((link) => (
             <a
               key={link.href}
@@ -152,8 +155,8 @@ export function Nav() {
       >
         <div className="min-h-0 overflow-hidden">
           <div className="flex flex-col border-t border-line px-4 pt-2 pb-4">
-            <Link
-              to="/"
+            <a
+              href={onContact ? "/#top" : "#top"}
               onClick={() => setOpen(false)}
               tabIndex={open ? 0 : -1}
               className={`rounded-md px-2 py-2.5 font-mono text-sm transition-colors ${
@@ -161,7 +164,7 @@ export function Nav() {
               }`}
             >
               Home
-            </Link>
+            </a>
             {links.map((link) => (
               <a
                 key={link.href}

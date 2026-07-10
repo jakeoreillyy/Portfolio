@@ -26,6 +26,14 @@
   }
 }
 
+.grecaptcha-badge {
+  visibility: hidden;
+}
+
+body.show-recaptcha .grecaptcha-badge {
+  visibility: visible;
+}
+
 .reveal {
   opacity: 0;
   translate: 0 16px;

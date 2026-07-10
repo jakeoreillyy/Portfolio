@@ -15,12 +15,19 @@ declare global {
 
 function useRecaptchaScript() {
   useEffect(() => {
-    if (!RECAPTCHA_SITE_KEY || window.grecaptcha) return;
+    if (!RECAPTCHA_SITE_KEY) return;
 
-    const script = document.createElement("script");
-    script.src = `https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`;
-    script.async = true;
-    document.head.appendChild(script);
+    if (!window.grecaptcha) {
+      const script = document.createElement("script");
+      script.src = `https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`;
+      script.async = true;
+      document.head.appendChild(script);
+    }
+
+    // Reveal the reCAPTCHA badge only while this page is mounted so it never
+    // shows on the landing page (the badge otherwise persists across routes).
+    document.body.classList.add("show-recaptcha");
+    return () => document.body.classList.remove("show-recaptcha");
   }, []);
 }
 

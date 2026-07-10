@@ -14,7 +14,7 @@ function isValidEmail(value: string) {
 }
 
 async function verifyRecaptcha(token: unknown) {
-  if (!RECAPTCHA_SECRET) return true; // not configured yet — skip in dev
+  if (!RECAPTCHA_SECRET) return true; // not configured yet, skip in dev
 
   if (!isNonEmptyString(token)) return false;
 

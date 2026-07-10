@@ -1,6 +1,3 @@
-// TODO(jake): confirm the Startup Ranker summary/tags and swap generated
-// previews for real screenshots where you have them.
-
 export type ProjectPreview = "threadbase" | "hushpath" | "startupRanker" | "reservr";
 
 export type Project = {

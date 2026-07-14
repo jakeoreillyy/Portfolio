@@ -27,6 +27,7 @@ const groups: Group[] = [
     skills: [
       s("FastAPI", "fastapi"),
       s("Node.js", "nodejs"),
+      s("React", "react"),
       s("SQLAlchemy", "sqlalchemy"),
       s("Pytest", "pytest"),
       s("Tailwind CSS", "tailwindcss"),

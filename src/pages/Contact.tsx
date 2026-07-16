@@ -167,7 +167,7 @@ export default function Contact() {
       <div className="mx-auto w-full max-w-3xl">
         <Reveal>
           <h1 className="font-mono text-4xl font-semibold tracking-tight sm:text-5xl">
-            Let's build something.
+            Get in touch.
           </h1>
 
           <div className="mt-6 flex flex-wrap gap-x-6 gap-y-3 border-b border-line pb-6">
@@ -211,7 +211,7 @@ export default function Contact() {
                   name="name"
                   type="text"
                   required
-                  placeholder="Li Xin"
+                  placeholder="Andrej Karpathy"
                   className={fieldClass}
                 />
               </div>
@@ -224,7 +224,7 @@ export default function Contact() {
                   name="email"
                   type="email"
                   required
-                  placeholder="lixin@kingdom.com"
+                  placeholder="andrejkarpathy@gmail.com"
                   className={fieldClass}
                 />
               </div>
@@ -239,7 +239,7 @@ export default function Contact() {
                 name="subject"
                 type="text"
                 required
-                placeholder="Freelance project inquiry"
+                placeholder="A question about your work"
                 className={fieldClass}
               />
             </div>
@@ -253,7 +253,7 @@ export default function Contact() {
                 name="message"
                 rows={6}
                 required
-                placeholder="Hi Jake, I'm building a small marketplace app and could use an extra engineer for a few weeks. Are you open to contract work?"
+                placeholder="Hey Jake, I'd love to hear more about how you approached one of your projects."
                 className={`${fieldClass} resize-none`}
               />
             </div>

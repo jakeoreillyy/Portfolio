@@ -12,6 +12,14 @@ type Job = {
 
 const jobs: Job[] = [
   {
+    role: "Software Development Engineer Intern",
+    org: "AWS",
+    date: "Feb 2027",
+    badge: "Incoming",
+    highlights: ["Lambda Team"],
+    tags: [],
+  },
+  {
     role: "Software Engineer Intern",
     org: "Speed-Deed",
     date: "Jun 2026 - Present",

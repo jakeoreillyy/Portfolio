@@ -20,7 +20,7 @@ const certs: Cert[] = [
     tag: "Version control",
     image: "/certs/github-foundations.webp",
     // TODO: swap for your DataCamp public statement URL (or a Google Drive link) if you prefer.
-    credentialUrl: "/certs/github-foundations.pdf",
+    credentialUrl: "https://drive.google.com/file/d/1_t_71bJ6y3-lkrjQJGOO5C_q6-3_kQwt/view",
   },
   {
     title: "Fundamentals of Deep Learning",

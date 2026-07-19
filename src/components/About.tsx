@@ -62,24 +62,16 @@ export function About() {
           <Reveal delay={120}>
             <div className="space-y-4 text-[15px] leading-relaxed text-muted">
               <p>
-                I'm Jake, a{" "}
-                <span className="text-foreground">computer science student at TU Dublin</span> with
-                an interest in{" "}
-                <span className="text-foreground">full stack development and AI</span>. I enjoy
-                building software that solves real problems, especially when I can take an idea from
-                a rough concept to something people genuinely enjoy using.
+                I'm Jake, a computer science student at TU Dublin with an interest in full stack
+                development and AI. I enjoy building software that solves real problems, especially
+                when I can take an idea from a rough concept to something people genuinely enjoy
+                using.
               </p>
               <p>
-                I like working across the whole stack because I enjoy{" "}
-                <span className="text-foreground">understanding how everything fits together</span>.
-                Whether I'm designing an interface, building APIs, or improving performance behind
-                the scenes, I like thinking about both the technical details and the experience for
-                the person using it.
-              </p>
-              <p>
-                Outside of tech, I enjoy <span className="text-foreground">hiking and skiing</span>,
-                and I'm hoping to spend some time backpacking through the Dolomites in the near
-                future.
+                I like working across the whole stack because I enjoy understanding how everything
+                fits together. Whether I'm designing an interface, building APIs, or improving
+                performance behind the scenes, I like thinking about both the technical details and
+                the experience for the person using it.
               </p>
             </div>
           </Reveal>

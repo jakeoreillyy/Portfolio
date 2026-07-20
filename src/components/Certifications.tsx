@@ -16,10 +16,9 @@ const certs: Cert[] = [
     title: "GitHub Foundations",
     issuer: "DataCamp",
     date: "Mar 2026",
-    meta: "9 hrs",
+    meta: "9hrs",
     tag: "Version control",
     image: "/certs/github-foundations.webp",
-    // TODO: swap for your DataCamp public statement URL (or a Google Drive link) if you prefer.
     credentialUrl: "https://drive.google.com/file/d/1_t_71bJ6y3-lkrjQJGOO5C_q6-3_kQwt/view",
   },
   {
@@ -40,6 +39,16 @@ const certs: Cert[] = [
     image: "/certs/prompt-engineering.webp",
     credentialUrl:
       "https://learn.deeplearning.ai/accomplishments/392bde75-9365-4f85-a0f7-28c570ddf76c",
+  },
+  {
+    title: "The Complete SQL Bootcamp",
+    issuer: "Udemy",
+    date: "Apr 2025",
+    meta: "9hrs",
+    tag: "Databases",
+    image: "/certs/sql-bootcamp.webp",
+    credentialUrl:
+      "https://drive.google.com/file/d/1CvG45OVGshNH59Wp0sxH0tAa1hYq1z5g/view?usp=sharing",
   },
 ];
 
@@ -62,7 +71,7 @@ function slotFor(rel: number): Slot {
 }
 
 function relOf(i: number, active: number): number {
-  let r = ((i - active) % N + N) % N;
+  let r = (((i - active) % N) + N) % N;
   if (r > N / 2) r -= N;
   return r;
 }
@@ -154,7 +163,7 @@ export function Certifications() {
   }, [active, positionAll]);
 
   const nav = useCallback((dir: number) => {
-    setActive((a) => ((a + dir) % N + N) % N);
+    setActive((a) => (((a + dir) % N) + N) % N);
     setNavNonce((x) => x + 1);
   }, []);
 

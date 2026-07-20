@@ -65,7 +65,7 @@ export function Hero() {
               JO
             </div>
             <img
-              src="/profile.jpg"
+              src="/linkedin-pfp.png"
               alt="Jake O'Reilly"
               className="relative h-full w-full object-cover object-center"
               onError={(e) => {

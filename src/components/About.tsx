@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import { Reveal } from "./Reveal";
 
 const facts: [string, string | string[]][] = [
-  ["role", "Software Engineer @ Speed-Deed"],
+  ["role", "SWE Intern @ Speed-Deed"],
   ["education", "Computer Science @ TUD"],
   ["location", "Dublin, Ireland"],
   ["focus", ["SWE", "AI", "Startups"]],

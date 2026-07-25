@@ -1,5 +1,7 @@
 # Jake O'Reilly Portfolio
 
+<img src=".github/social-preview.png" alt="The jakeoreilly.dev homepage: a dark terminal-styled hero reading 'Jake O'Reilly, software engineer'" width="100%" />
+
 My personal portfolio site: projects, experience, and a contact form.
 
 **Live:** [jakeoreilly.dev](https://www.jakeoreilly.dev/)

@@ -1,0 +1,7 @@
+# Store text files with LF in the repository, check them out native to the OS.
+* text=auto
+
+# Binary assets — never normalize these.
+*.png binary
+*.webp binary
+*.ico binary

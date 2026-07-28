@@ -31,6 +31,17 @@ const jobs: Job[] = [
     tags: ["React", "TypeScript", "PostHog", "PostgreSQL"],
   },
   {
+    role: "Algorithms Workshop",
+    org: "Google",
+    date: "Jul 2026 - Aug 2026",
+    badge: "Standout",
+    highlights: [
+      "Selected for Google Ireland's invite-only Algorithms Workshop, covering technical interview strategy and algorithmic problem-solving with Google engineers.",
+      "Recognised as a standout participant in the day's coding assessment, earning selection into Google's Extended Algorithms Workshop.",
+    ],
+    tags: ["Data Structures", "Algorithms", "Python"],
+  },
+  {
     role: "Founder Programme",
     org: "Hatch105",
     date: "May 2026",

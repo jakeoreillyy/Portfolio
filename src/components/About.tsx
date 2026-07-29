@@ -22,7 +22,7 @@ export function About() {
             <div className="overflow-hidden rounded-xl border border-line bg-surface">
               <WindowBar filename="about.ts" />
               <pre className="overflow-x-auto p-4 font-mono text-[13px] leading-relaxed">
-                <span className="text-faint italic">// a quick snapshot</span>
+                <span className="text-faint italic">// tl;dr</span>
                 {"\n"}
                 <span className="text-muted">const</span>{" "}
                 <span className="text-foreground">jake</span> <span className="text-faint">=</span>{" "}

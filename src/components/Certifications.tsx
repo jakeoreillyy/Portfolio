@@ -201,7 +201,6 @@ export function Certifications() {
     <section id="certifications" className="scroll-mt-20 px-6 py-24">
       <div className="mx-auto max-w-5xl">
         <Reveal>
-          <p className="font-mono text-sm text-faint">// what I've earned</p>
           <h2 className="mt-2 font-mono text-3xl font-semibold tracking-tight">Certifications</h2>
         </Reveal>
 

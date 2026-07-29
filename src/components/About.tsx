@@ -13,7 +13,6 @@ export function About() {
     <section id="about" className="scroll-mt-20 px-6 py-24">
       <div className="mx-auto max-w-5xl">
         <Reveal>
-          <p className="font-mono text-sm text-faint">// who I am</p>
           <h2 className="mt-2 font-mono text-3xl font-semibold tracking-tight">About</h2>
         </Reveal>
 

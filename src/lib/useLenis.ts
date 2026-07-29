@@ -1,6 +1,10 @@
 import { useEffect } from "react";
 import Lenis from "lenis";
 
+// Shared handle so route/hash changes can drive the same Lenis
+// instance instead of fighting it with raw window.scrollTo calls.
+export const lenisRef: { current: Lenis | null } = { current: null };
+
 export function useLenis() {
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -9,6 +13,7 @@ export function useLenis() {
     }
 
     const lenis = new Lenis({ autoRaf: true, lerp: 0.1 });
+    lenisRef.current = lenis;
 
     const onClick = (event: MouseEvent) => {
       if (event.defaultPrevented || event.button !== 0) return;
@@ -34,6 +39,7 @@ export function useLenis() {
     return () => {
       document.removeEventListener("click", onClick);
       lenis.destroy();
+      lenisRef.current = null;
     };
   }, []);
 }

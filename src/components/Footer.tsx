@@ -1,4 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
+import { HashLink } from "./HashLink";
 
 type FooterLink = { href: string; label: string; external?: boolean; mail?: boolean };
 
@@ -67,12 +68,13 @@ function FooterColumn({
                 <span aria-hidden="true"> ↗</span>
               </a>
             ) : link.href.startsWith("#") ? (
-              <a
-                href={onHome ? link.href : `/${link.href}`}
+              <HashLink
+                hash={link.href}
+                onHomePage={onHome}
                 className="text-sm text-muted transition-colors hover:text-accent"
               >
                 {link.label}
-              </a>
+              </HashLink>
             ) : (
               <Link
                 to={link.href}

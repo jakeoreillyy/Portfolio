@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { HashLink } from "./HashLink";
 
 const links = [
   { href: "#about", label: "About" },
@@ -86,15 +87,17 @@ export function Nav() {
       }`}
     >
       <nav className="mx-auto flex min-h-16 max-w-5xl items-center justify-between gap-4 px-4 sm:px-6">
-        <a
-          href={onContact ? "/#top" : "#top"}
+        <HashLink
+          hash="#top"
+          onHomePage={!onContact}
           className="font-mono text-sm font-semibold tracking-tight text-foreground"
         >
           Jake O'Reilly
-        </a>
+        </HashLink>
         <div className="hidden items-center gap-6 md:flex">
-          <a
-            href={onContact ? "/#top" : "#top"}
+          <HashLink
+            hash="#top"
+            onHomePage={!onContact}
             aria-current={!onContact && active === null ? "page" : undefined}
             className={`${linkBase} ${
               !onContact && active === null
@@ -103,11 +106,12 @@ export function Nav() {
             }`}
           >
             Home
-          </a>
+          </HashLink>
           {links.map((link) => (
-            <a
+            <HashLink
               key={link.href}
-              href={onContact ? `/${link.href}` : link.href}
+              hash={link.href}
+              onHomePage={!onContact}
               className={`${linkBase} ${
                 !onContact && active === link.href
                   ? "text-foreground after:scale-x-100"
@@ -115,7 +119,7 @@ export function Nav() {
               }`}
             >
               {link.label}
-            </a>
+            </HashLink>
           ))}
           <Link to="/contact" className={`${contactBase} ${contactStyle}`}>
             <MailIcon />
@@ -155,8 +159,9 @@ export function Nav() {
       >
         <div className="min-h-0 overflow-hidden">
           <div className="flex flex-col border-t border-line px-4 pt-2 pb-4">
-            <a
-              href={onContact ? "/#top" : "#top"}
+            <HashLink
+              hash="#top"
+              onHomePage={!onContact}
               onClick={() => setOpen(false)}
               tabIndex={open ? 0 : -1}
               className={`rounded-md px-2 py-2.5 font-mono text-sm transition-colors ${
@@ -164,11 +169,12 @@ export function Nav() {
               }`}
             >
               Home
-            </a>
+            </HashLink>
             {links.map((link) => (
-              <a
+              <HashLink
                 key={link.href}
-                href={onContact ? `/${link.href}` : link.href}
+                hash={link.href}
+                onHomePage={!onContact}
                 onClick={() => setOpen(false)}
                 tabIndex={open ? 0 : -1}
                 className={`rounded-md px-2 py-2.5 font-mono text-sm transition-colors ${
@@ -178,7 +184,7 @@ export function Nav() {
                 }`}
               >
                 {link.label}
-              </a>
+              </HashLink>
             ))}
             <Link
               to="/contact"

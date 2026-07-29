@@ -56,7 +56,7 @@ const groups: Group[] = [
 // Minimal JSX syntax-highlight tokens.
 const P = ({ children }: { children: ReactNode }) => <span className="text-faint">{children}</span>;
 const Tag = ({ children }: { children: ReactNode }) => (
-  <span style={{ color: "#6f9ceb" }}>{children}</span>
+  <span style={{ color: "#7bbf6a" }}>{children}</span>
 );
 const Attr = ({ children }: { children: ReactNode }) => (
   <span style={{ color: "#b98cd9" }}>{children}</span>

@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import type { ReactNode } from "react";
 import { Reveal } from "./Reveal";
+import { WindowBar } from "./WindowBar";
 
 type Skill = { name: string; logo: string };
 type Group = { label: string; skills: Skill[] };
@@ -137,28 +138,6 @@ function Token({ skill }: { skill: Skill }) {
   );
 }
 
-function FileCodeIcon() {
-  return (
-    <svg
-      width="15"
-      height="15"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      className="text-accent"
-    >
-      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-      <path d="M14 2v6h6" />
-      <path d="m10 13-2 2 2 2" />
-      <path d="m14 17 2-2-2-2" />
-    </svg>
-  );
-}
-
 export function Skills() {
   return (
     <section id="skills" className="scroll-mt-20 px-6 py-24">
@@ -169,10 +148,7 @@ export function Skills() {
 
         <Reveal delay={120} className="mt-10">
           <div className="overflow-hidden rounded-xl border border-line bg-surface">
-            <div className="flex items-center gap-2 border-b border-line bg-white/[0.02] px-4 py-2.5">
-              <FileCodeIcon />
-              <span className="font-mono text-xs text-muted">Skills.tsx</span>
-            </div>
+            <WindowBar filename="Skills.tsx" />
 
             <div className="overflow-x-auto px-3 py-4 font-mono text-[13px] leading-[1.9] sm:px-5">
               <div className="grid grid-cols-[auto_1fr] gap-x-4">

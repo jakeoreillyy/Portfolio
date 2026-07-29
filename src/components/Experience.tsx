@@ -61,7 +61,7 @@ const jobs: Job[] = [
     highlights: [
       "Placed 1st of 4 teams (16 participants), judged by Bank of America engineers, for patching critical auth vulnerabilities and delivering a Savings Goals feature.",
       "Eliminated session-hijacking risk by replacing plain-text password storage with bcrypt hashing and adding a JWT blacklist to block post-logout token reuse.",
-      "Built 5 REST endpoints for the full Savings Goals lifecycle — creation, deposits, deletion, and completion — using Zod validation and Drizzle ORM migrations.",
+      "Built 5 REST endpoints for the full Savings Goals lifecycle (creation, deposits, deletion, and completion) using Zod validation and Drizzle ORM migrations.",
     ],
     tags: ["Node.js", "PostgreSQL", "Zod", "Drizzle"],
   },

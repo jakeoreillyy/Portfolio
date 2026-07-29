@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 import { Reveal } from "./Reveal";
+import { WindowBar } from "./WindowBar";
 
 const facts: [string, string | string[]][] = [
   ["role", "SWE Intern @ Speed-Deed"],
@@ -19,10 +20,7 @@ export function About() {
         <div className="mt-10 grid grid-cols-1 items-start gap-10 md:grid-cols-[minmax(0,1fr)_1.1fr] md:gap-14">
           <Reveal className="min-w-0">
             <div className="overflow-hidden rounded-xl border border-line bg-surface">
-              <div className="flex items-center gap-2 border-b border-line px-4 py-2.5">
-                <span className="size-2 rounded-full bg-accent" />
-                <span className="font-mono text-xs text-muted">about.ts</span>
-              </div>
+              <WindowBar filename="about.ts" />
               <pre className="overflow-x-auto p-4 font-mono text-[13px] leading-relaxed">
                 <span className="text-faint italic">// a quick snapshot</span>
                 {"\n"}

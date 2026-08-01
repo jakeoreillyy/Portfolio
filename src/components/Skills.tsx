@@ -1,7 +1,4 @@
-import { Fragment } from "react";
-import type { ReactNode } from "react";
 import { Reveal } from "./Reveal";
-import { WindowBar } from "./WindowBar";
 
 type Skill = { name: string; logo: string };
 type Group = { label: string; skills: Skill[] };
@@ -53,74 +50,6 @@ const groups: Group[] = [
   },
 ];
 
-// Minimal JSX syntax-highlight tokens.
-const P = ({ children }: { children: ReactNode }) => <span className="text-faint">{children}</span>;
-const Tag = ({ children }: { children: ReactNode }) => (
-  <span style={{ color: "#7bbf6a" }}>{children}</span>
-);
-const Attr = ({ children }: { children: ReactNode }) => (
-  <span style={{ color: "#b98cd9" }}>{children}</span>
-);
-const Str = ({ children }: { children: ReactNode }) => (
-  <span className="text-accent">{children}</span>
-);
-
-type Line =
-  | { kind: "code"; indent: number; content: ReactNode }
-  | { kind: "tokens"; indent: number; skills: Skill[] };
-
-const lines: Line[] = [
-  {
-    kind: "code",
-    indent: 0,
-    content: (
-      <>
-        <P>&lt;</P>
-        <Tag>Skills</Tag>
-        <P>&gt;</P>
-      </>
-    ),
-  },
-  ...groups.flatMap((g): Line[] => [
-    {
-      kind: "code",
-      indent: 1,
-      content: (
-        <>
-          <P>&lt;</P>
-          <Tag>Category</Tag> <Attr>name</Attr>
-          <P>=</P>
-          <Str>"{g.label}"</Str>
-          <P>&gt;</P>
-        </>
-      ),
-    },
-    { kind: "tokens", indent: 2, skills: g.skills },
-    {
-      kind: "code",
-      indent: 1,
-      content: (
-        <>
-          <P>&lt;/</P>
-          <Tag>Category</Tag>
-          <P>&gt;</P>
-        </>
-      ),
-    },
-  ]),
-  {
-    kind: "code",
-    indent: 0,
-    content: (
-      <>
-        <P>&lt;/</P>
-        <Tag>Skills</Tag>
-        <P>&gt;</P>
-      </>
-    ),
-  },
-];
-
 function Token({ skill }: { skill: Skill }) {
   return (
     <span className="group inline-flex items-center gap-2 rounded-md border border-line bg-white/[0.03] px-2.5 py-1.5 align-middle transition-colors hover:border-accent/50 hover:bg-white/[0.05]">
@@ -146,34 +75,25 @@ export function Skills() {
           <h2 className="mt-2 font-mono text-3xl font-semibold tracking-tight">Skills</h2>
         </Reveal>
 
-        <Reveal delay={120} className="mt-10">
-          <div className="overflow-hidden rounded-xl border border-line bg-surface">
-            <WindowBar filename="Skills.tsx" />
+        <div className="mt-10 space-y-7">
+          {groups.map((group, i) => (
+            <Reveal key={group.label} delay={i * 90}>
+              {/* Label, then a hairline running out to the section edge. */}
+              <div className="flex items-center gap-3.5">
+                <h3 className="font-mono text-[11px] tracking-[0.17em] text-muted uppercase">
+                  {group.label}
+                </h3>
+                <span aria-hidden className="h-px flex-1 bg-line" />
+              </div>
 
-            <div className="overflow-x-auto px-3 py-4 font-mono text-[13px] leading-[1.9] sm:px-5">
-              <div className="grid grid-cols-[auto_1fr] gap-x-4">
-                {lines.map((line, i) => (
-                  <Fragment key={i}>
-                    <span className="select-none pt-1 text-right text-faint/70 tabular-nums">
-                      {i + 1}
-                    </span>
-                    <div style={{ paddingLeft: `${line.indent * 2}ch` }}>
-                      {line.kind === "code" ? (
-                        <span className="leading-[2.1]">{line.content}</span>
-                      ) : (
-                        <div className="flex flex-wrap items-center gap-2 py-1">
-                          {line.skills.map((skill) => (
-                            <Token key={skill.name} skill={skill} />
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </Fragment>
+              <div className="mt-3.5 flex flex-wrap items-center gap-2">
+                {group.skills.map((skill) => (
+                  <Token key={skill.name} skill={skill} />
                 ))}
               </div>
-            </div>
-          </div>
-        </Reveal>
+            </Reveal>
+          ))}
+        </div>
       </div>
     </section>
   );

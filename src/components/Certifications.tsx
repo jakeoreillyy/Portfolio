@@ -60,6 +60,12 @@ const INTERVAL = 4500; // autoplay cadence, ms
 const TRANS = "transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1)";
 const VEIL_TRANS = "opacity 0.45s ease";
 
+// mt aligns the 44px button with the vertical centre of the card artwork.
+const ARROW =
+  "mt-[164px] hidden size-11 shrink-0 items-center justify-center rounded-full " +
+  "border border-line-bright bg-raised text-foreground shadow-[0_8px_22px_rgba(0,0,0,0.65)] " +
+  "transition-colors hover:border-accent hover:bg-accent hover:text-background sm:flex";
+
 type Slot = { x: number; scale: number; veil: number };
 
 function slotFor(rel: number): Slot {
@@ -98,8 +104,8 @@ function ArrowUpRightIcon() {
 function ChevronIcon({ dir }: { dir: "left" | "right" }) {
   return (
     <svg
-      width="19"
-      height="19"
+      width="20"
+      height="20"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -205,8 +211,12 @@ export function Certifications() {
         </Reveal>
 
         <Reveal delay={120} className="mt-10">
+          {/* The arrows flank the track as flex siblings rather than sitting on top
+              of it, so they land on page background instead of on the dimmed
+              neighbour cards. Below sm they collapse and the track takes the full
+              width, leaving swipe + dots as the controls. */}
           <div
-            className="relative mx-auto max-w-2xl"
+            className="mx-auto flex max-w-[51rem] items-start justify-center gap-3.5"
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}
           >
@@ -214,99 +224,102 @@ export function Certifications() {
               type="button"
               onClick={() => nav(-1)}
               aria-label="Previous certificate"
-              className="absolute top-[166px] left-[-4px] z-40 hidden size-10 items-center justify-center rounded-full border border-line bg-surface/90 text-muted backdrop-blur-sm transition-colors hover:border-accent hover:text-accent sm:flex"
+              className={ARROW}
             >
               <ChevronIcon dir="left" />
             </button>
+
+            <div className="w-full max-w-2xl min-w-0">
+              <div
+                className="relative h-[372px] cursor-grab overflow-hidden active:cursor-grabbing"
+                style={{ touchAction: "pan-y" }}
+                onPointerDown={onPointerDown}
+                onPointerMove={onPointerMove}
+                onPointerUp={onPointerUp}
+                onPointerCancel={onPointerUp}
+              >
+                {certs.map((c, i) => (
+                  <div
+                    key={c.title}
+                    ref={(el) => {
+                      cardRefs.current[i] = el;
+                    }}
+                    className="absolute top-2 left-1/2 -ml-[150px] w-[300px] will-change-transform"
+                  >
+                    <div className="relative overflow-hidden rounded-[14px] border border-line-strong bg-surface">
+                      <div className="flex h-[150px] items-center justify-center border-b border-line bg-background p-3">
+                        <img
+                          src={c.image}
+                          alt={`${c.title} certificate`}
+                          loading="lazy"
+                          draggable={false}
+                          className="max-h-full max-w-full object-contain select-none"
+                        />
+                      </div>
+
+                      <div className="p-5">
+                        <p className="font-mono text-[10.5px] tracking-[0.15em] text-accent uppercase">
+                          {c.tag}
+                        </p>
+                        <h3 className="mt-2 min-h-[44px] font-mono text-[16.5px] leading-[1.34] font-medium text-foreground">
+                          {c.title}
+                        </h3>
+                        <p className="mt-2 text-[13px] text-muted">{c.issuer}</p>
+                        <div className="mt-1.5 flex items-center gap-3.5">
+                          <span className="font-mono text-[11.5px] text-faint">{c.date}</span>
+                          <span className="font-mono text-[11.5px] text-faint">{c.meta}</span>
+                        </div>
+                        <a
+                          href={c.credentialUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onPointerDown={(e) => e.stopPropagation()}
+                          className="mt-4 inline-flex items-center gap-1.5 rounded-lg border border-accent/40 px-3.5 py-1.5 font-mono text-[12.5px] text-accent transition-colors hover:border-accent hover:bg-accent hover:text-background"
+                        >
+                          View credential
+                          <ArrowUpRightIcon />
+                        </a>
+                      </div>
+
+                      {/* Solid veil dims the neighbours without ever making the card
+                        itself transparent, so you never see through to the card behind. */}
+                      <div
+                        ref={(el) => {
+                          veilRefs.current[i] = el;
+                        }}
+                        aria-hidden="true"
+                        className="pointer-events-none absolute inset-0 rounded-[14px] bg-background"
+                        style={{ opacity: 0 }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-5 flex items-center justify-center gap-2">
+                {certs.map((c, i) => (
+                  <button
+                    key={c.title}
+                    type="button"
+                    onClick={() => jump(i)}
+                    aria-label={`Go to ${c.title}`}
+                    aria-current={i === active}
+                    className={`h-[7px] rounded-full transition-all duration-300 ${
+                      i === active ? "w-[22px] bg-accent" : "w-[7px] bg-line-strong hover:bg-muted"
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+
             <button
               type="button"
               onClick={() => nav(1)}
               aria-label="Next certificate"
-              className="absolute top-[166px] right-[-4px] z-40 hidden size-10 items-center justify-center rounded-full border border-line bg-surface/90 text-muted backdrop-blur-sm transition-colors hover:border-accent hover:text-accent sm:flex"
+              className={ARROW}
             >
               <ChevronIcon dir="right" />
             </button>
-
-            <div
-              className="relative h-[372px] cursor-grab overflow-hidden active:cursor-grabbing"
-              style={{ touchAction: "pan-y" }}
-              onPointerDown={onPointerDown}
-              onPointerMove={onPointerMove}
-              onPointerUp={onPointerUp}
-              onPointerCancel={onPointerUp}
-            >
-              {certs.map((c, i) => (
-                <div
-                  key={c.title}
-                  ref={(el) => {
-                    cardRefs.current[i] = el;
-                  }}
-                  className="absolute top-2 left-1/2 -ml-[150px] w-[300px] will-change-transform"
-                >
-                  <div className="relative overflow-hidden rounded-[14px] border border-line-strong bg-surface">
-                    <div className="flex h-[150px] items-center justify-center border-b border-line bg-background p-3">
-                      <img
-                        src={c.image}
-                        alt={`${c.title} certificate`}
-                        loading="lazy"
-                        draggable={false}
-                        className="max-h-full max-w-full object-contain select-none"
-                      />
-                    </div>
-
-                    <div className="p-5">
-                      <p className="font-mono text-[10.5px] tracking-[0.15em] text-accent uppercase">
-                        {c.tag}
-                      </p>
-                      <h3 className="mt-2 min-h-[44px] font-mono text-[16.5px] leading-[1.34] font-medium text-foreground">
-                        {c.title}
-                      </h3>
-                      <p className="mt-2 text-[13px] text-muted">{c.issuer}</p>
-                      <div className="mt-1.5 flex items-center gap-3.5">
-                        <span className="font-mono text-[11.5px] text-faint">{c.date}</span>
-                        <span className="font-mono text-[11.5px] text-faint">{c.meta}</span>
-                      </div>
-                      <a
-                        href={c.credentialUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onPointerDown={(e) => e.stopPropagation()}
-                        className="mt-4 inline-flex items-center gap-1.5 rounded-lg border border-accent/40 px-3.5 py-1.5 font-mono text-[12.5px] text-accent transition-colors hover:border-accent hover:bg-accent hover:text-background"
-                      >
-                        View credential
-                        <ArrowUpRightIcon />
-                      </a>
-                    </div>
-
-                    {/* Solid veil dims the neighbours without ever making the card
-                        itself transparent, so you never see through to the card behind. */}
-                    <div
-                      ref={(el) => {
-                        veilRefs.current[i] = el;
-                      }}
-                      aria-hidden="true"
-                      className="pointer-events-none absolute inset-0 rounded-[14px] bg-background"
-                      style={{ opacity: 0 }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-5 flex items-center justify-center gap-2">
-              {certs.map((c, i) => (
-                <button
-                  key={c.title}
-                  type="button"
-                  onClick={() => jump(i)}
-                  aria-label={`Go to ${c.title}`}
-                  aria-current={i === active}
-                  className={`h-[7px] rounded-full transition-all duration-300 ${
-                    i === active ? "w-[22px] bg-accent" : "w-[7px] bg-line-strong hover:bg-muted"
-                  }`}
-                />
-              ))}
-            </div>
           </div>
         </Reveal>
       </div>

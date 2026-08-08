@@ -62,7 +62,7 @@ const VEIL_TRANS = "opacity 0.45s ease";
 
 // mt aligns the 44px button with the vertical centre of the card artwork.
 const ARROW =
-  "mt-[164px] hidden size-11 shrink-0 items-center justify-center rounded-full " +
+  "mt-[164px] hidden size-11 shrink-0 cursor-pointer items-center justify-center rounded-full " +
   "border border-line-bright bg-raised text-foreground shadow-[0_8px_22px_rgba(0,0,0,0.65)] " +
   "transition-colors hover:border-accent hover:bg-accent hover:text-background sm:flex";
 
@@ -304,7 +304,7 @@ export function Certifications() {
                     onClick={() => jump(i)}
                     aria-label={`Go to ${c.title}`}
                     aria-current={i === active}
-                    className={`h-[7px] rounded-full transition-all duration-300 ${
+                    className={`h-[7px] cursor-pointer rounded-full transition-all duration-300 ${
                       i === active ? "w-[22px] bg-accent" : "w-[7px] bg-line-strong hover:bg-muted"
                     }`}
                   />

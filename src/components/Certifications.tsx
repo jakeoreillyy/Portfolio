@@ -50,6 +50,16 @@ const certs: Cert[] = [
     credentialUrl:
       "https://drive.google.com/file/d/1CvG45OVGshNH59Wp0sxH0tAa1hYq1z5g/view?usp=sharing",
   },
+  {
+    title: "ML Summer School",
+    issuer: "Cohere Labs",
+    date: "Aug 2026",
+    meta: "Participant",
+    tag: "Machine learning",
+    image: "/certs/cohere-machine-learning.webp",
+    credentialUrl:
+      "https://drive.google.com/file/d/1Cm8fnmnf4gPzAOgm_LruzJcuECbxt8ub/view?usp=sharing",
+  },
 ];
 
 const N = certs.length;

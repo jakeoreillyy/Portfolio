@@ -170,10 +170,7 @@ export function Experience() {
 
               <ul className="mb-3 mt-2 max-w-2xl space-y-1.5">
                 {job.highlights.map((point) => (
-                  <li
-                    key={point}
-                    className="flex gap-2 text-sm leading-relaxed text-muted"
-                  >
+                  <li key={point} className="flex gap-2 text-sm leading-relaxed text-muted">
                     <span aria-hidden className="mt-px shrink-0 text-accent">
                       ▹
                     </span>

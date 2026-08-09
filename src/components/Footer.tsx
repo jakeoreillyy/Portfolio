@@ -1,16 +1,12 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { HashLink } from "./HashLink";
+import { MailIcon } from "./icons";
+import { sectionLinks } from "../data/nav";
+import type { NavLink } from "../data/nav";
 
-type FooterLink = { href: string; label: string; external?: boolean; mail?: boolean };
+type FooterLink = NavLink & { external?: boolean; mail?: boolean };
 
-const navLinks: FooterLink[] = [
-  { href: "#top", label: "Home" },
-  { href: "#about", label: "About" },
-  { href: "#experience", label: "Experience" },
-  { href: "#education", label: "Education" },
-  { href: "#projects", label: "Projects" },
-  { href: "#skills", label: "Skills" },
-];
+const navLinks: FooterLink[] = [{ href: "#top", label: "Home" }, ...sectionLinks];
 
 const connectLinks: FooterLink[] = [
   { href: "https://github.com/jakeoreillyy", label: "GitHub", external: true },
@@ -24,33 +20,9 @@ const connectLinks: FooterLink[] = [
   { href: "/contact", label: "Contact", mail: true },
 ];
 
-function MailIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      className="ml-1.5 inline-block size-3.5 align-[-2px]"
-    >
-      <rect width="20" height="16" x="2" y="4" rx="2" />
-      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-    </svg>
-  );
-}
+const linkClass = "text-sm text-muted transition-colors hover:text-accent";
 
-function FooterColumn({
-  title,
-  links,
-  onHome,
-}: {
-  title: string;
-  links: FooterLink[];
-  onHome: boolean;
-}) {
+function FooterColumn({ title, links }: { title: string; links: FooterLink[] }) {
   return (
     <div>
       <p className="font-mono text-xs tracking-[0.2em] text-faint uppercase">{title}</p>
@@ -58,30 +30,18 @@ function FooterColumn({
         {links.map((link) => (
           <li key={link.label}>
             {link.external ? (
-              <a
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-muted transition-colors hover:text-accent"
-              >
+              <a href={link.href} target="_blank" rel="noopener noreferrer" className={linkClass}>
                 {link.label}
                 <span aria-hidden="true"> ↗</span>
               </a>
             ) : link.href.startsWith("#") ? (
-              <HashLink
-                hash={link.href}
-                onHomePage={onHome}
-                className="text-sm text-muted transition-colors hover:text-accent"
-              >
+              <HashLink hash={link.href} className={linkClass}>
                 {link.label}
               </HashLink>
             ) : (
-              <Link
-                to={link.href}
-                className="text-sm text-muted transition-colors hover:text-accent"
-              >
+              <Link to={link.href} className={linkClass}>
                 {link.label}
-                {link.mail && <MailIcon />}
+                {link.mail && <MailIcon className="ml-1.5 inline-block size-3.5 align-[-2px]" />}
               </Link>
             )}
           </li>
@@ -92,8 +52,6 @@ function FooterColumn({
 }
 
 export function Footer() {
-  const onHome = useLocation().pathname === "/";
-
   return (
     <footer className="border-t border-line">
       <div className="mx-auto flex max-w-5xl flex-col gap-12 px-6 py-16 md:flex-row md:justify-between">
@@ -109,8 +67,8 @@ export function Footer() {
           </p>
         </div>
         <div className="flex gap-12 sm:gap-20">
-          <FooterColumn title="Navigate" links={navLinks} onHome={onHome} />
-          <FooterColumn title="Connect" links={connectLinks} onHome={onHome} />
+          <FooterColumn title="Navigate" links={navLinks} />
+          <FooterColumn title="Connect" links={connectLinks} />
         </div>
       </div>
 

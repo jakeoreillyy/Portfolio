@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Reveal } from "./Reveal";
+import { ArrowUpRightIcon, ChevronIcon } from "./icons";
 
 type Cert = {
   title: string;
@@ -8,6 +9,7 @@ type Cert = {
   meta: string;
   tag: string;
   image: string;
+  imageSize: [width: number, height: number];
   credentialUrl: string;
 };
 
@@ -19,6 +21,7 @@ const certs: Cert[] = [
     meta: "9hrs",
     tag: "Version control",
     image: "/certs/github-foundations.webp",
+    imageSize: [760, 439],
     credentialUrl: "https://drive.google.com/file/d/1_t_71bJ6y3-lkrjQJGOO5C_q6-3_kQwt/view",
   },
   {
@@ -28,6 +31,7 @@ const certs: Cert[] = [
     meta: "Certificate of Competency",
     tag: "Machine learning",
     image: "/certs/nvidia-deep-learning.webp",
+    imageSize: [760, 649],
     credentialUrl: "https://learn.nvidia.com/certificates?id=01odK5ZsSkOEBhyeCFTXzA",
   },
   {
@@ -37,6 +41,7 @@ const certs: Cert[] = [
     meta: "Short course · 1h 30m",
     tag: "AI / LLMs",
     image: "/certs/prompt-engineering.webp",
+    imageSize: [760, 504],
     credentialUrl:
       "https://learn.deeplearning.ai/accomplishments/392bde75-9365-4f85-a0f7-28c570ddf76c",
   },
@@ -47,6 +52,7 @@ const certs: Cert[] = [
     meta: "9hrs",
     tag: "Databases",
     image: "/certs/sql-bootcamp.webp",
+    imageSize: [1600, 1190],
     credentialUrl:
       "https://drive.google.com/file/d/1CvG45OVGshNH59Wp0sxH0tAa1hYq1z5g/view?usp=sharing",
   },
@@ -57,6 +63,7 @@ const certs: Cert[] = [
     meta: "Participant",
     tag: "Machine learning",
     image: "/certs/cohere-machine-learning.webp",
+    imageSize: [600, 424],
     credentialUrl:
       "https://drive.google.com/file/d/1Cm8fnmnf4gPzAOgm_LruzJcuECbxt8ub/view?usp=sharing",
   },
@@ -92,58 +99,17 @@ function relOf(i: number, active: number): number {
   return r;
 }
 
-function ArrowUpRightIcon() {
-  return (
-    <svg
-      width="15"
-      height="15"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M7 7h10v10" />
-      <path d="M7 17 17 7" />
-    </svg>
-  );
-}
-
-function ChevronIcon({ dir }: { dir: "left" | "right" }) {
-  return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      {dir === "left" ? <path d="M15 18l-6-6 6-6" /> : <path d="M9 18l6-6-6-6" />}
-    </svg>
-  );
-}
-
 export function Certifications() {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const [navNonce, setNavNonce] = useState(0);
+  const [reduced] = useState(() => window.matchMedia("(prefers-reduced-motion: reduce)").matches);
 
   const activeRef = useRef(0);
   const prevRel = useRef<number[]>(certs.map(() => 0));
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const veilRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const reduced = useRef(false);
-  const drag = useRef({ active: false, startX: 0, dx: 0, captured: -1 });
-
-  useEffect(() => {
-    reduced.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  }, []);
+  const drag = useRef({ active: false, startX: 0, dx: 0 });
 
   // Position every card imperatively. Cards stay fully opaque at all times; the
   // wrap-around card teleports (transition: none) so it is never seen sliding
@@ -169,6 +135,9 @@ export function Certifications() {
 
       el.style.transform = `translateX(${s.x + dragPx}px) scale(${s.scale})`;
       el.style.zIndex = rel === 0 ? "30" : "20";
+      // Off-centre cards are only hidden visually, so without inert their
+      // "View credential" links stay tabbable behind the veil.
+      el.inert = rel !== 0;
       if (veil) veil.style.opacity = String(s.veil);
     }
   }, []);
@@ -188,15 +157,17 @@ export function Certifications() {
     setNavNonce((x) => x + 1);
   }, []);
 
+  // navNonce restarts the timer after a manual nav, so a click or swipe always
+  // buys a full INTERVAL before the next auto-advance.
   useEffect(() => {
-    if (reduced.current || paused) return;
+    if (reduced || paused) return;
     const id = window.setInterval(() => setActive((a) => (a + 1) % N), INTERVAL);
     return () => window.clearInterval(id);
-  }, [paused, navNonce]);
+  }, [paused, navNonce, reduced]);
 
   const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-    drag.current = { active: true, startX: e.clientX, dx: 0, captured: e.pointerId };
-    (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
+    drag.current = { active: true, startX: e.clientX, dx: 0 };
+    e.currentTarget.setPointerCapture?.(e.pointerId);
   };
   const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
     if (!drag.current.active) return;
@@ -209,8 +180,11 @@ export function Certifications() {
     drag.current.active = false;
     if (dx < -55) nav(1);
     else if (dx > 55) nav(-1);
-    else positionAll(0, false);
-    setNavNonce((x) => x + 1);
+    else {
+      // Aborted drag: snap back, and still restart the autoplay timer.
+      positionAll(0, false);
+      setNavNonce((x) => x + 1);
+    }
   };
 
   return (
@@ -225,10 +199,14 @@ export function Certifications() {
               of it, so they land on page background instead of on the dimmed
               neighbour cards. Below sm they collapse and the track takes the full
               width, leaving swipe + dots as the controls. */}
+          {/* Pause on focus as well as hover, so a keyboard user reading a card
+              doesn't have it auto-advance out from under them. */}
           <div
             className="mx-auto flex max-w-[51rem] items-start justify-center gap-3.5"
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}
+            onFocus={() => setPaused(true)}
+            onBlur={() => setPaused(false)}
           >
             <button
               type="button"
@@ -236,7 +214,7 @@ export function Certifications() {
               aria-label="Previous certificate"
               className={ARROW}
             >
-              <ChevronIcon dir="left" />
+              <ChevronIcon dir="left" size={20} />
             </button>
 
             <div className="w-full max-w-2xl min-w-0">
@@ -261,6 +239,8 @@ export function Certifications() {
                         <img
                           src={c.image}
                           alt={`${c.title} certificate`}
+                          width={c.imageSize[0]}
+                          height={c.imageSize[1]}
                           loading="lazy"
                           draggable={false}
                           className="max-h-full max-w-full object-contain select-none"
@@ -287,7 +267,7 @@ export function Certifications() {
                           className="mt-4 inline-flex items-center gap-1.5 rounded-lg border border-accent/40 px-3.5 py-1.5 font-mono text-[12.5px] text-accent transition-colors hover:border-accent hover:bg-accent hover:text-background"
                         >
                           View credential
-                          <ArrowUpRightIcon />
+                          <ArrowUpRightIcon size={15} />
                         </a>
                       </div>
 
@@ -328,7 +308,7 @@ export function Certifications() {
               aria-label="Next certificate"
               className={ARROW}
             >
-              <ChevronIcon dir="right" />
+              <ChevronIcon dir="right" size={20} />
             </button>
           </div>
         </Reveal>

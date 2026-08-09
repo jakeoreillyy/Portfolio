@@ -1,5 +1,3 @@
-export type ProjectPreview = "threadbase" | "hushpath" | "startupRanker" | "reservr";
-
 export type Project = {
   id: string;
   title: string;
@@ -8,7 +6,7 @@ export type Project = {
   tags: string[];
   href?: string;
   link?: { label: string; kind: "repo" | "external" };
-  preview: ProjectPreview;
+  image: { src: string; alt: string; width: number; height: number };
 };
 
 export const projects: Project[] = [
@@ -21,7 +19,12 @@ export const projects: Project[] = [
     tags: ["FastAPI", "Docker", "CI/CD", "PostgreSQL", "REST API"],
     href: "https://github.com/jakeoreillyy/threadbase",
     link: { label: "View repo", kind: "repo" },
-    preview: "threadbase",
+    image: {
+      src: "/threadbase.webp",
+      alt: "ThreadBase, forum threads flowing into a Postgres database",
+      width: 1535,
+      height: 1024,
+    },
   },
   {
     id: "hushpath",
@@ -30,7 +33,12 @@ export const projects: Project[] = [
     description:
       "A sensory-friendly journey planner that scores Dublin across 80m grids via the Overpass and Nominatim APIs, then generates noise-aware routes favouring calmer cells over the shortest path.",
     tags: ["Python", "Overpass API", "Nominatim API", "Google Maps", "REST API"],
-    preview: "hushpath",
+    image: {
+      src: "/hushpath.webp",
+      alt: "HushPath, a route planner scoring a calm path across Dublin by POI density",
+      width: 1615,
+      height: 974,
+    },
   },
   {
     id: "startup-ranker",
@@ -41,7 +49,12 @@ export const projects: Project[] = [
     tags: ["LLM", "Anthropic", "FastAPI", "Python", "REST API"],
     href: "https://github.com/jakeoreillyy/Startup-Idea-Ranker",
     link: { label: "View repo", kind: "repo" },
-    preview: "startupRanker",
+    image: {
+      src: "/ranker.webp",
+      alt: "Startup Ranker, a scored startup leaderboard judged by an LLM",
+      width: 1534,
+      height: 1150,
+    },
   },
   {
     id: "reservr",
@@ -52,6 +65,11 @@ export const projects: Project[] = [
     tags: ["PHP", "MySQL", "MariaDB", "Full-stack", "Web app"],
     href: "https://github.com/jakeoreillyy/reservr",
     link: { label: "View repo", kind: "repo" },
-    preview: "reservr",
+    image: {
+      src: "/reservr.webp",
+      alt: "Reservr, a library booking system for reserving books",
+      width: 1260,
+      height: 610,
+    },
   },
 ];

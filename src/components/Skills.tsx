@@ -57,6 +57,8 @@ function Token({ skill }: { skill: Skill }) {
         src={`/logos/${skill.logo}.svg`}
         alt=""
         aria-hidden
+        width={18}
+        height={18}
         loading="lazy"
         className="h-[18px] w-[18px] object-contain"
       />

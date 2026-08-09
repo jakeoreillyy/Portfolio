@@ -14,7 +14,10 @@ function isValidEmail(value: string) {
 }
 
 async function verifyRecaptcha(token: unknown) {
-  if (!RECAPTCHA_SECRET) return true; // not configured yet, skip in dev
+  // Fail closed in production: a missing secret there means the env var was
+  // dropped, and skipping the check would quietly turn this into an open relay.
+  // Locally it's fine to run without reCAPTCHA configured.
+  if (!RECAPTCHA_SECRET) return process.env.NODE_ENV !== "production";
 
   if (!isNonEmptyString(token)) return false;
 

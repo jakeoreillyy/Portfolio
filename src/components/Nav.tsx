@@ -1,33 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { HashLink } from "./HashLink";
-
-const links = [
-  { href: "#about", label: "About" },
-  { href: "#experience", label: "Experience" },
-  { href: "#education", label: "Education" },
-  { href: "#projects", label: "Projects" },
-  { href: "#skills", label: "Skills" },
-];
-
-function MailIcon() {
-  return (
-    <svg
-      width="14"
-      height="14"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <rect width="20" height="16" x="2" y="4" rx="2" />
-      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-    </svg>
-  );
-}
+import { MailIcon } from "./icons";
+import { sectionLinks } from "../data/nav";
 
 export function Nav() {
   const location = useLocation();
@@ -46,7 +21,7 @@ export function Nav() {
   useEffect(() => {
     if (onContact) return;
 
-    const ids = ["top", ...links.map((link) => link.href.slice(1))];
+    const ids = ["top", ...sectionLinks.map((link) => link.href.slice(1))];
     const sections = ids
       .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => el !== null);
@@ -78,6 +53,9 @@ export function Nav() {
 
   const barLine = "absolute left-0 block h-[2px] w-5 rounded-full bg-current";
 
+  // A section is highlighted only on the home page; `null` means the hero.
+  const isActive = (href: string | null) => !onContact && active === href;
+
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color] duration-300 ${
@@ -89,31 +67,29 @@ export function Nav() {
       <nav className="mx-auto flex min-h-16 max-w-5xl items-center justify-between gap-4 px-4 sm:px-6">
         <HashLink
           hash="#top"
-          onHomePage={!onContact}
           className="font-mono text-sm font-semibold tracking-tight text-foreground"
         >
           Jake O'Reilly
         </HashLink>
-        <div className="hidden items-center gap-6 md:flex">
+        <div className="hidden items-center gap-5 lg:flex">
           <HashLink
             hash="#top"
-            onHomePage={!onContact}
-            aria-current={!onContact && active === null ? "page" : undefined}
+            aria-current={isActive(null) ? "page" : undefined}
             className={`${linkBase} ${
-              !onContact && active === null
+              isActive(null)
                 ? "text-foreground after:scale-x-100"
                 : "text-muted after:scale-x-0 hover:text-foreground"
             }`}
           >
             Home
           </HashLink>
-          {links.map((link) => (
+          {sectionLinks.map((link) => (
             <HashLink
               key={link.href}
               hash={link.href}
-              onHomePage={!onContact}
+              aria-current={isActive(link.href) ? "page" : undefined}
               className={`${linkBase} ${
-                !onContact && active === link.href
+                isActive(link.href)
                   ? "text-foreground after:scale-x-100"
                   : "text-muted after:scale-x-0 hover:text-foreground"
               }`}
@@ -122,7 +98,7 @@ export function Nav() {
             </HashLink>
           ))}
           <Link to="/contact" className={`${contactBase} ${contactStyle}`}>
-            <MailIcon />
+            <MailIcon size={14} />
             Contact
           </Link>
         </div>
@@ -131,7 +107,7 @@ export function Nav() {
           onClick={() => setOpen(!open)}
           aria-expanded={open}
           aria-label="Toggle menu"
-          className="-mr-1 p-1 text-muted transition-colors hover:text-foreground md:hidden"
+          className="-mr-1 p-1 text-muted transition-colors hover:text-foreground lg:hidden"
         >
           <span className="relative block h-4 w-5" aria-hidden="true">
             <span
@@ -152,8 +128,11 @@ export function Nav() {
           </span>
         </button>
       </nav>
+      {/* `inert` while collapsed keeps the panel out of both the tab order and
+          the accessibility tree, so screen readers don't read a second nav. */}
       <div
-        className={`grid overflow-hidden transition-all duration-300 ease-out md:hidden ${
+        inert={!open}
+        className={`grid overflow-hidden transition-all duration-300 ease-out lg:hidden ${
           open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
         }`}
       >
@@ -161,26 +140,20 @@ export function Nav() {
           <div className="flex flex-col border-t border-line px-4 pt-2 pb-4">
             <HashLink
               hash="#top"
-              onHomePage={!onContact}
               onClick={() => setOpen(false)}
-              tabIndex={open ? 0 : -1}
               className={`rounded-md px-2 py-2.5 font-mono text-sm transition-colors ${
-                !onContact && active === null ? "text-accent" : "text-muted hover:text-foreground"
+                isActive(null) ? "text-accent" : "text-muted hover:text-foreground"
               }`}
             >
               Home
             </HashLink>
-            {links.map((link) => (
+            {sectionLinks.map((link) => (
               <HashLink
                 key={link.href}
                 hash={link.href}
-                onHomePage={!onContact}
                 onClick={() => setOpen(false)}
-                tabIndex={open ? 0 : -1}
                 className={`rounded-md px-2 py-2.5 font-mono text-sm transition-colors ${
-                  !onContact && active === link.href
-                    ? "text-accent"
-                    : "text-muted hover:text-foreground"
+                  isActive(link.href) ? "text-accent" : "text-muted hover:text-foreground"
                 }`}
               >
                 {link.label}
@@ -189,10 +162,9 @@ export function Nav() {
             <Link
               to="/contact"
               onClick={() => setOpen(false)}
-              tabIndex={open ? 0 : -1}
               className={`${contactBase} mt-3 self-start ${contactStyle}`}
             >
-              <MailIcon />
+              <MailIcon size={14} />
               Contact
             </Link>
           </div>

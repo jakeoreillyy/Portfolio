@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { SubmitEvent } from "react";
 import { Reveal } from "../components/Reveal";
+import { GitHubIcon, LinkedInIcon, MailIcon, PinIcon } from "../components/icons";
 
 const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY as string | undefined;
 
@@ -59,61 +60,7 @@ const details: { icon: "mail" | "github" | "linkedin" | "pin"; label: string; hr
   { icon: "pin", label: "Dublin, Ireland" },
 ];
 
-function MailIcon() {
-  return (
-    <svg
-      width="17"
-      height="17"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <rect width="20" height="16" x="2" y="4" rx="2" />
-      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-    </svg>
-  );
-}
-
-function GithubIcon() {
-  return (
-    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M12 .5C5.73.5.98 5.24.98 11.5c0 5.02 3.26 9.28 7.77 10.78.57.1.78-.25.78-.55 0-.27-.01-1.16-.02-2.11-3.16.69-3.83-1.34-3.83-1.34-.52-1.31-1.26-1.66-1.26-1.66-1.03-.7.08-.69.08-.69 1.14.08 1.74 1.17 1.74 1.17 1.01 1.73 2.65 1.23 3.3.94.1-.73.4-1.23.72-1.51-2.52-.29-5.17-1.26-5.17-5.6 0-1.24.44-2.25 1.17-3.04-.12-.29-.51-1.45.11-3.02 0 0 .96-.31 3.14 1.16a10.9 10.9 0 0 1 5.72 0c2.18-1.47 3.14-1.16 3.14-1.16.62 1.57.23 2.73.11 3.02.73.79 1.17 1.8 1.17 3.04 0 4.35-2.65 5.31-5.18 5.59.41.35.77 1.04.77 2.11 0 1.52-.01 2.75-.01 3.13 0 .3.2.66.79.55 4.5-1.5 7.76-5.76 7.76-10.78C23.02 5.24 18.27.5 12 .5Z" />
-    </svg>
-  );
-}
-
-function LinkedinIcon() {
-  return (
-    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45Z" />
-    </svg>
-  );
-}
-
-function PinIcon() {
-  return (
-    <svg
-      width="17"
-      height="17"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-      <circle cx="12" cy="10" r="3" />
-    </svg>
-  );
-}
-
-const icons = { mail: MailIcon, github: GithubIcon, linkedin: LinkedinIcon, pin: PinIcon };
+const icons = { mail: MailIcon, github: GitHubIcon, linkedin: LinkedInIcon, pin: PinIcon };
 
 const fieldClass =
   "w-full rounded-lg border border-line bg-background px-3.5 pt-4 pb-2 text-sm text-foreground placeholder:text-faint focus:border-accent focus:outline-none";
@@ -176,7 +123,7 @@ export default function Contact() {
               const content = (
                 <span className="flex items-center gap-2 font-mono text-sm text-muted">
                   <span className={item.icon === "mail" ? "text-accent" : "text-faint"}>
-                    <Icon />
+                    <Icon size={17} />
                   </span>
                   {item.label}
                 </span>

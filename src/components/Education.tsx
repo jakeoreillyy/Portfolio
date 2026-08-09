@@ -1,4 +1,5 @@
 import { Reveal } from "./Reveal";
+import { CapIcon } from "./icons";
 
 const modules = [
   "Data Structures & Algorithms",
@@ -7,26 +8,6 @@ const modules = [
   "Object-Oriented Programming",
   "Data Analysis",
 ];
-
-function CapIcon() {
-  return (
-    <svg
-      width="22"
-      height="22"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" />
-      <path d="M22 10v6" />
-      <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" />
-    </svg>
-  );
-}
 
 export function Education() {
   return (
@@ -39,7 +20,7 @@ export function Education() {
         <Reveal delay={120} className="mt-10">
           <div className="flex items-start gap-5 rounded-xl border border-line bg-surface p-6">
             <div className="flex size-11 shrink-0 items-center justify-center rounded-[10px] border border-line bg-accent/10 text-accent">
-              <CapIcon />
+              <CapIcon size={22} />
             </div>
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">

@@ -1,4 +1,4 @@
-export type Project = {
+type Project = {
   id: string;
   title: string;
   eyebrow: string;

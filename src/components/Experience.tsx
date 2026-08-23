@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Reveal } from "./Reveal";
+import { Section, Tag } from "./Section";
 
 type Job = {
   role: string;
@@ -126,73 +127,62 @@ export function Experience() {
   }, []);
 
   return (
-    <section id="experience" className="scroll-mt-20 px-6 py-24">
-      <div className="mx-auto max-w-5xl">
-        <Reveal>
-          <h2 className="mt-2 font-mono text-3xl font-semibold tracking-tight">Experience</h2>
-        </Reveal>
+    <Section id="experience" title="Experience">
+      <div ref={railRef} className="relative mt-10">
+        {/* rail track + scroll-linked progress fill */}
+        <span
+          aria-hidden
+          className="absolute bottom-0 left-[7px] top-0 w-0.5 -translate-x-1/2 rounded-full bg-line"
+        />
+        <span
+          aria-hidden
+          className="absolute left-[7px] top-0 w-0.5 -translate-x-1/2 rounded-full bg-accent"
+          style={{ height: fill }}
+        />
 
-        <div ref={railRef} className="relative mt-10">
-          {/* rail track + scroll-linked progress fill */}
-          <span
-            aria-hidden
-            className="absolute bottom-0 left-[7px] top-0 w-0.5 -translate-x-1/2 rounded-full bg-line"
-          />
-          <span
-            aria-hidden
-            className="absolute left-[7px] top-0 w-0.5 -translate-x-1/2 rounded-full bg-accent"
-            style={{ height: fill }}
-          />
+        {jobs.map((job, i) => (
+          <Reveal key={job.org} delay={i * 90} className="relative pb-10 pl-8 last:pb-0">
+            <span
+              ref={(el) => {
+                dotRefs.current[i] = el;
+              }}
+              aria-hidden
+              className={`absolute left-[7px] top-1 size-[13px] -translate-x-1/2 rounded-full border-2 transition-colors duration-500 ${
+                i < activeCount ? "border-accent bg-accent" : "border-line bg-background"
+              }`}
+            />
 
-          {jobs.map((job, i) => (
-            <Reveal key={job.org} delay={i * 90} className="relative pb-10 pl-8 last:pb-0">
-              <span
-                ref={(el) => {
-                  dotRefs.current[i] = el;
-                }}
-                aria-hidden
-                className={`absolute left-[7px] top-1 size-[13px] -translate-x-1/2 rounded-full border-2 transition-colors duration-500 ${
-                  i < activeCount ? "border-accent bg-accent" : "border-line bg-background"
-                }`}
-              />
-
-              <div className="flex items-baseline justify-between gap-4">
-                <p className="font-mono text-[15px] font-medium text-foreground">
-                  {job.role} <span className="text-accent">@ {job.org}</span>
-                  {job.badge && (
-                    <span className="ml-2 rounded border border-accent/30 bg-accent/10 px-1.5 py-px align-[1px] font-mono text-[11px] text-accent">
-                      {job.badge}
-                    </span>
-                  )}
-                </p>
-                <p className="shrink-0 font-mono text-xs text-faint">{job.date}</p>
-              </div>
-
-              <ul className="mb-3 mt-2 max-w-2xl space-y-1.5">
-                {job.highlights.map((point) => (
-                  <li key={point} className="flex gap-2 text-sm leading-relaxed text-muted">
-                    <span aria-hidden className="mt-px shrink-0 text-accent">
-                      ▹
-                    </span>
-                    <span>{point}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <div className="flex flex-wrap gap-1.5">
-                {job.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded border border-line px-2 py-0.5 font-mono text-[11.5px] text-muted"
-                  >
-                    {tag}
+            <div className="flex items-baseline justify-between gap-4">
+              <p className="font-mono text-[15px] font-medium text-foreground">
+                {job.role} <span className="text-accent">@ {job.org}</span>
+                {job.badge && (
+                  <span className="ml-2 rounded border border-accent/30 bg-accent/10 px-1.5 py-px align-[1px] font-mono text-[11px] text-accent">
+                    {job.badge}
                   </span>
-                ))}
-              </div>
-            </Reveal>
-          ))}
-        </div>
+                )}
+              </p>
+              <p className="shrink-0 font-mono text-xs text-faint">{job.date}</p>
+            </div>
+
+            <ul className="mb-3 mt-2 max-w-2xl space-y-1.5">
+              {job.highlights.map((point) => (
+                <li key={point} className="flex gap-2 text-sm leading-relaxed text-muted">
+                  <span aria-hidden className="mt-px shrink-0 text-accent">
+                    ▹
+                  </span>
+                  <span>{point}</span>
+                </li>
+              ))}
+            </ul>
+
+            <div className="flex flex-wrap gap-1.5">
+              {job.tags.map((tag) => (
+                <Tag key={tag}>{tag}</Tag>
+              ))}
+            </div>
+          </Reveal>
+        ))}
       </div>
-    </section>
+    </Section>
   );
 }

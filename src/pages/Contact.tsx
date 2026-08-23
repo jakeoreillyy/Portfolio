@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { SubmitEvent } from "react";
+import type { ComponentProps, SubmitEvent } from "react";
 import { Reveal } from "../components/Reveal";
 import { GitHubIcon, LinkedInIcon, MailIcon, PinIcon } from "../components/icons";
 
@@ -49,23 +49,44 @@ async function getRecaptchaToken(): Promise<string | undefined> {
 
 const EMAIL = "oreillyjake16@gmail.com";
 
-const details: { icon: "mail" | "github" | "linkedin" | "pin"; label: string; href?: string }[] = [
-  { icon: "mail", label: EMAIL, href: `mailto:${EMAIL}` },
-  {
-    icon: "linkedin",
-    label: "jake-o-reilly",
-    href: "https://www.linkedin.com/in/jake-o-reilly",
-  },
-  { icon: "github", label: "jakeoreillyy", href: "https://github.com/jakeoreillyy" },
-  { icon: "pin", label: "Dublin, Ireland" },
+// mailto entries open in place; the rest are external links.
+const details = [
+  { Icon: MailIcon, label: EMAIL, href: `mailto:${EMAIL}` },
+  { Icon: LinkedInIcon, label: "jake-o-reilly", href: "https://www.linkedin.com/in/jake-o-reilly" },
+  { Icon: GitHubIcon, label: "jakeoreillyy", href: "https://github.com/jakeoreillyy" },
+  { Icon: PinIcon, label: "Dublin, Ireland" },
 ];
-
-const icons = { mail: MailIcon, github: GitHubIcon, linkedin: LinkedInIcon, pin: PinIcon };
 
 const fieldClass =
   "w-full rounded-lg border border-line bg-background px-3.5 pt-4 pb-2 text-sm text-foreground placeholder:text-faint focus:border-accent focus:outline-none";
-const fieldLabelClass =
-  "pointer-events-none absolute -top-2 left-2.5 bg-background px-1 font-mono text-[10px] tracking-[0.15em] text-accent uppercase";
+
+// Floating label notched into the field's top border.
+function Field({
+  name,
+  label,
+  textarea,
+  ...props
+}: { name: string; label: string; textarea?: boolean } & ComponentProps<"input"> &
+  ComponentProps<"textarea">) {
+  const Tag = textarea ? "textarea" : "input";
+  return (
+    <div className="relative">
+      <label
+        htmlFor={name}
+        className="pointer-events-none absolute -top-2 left-2.5 bg-background px-1 font-mono text-[10px] tracking-[0.15em] text-accent uppercase"
+      >
+        {label}
+      </label>
+      <Tag
+        id={name}
+        name={name}
+        required
+        className={`${fieldClass} ${textarea ? "resize-none" : ""}`}
+        {...props}
+      />
+    </div>
+  );
+}
 
 type Status = "idle" | "sending" | "sent" | "error";
 
@@ -81,13 +102,7 @@ export default function Contact() {
 
     const form = e.currentTarget;
     const recaptchaToken = await getRecaptchaToken();
-    const data = {
-      name: (form.elements.namedItem("name") as HTMLInputElement).value,
-      email: (form.elements.namedItem("email") as HTMLInputElement).value,
-      subject: (form.elements.namedItem("subject") as HTMLInputElement).value,
-      message: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
-      recaptchaToken,
-    };
+    const data = { ...Object.fromEntries(new FormData(form)), recaptchaToken };
 
     try {
       const res = await fetch("/api/contact", {
@@ -118,29 +133,27 @@ export default function Contact() {
           </h1>
 
           <div className="mt-6 flex flex-wrap gap-x-6 gap-y-3 border-b border-line pb-6">
-            {details.map((item) => {
-              const Icon = icons[item.icon];
+            {details.map(({ Icon, label, href }) => {
+              const mail = href?.startsWith("mailto:");
               const content = (
                 <span className="flex items-center gap-2 font-mono text-sm text-muted">
-                  <span className={item.icon === "mail" ? "text-accent" : "text-faint"}>
+                  <span className={mail ? "text-accent" : "text-faint"}>
                     <Icon size={17} />
                   </span>
-                  {item.label}
+                  {label}
                 </span>
               );
-              return item.href ? (
+              return href ? (
                 <a
-                  key={item.label}
-                  href={item.href}
-                  {...(item.icon !== "mail"
-                    ? { target: "_blank", rel: "noopener noreferrer" }
-                    : {})}
+                  key={label}
+                  href={href}
+                  {...(mail ? {} : { target: "_blank", rel: "noopener noreferrer" })}
                   className="transition-colors hover:text-accent [&:hover_span]:text-accent"
                 >
                   {content}
                 </a>
               ) : (
-                <span key={item.label}>{content}</span>
+                <span key={label}>{content}</span>
               );
             })}
           </div>
@@ -149,61 +162,24 @@ export default function Contact() {
         <Reveal delay={120}>
           <form onSubmit={handleSubmit} className="mt-8 space-y-5">
             <div className="grid gap-5 sm:grid-cols-2">
-              <div className="relative">
-                <label htmlFor="name" className={fieldLabelClass}>
-                  Name
-                </label>
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  required
-                  placeholder="Andrej Karpathy"
-                  className={fieldClass}
-                />
-              </div>
-              <div className="relative">
-                <label htmlFor="email" className={fieldLabelClass}>
-                  Email
-                </label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  required
-                  placeholder="andrejkarpathy@gmail.com"
-                  className={fieldClass}
-                />
-              </div>
-            </div>
-
-            <div className="relative">
-              <label htmlFor="subject" className={fieldLabelClass}>
-                Subject
-              </label>
-              <input
-                id="subject"
-                name="subject"
-                type="text"
-                required
-                placeholder="A question about your work"
-                className={fieldClass}
+              <Field name="name" label="Name" placeholder="Andrej Karpathy" />
+              <Field
+                name="email"
+                label="Email"
+                type="email"
+                placeholder="andrejkarpathy@gmail.com"
               />
             </div>
 
-            <div className="relative">
-              <label htmlFor="message" className={fieldLabelClass}>
-                Message
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                rows={6}
-                required
-                placeholder="Hey Jake, I'd love to hear more about how you approached one of your projects."
-                className={`${fieldClass} resize-none`}
-              />
-            </div>
+            <Field name="subject" label="Subject" placeholder="A question about your work" />
+
+            <Field
+              name="message"
+              label="Message"
+              textarea
+              rows={6}
+              placeholder="Hey Jake, I'd love to hear more about how you approached one of your projects."
+            />
 
             <button
               type="submit"

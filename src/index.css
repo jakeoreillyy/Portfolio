@@ -81,15 +81,12 @@ body.show-recaptcha .grecaptcha-badge {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal {
-    opacity: 1;
-    translate: none;
-    transition: none;
-  }
-
+  .reveal,
   .fade-up {
     opacity: 1;
+    translate: none;
     animation: none;
+    transition: none;
   }
 
   .caret {

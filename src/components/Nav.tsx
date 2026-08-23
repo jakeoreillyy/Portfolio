@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { HashLink } from "./HashLink";
 import { MailIcon } from "./icons";
 import { sectionLinks } from "../data/nav";
+import { accentButton } from "../lib/styles";
 
 export function Nav() {
   const location = useLocation();
@@ -55,11 +56,10 @@ export function Nav() {
     "after:absolute after:inset-x-0 after:-bottom-1.5 after:h-[2px] after:origin-left " +
     "after:bg-accent after:transition-transform after:duration-300 hover:after:scale-x-100";
 
-  const contactBase =
-    "inline-flex items-center gap-2 rounded-lg border px-3.5 py-1.5 font-mono text-[13px] transition-colors";
+  // On /contact the pill is already "arrived", so it renders pre-filled.
   const contactStyle = onContact
-    ? "border-accent bg-accent text-background"
-    : "border-accent/40 text-accent hover:border-accent hover:bg-accent hover:text-background";
+    ? "inline-flex items-center gap-1.5 rounded-lg border border-accent bg-accent px-3.5 py-1.5 font-mono text-[13px] text-background"
+    : accentButton;
 
   const barLine = "absolute left-0 block h-[2px] w-5 rounded-full bg-current";
 
@@ -96,7 +96,7 @@ export function Nav() {
               {link.label}
             </HashLink>
           ))}
-          <Link to="/contact" className={`${contactBase} ${contactStyle}`}>
+          <Link to="/contact" className={contactStyle}>
             <MailIcon size={14} />
             Contact
           </Link>
@@ -152,7 +152,7 @@ export function Nav() {
             <Link
               to="/contact"
               onClick={() => setOpen(false)}
-              className={`${contactBase} mt-3 self-start ${contactStyle}`}
+              className={`${contactStyle} mt-3 self-start`}
             >
               <MailIcon size={14} />
               Contact

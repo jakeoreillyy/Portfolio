@@ -4,44 +4,42 @@ import { MailIcon } from "./icons";
 import { sectionLinks } from "../data/nav";
 import type { NavLink } from "../data/nav";
 
-type FooterLink = NavLink & { external?: boolean; mail?: boolean };
-
-const navLinks: FooterLink[] = [...sectionLinks];
-
-const connectLinks: FooterLink[] = [
-  { href: "https://github.com/jakeoreillyy", label: "GitHub", external: true },
-  { href: "https://www.linkedin.com/in/jake-o-reilly", label: "LinkedIn", external: true },
+const connectLinks: NavLink[] = [
+  { href: "https://github.com/jakeoreillyy", label: "GitHub" },
+  { href: "https://www.linkedin.com/in/jake-o-reilly", label: "LinkedIn" },
   {
     href: "https://drive.google.com/file/d/1g9zu01wSZb98pxBCtKQLQGVbjlgI6hR5/view?usp=drive_link",
     label: "Resume",
-    external: true,
   },
-  { href: "https://leetcode.com/u/jakeoreilly/", label: "LeetCode", external: true },
-  { href: "/contact", label: "Contact", mail: true },
+  { href: "https://leetcode.com/u/jakeoreilly/", label: "LeetCode" },
+  { href: "/contact", label: "Contact" },
 ];
 
 const linkClass = "text-sm text-muted transition-colors hover:text-accent";
 
-function FooterColumn({ title, links }: { title: string; links: FooterLink[] }) {
+// The href shape picks the element: off-site links get a new tab, "#" links
+// smooth-scroll via Lenis, and anything else is an in-app route (only /contact,
+// hence the mail glyph).
+function FooterColumn({ title, links }: { title: string; links: NavLink[] }) {
   return (
     <div>
       <p className="font-mono text-xs tracking-[0.2em] text-faint uppercase">{title}</p>
       <ul className="mt-4 space-y-2.5">
-        {links.map((link) => (
-          <li key={link.label}>
-            {link.external ? (
-              <a href={link.href} target="_blank" rel="noopener noreferrer" className={linkClass}>
-                {link.label}
+        {links.map(({ href, label }) => (
+          <li key={label}>
+            {href.startsWith("http") ? (
+              <a href={href} target="_blank" rel="noopener noreferrer" className={linkClass}>
+                {label}
                 <span aria-hidden="true"> ↗</span>
               </a>
-            ) : link.href.startsWith("#") ? (
-              <HashLink hash={link.href} className={linkClass}>
-                {link.label}
+            ) : href.startsWith("#") ? (
+              <HashLink hash={href} className={linkClass}>
+                {label}
               </HashLink>
             ) : (
-              <Link to={link.href} className={linkClass}>
-                {link.label}
-                {link.mail && <MailIcon className="ml-1.5 inline-block size-3.5 align-[-2px]" />}
+              <Link to={href} className={linkClass}>
+                {label}
+                <MailIcon className="ml-1.5 inline-block size-3.5 align-[-2px]" />
               </Link>
             )}
           </li>
@@ -67,7 +65,7 @@ export function Footer() {
           </p>
         </div>
         <div className="flex gap-12 sm:gap-20">
-          <FooterColumn title="Navigate" links={navLinks} />
+          <FooterColumn title="Navigate" links={sectionLinks} />
           <FooterColumn title="Connect" links={connectLinks} />
         </div>
       </div>

@@ -16,6 +16,7 @@
     "format:check": "prettier --check src api index.html *.ts *.json"
   },
   "dependencies": {
+    "@fontsource/archivo": "^5.3.0",
     "@fontsource/inter": "^5.2.5",
     "@fontsource/jetbrains-mono": "^5.2.5",
     "@vercel/analytics": "^2.0.1",

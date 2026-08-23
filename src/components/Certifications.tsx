@@ -225,7 +225,7 @@ export function Certifications() {
                       <p className="font-mono text-[10.5px] tracking-[0.15em] text-accent uppercase">
                         {c.tag}
                       </p>
-                      <h3 className="mt-2 min-h-[44px] font-mono text-[16.5px] leading-[1.34] font-medium text-foreground">
+                      <h3 className="mt-2 min-h-[46px] font-display text-[19px] leading-[1.2] tracking-[-0.02em] text-foreground">
                         {c.title}
                       </h3>
                       <p className="mt-2 text-[13px] text-muted">{c.issuer}</p>

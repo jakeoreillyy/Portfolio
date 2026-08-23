@@ -9,7 +9,7 @@ export function Hero() {
     <section id="top" className="flex min-h-screen items-center px-6 pt-16">
       <div className="mx-auto grid w-full max-w-5xl items-center gap-10 lg:grid-cols-[1fr_auto] lg:gap-16">
         <div className="text-center lg:text-left">
-          <h1 className="fade-up font-mono text-5xl font-bold tracking-tight sm:text-6xl">
+          <h1 className="fade-up font-display text-[clamp(2.75rem,7.5vw,6rem)] leading-[0.95] font-normal tracking-[-0.04em]">
             Jake O'Reilly
           </h1>
           {/* Typewriter carries its own sr-only description of the rotating roles. */}

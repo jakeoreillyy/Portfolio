@@ -14,7 +14,7 @@ type Job = {
 const jobs: Job[] = [
   {
     role: "Software Development Engineer Intern",
-    org: "AWS",
+    org: "Amazon Web Services",
     date: "Feb 2027",
     badge: "Incoming",
     highlights: ["Lambda Team"],
@@ -147,24 +147,25 @@ export function Experience() {
                 dotRefs.current[i] = el;
               }}
               aria-hidden
-              className={`absolute left-[7px] top-1 size-[13px] -translate-x-1/2 rounded-full border-2 transition-colors duration-500 ${
+              className={`absolute left-[7px] top-[9px] size-[13px] -translate-x-1/2 rounded-full border-2 transition-colors duration-500 ${
                 i < activeCount ? "border-accent bg-accent" : "border-line bg-background"
               }`}
             />
 
+            {/* Role carries the display type; the org sits underneath it. */}
             <div className="flex items-baseline justify-between gap-4">
-              <p className="font-mono text-[15px] font-medium text-foreground">
-                {job.role} <span className="text-accent">@ {job.org}</span>
-                {job.badge && (
-                  <span className="ml-2 rounded border border-accent/30 bg-accent/10 px-1.5 py-px align-[1px] font-mono text-[11px] text-accent">
-                    {job.badge}
-                  </span>
-                )}
+              <p className="font-display text-[clamp(1.3rem,2.3vw,1.7rem)] leading-[1.15] tracking-[-0.03em] text-foreground">
+                {job.role}
               </p>
               <p className="shrink-0 font-mono text-xs text-faint">{job.date}</p>
             </div>
 
-            <ul className="mb-3 mt-2 max-w-2xl space-y-1.5">
+            <div className="mt-1.5 flex flex-wrap items-center gap-x-2.5 gap-y-1.5">
+              <p className="text-sm text-muted">{job.org}</p>
+              {job.badge && <Tag accent>{job.badge}</Tag>}
+            </div>
+
+            <ul className="mb-3 mt-4 max-w-2xl space-y-1.5">
               {job.highlights.map((point) => (
                 <li key={point} className="flex gap-2 text-sm leading-relaxed text-muted">
                   <span aria-hidden className="mt-px shrink-0 text-accent">

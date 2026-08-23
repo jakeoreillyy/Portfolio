@@ -128,7 +128,7 @@ export default function Contact() {
     <section className="flex min-h-screen items-center px-6 py-32">
       <div className="mx-auto w-full max-w-3xl">
         <Reveal>
-          <h1 className="font-mono text-4xl font-semibold tracking-tight sm:text-5xl">
+          <h1 className="font-display text-[clamp(2.5rem,6.5vw,4.5rem)] leading-[0.98] tracking-[-0.04em]">
             Get in touch.
           </h1>
 

@@ -32,7 +32,9 @@ export function Projects() {
                 </p>
 
                 <div className="mt-2 flex items-center justify-between gap-3">
-                  <h3 className="font-mono text-lg font-medium text-foreground">{project.title}</h3>
+                  <h3 className="font-display text-[1.5rem] leading-[1.15] tracking-[-0.03em] text-foreground">
+                    {project.title}
+                  </h3>
                   {project.href && project.link && (
                     <a
                       href={project.href}

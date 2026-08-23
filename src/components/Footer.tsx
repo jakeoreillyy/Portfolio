@@ -56,7 +56,7 @@ export function Footer() {
         <div>
           <Link
             to="/"
-            className="font-mono text-lg font-semibold tracking-tight text-foreground transition-colors hover:text-accent"
+            className="font-display text-[1.5rem] tracking-[-0.03em] text-foreground transition-colors hover:text-accent"
           >
             Jake O'Reilly
           </Link>

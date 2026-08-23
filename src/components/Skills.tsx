@@ -11,8 +11,9 @@ const groups: Record<string, string[]> = {
     "Git",
     "GitHub Actions",
     "Docker",
-    "AWS",
+    "Amazon Web Services",
     "Google Cloud",
+    "Cloudflare",
     "Linux",
     "Vercel",
     "Heroku",
@@ -29,7 +30,7 @@ export function Skills() {
           <Reveal key={label} delay={i * 90}>
             {/* Label, then a hairline running out to the section edge. */}
             <div className="flex items-center gap-3.5">
-              <h3 className="font-mono text-[11px] tracking-[0.17em] text-muted uppercase">
+              <h3 className="font-display text-[1.05rem] tracking-[-0.02em] text-foreground">
                 {label}
               </h3>
               <span aria-hidden className="h-px flex-1 bg-line" />

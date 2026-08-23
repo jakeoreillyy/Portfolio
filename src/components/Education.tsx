@@ -20,12 +20,12 @@ export function Education() {
           </div>
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-              <p className="font-mono text-[15px] font-medium text-foreground">
-                BSc Computer Science{" "}
-                <span className="text-accent">@ Technological University Dublin</span>
+              <p className="font-display text-[clamp(1.3rem,2.3vw,1.7rem)] leading-[1.15] tracking-[-0.03em] text-foreground">
+                BSc Computer Science
               </p>
               <p className="shrink-0 font-mono text-xs text-faint">2024 - 2028</p>
             </div>
+            <p className="mt-1.5 text-sm text-muted">Technological University Dublin</p>
 
             <div className="mt-4 flex flex-wrap gap-1.5">
               <Tag accent>3.5 GPA</Tag>

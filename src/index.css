@@ -1,15 +1,16 @@
 @import "tailwindcss";
 
 @theme {
-  --color-background: #0b0b0e;
-  --color-surface: #131318;
-  --color-line: #232329;
-  --color-line-strong: #2a2a30;
-  --color-line-bright: #41414d;
-  --color-raised: #17171d;
-  --color-foreground: #f2f2f6;
-  --color-muted: #9a9aa3;
-  --color-faint: #5c5c66;
+  /* True neutral ramp: pure black ground, greys with no colour cast. */
+  --color-background: #000000;
+  --color-surface: #0d0d0d;
+  --color-line: #1f1f1f;
+  --color-line-strong: #2b2b2b;
+  --color-line-bright: #3f3f3f;
+  --color-raised: #141414;
+  --color-foreground: #f2f2f2;
+  --color-muted: #9a9a9a;
+  --color-faint: #5c5c5c;
   --color-accent: #2f90e0;
   --color-accent-bright: #6cc4ff;
 

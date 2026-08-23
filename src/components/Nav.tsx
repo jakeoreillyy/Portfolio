@@ -21,8 +21,18 @@ export function Nav() {
   useEffect(() => {
     if (onContact) return;
 
-    const ids = ["top", ...sectionLinks.map((link) => link.href.slice(1))];
-    const sections = ids
+    // The "About" and "Skills" links each cover more than one on-page section,
+    // so map every observed id back to the nav link it should light up.
+    const idToLink: Record<string, string> = {
+      top: "#top",
+      about: "#top",
+      experience: "#experience",
+      education: "#education",
+      projects: "#projects",
+      skills: "#skills",
+      certifications: "#skills",
+    };
+    const sections = Object.keys(idToLink)
       .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => el !== null);
 
@@ -30,7 +40,7 @@ export function Nav() {
       (entries) => {
         for (const entry of entries) {
           if (!entry.isIntersecting) continue;
-          setActive(entry.target.id === "top" ? null : `#${entry.target.id}`);
+          setActive(idToLink[entry.target.id] ?? null);
         }
       },
       { rootMargin: "-40% 0px -55% 0px" },
@@ -72,17 +82,6 @@ export function Nav() {
           Jake O'Reilly
         </HashLink>
         <div className="hidden items-center gap-5 lg:flex">
-          <HashLink
-            hash="#top"
-            aria-current={isActive(null) ? "page" : undefined}
-            className={`${linkBase} ${
-              isActive(null)
-                ? "text-foreground after:scale-x-100"
-                : "text-muted after:scale-x-0 hover:text-foreground"
-            }`}
-          >
-            Home
-          </HashLink>
           {sectionLinks.map((link) => (
             <HashLink
               key={link.href}
@@ -138,15 +137,6 @@ export function Nav() {
       >
         <div className="min-h-0 overflow-hidden">
           <div className="flex flex-col border-t border-line px-4 pt-2 pb-4">
-            <HashLink
-              hash="#top"
-              onClick={() => setOpen(false)}
-              className={`rounded-md px-2 py-2.5 font-mono text-sm transition-colors ${
-                isActive(null) ? "text-accent" : "text-muted hover:text-foreground"
-              }`}
-            >
-              Home
-            </HashLink>
             {sectionLinks.map((link) => (
               <HashLink
                 key={link.href}

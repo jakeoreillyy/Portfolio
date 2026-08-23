@@ -6,7 +6,7 @@ import type { NavLink } from "../data/nav";
 
 type FooterLink = NavLink & { external?: boolean; mail?: boolean };
 
-const navLinks: FooterLink[] = [{ href: "#top", label: "Home" }, ...sectionLinks];
+const navLinks: FooterLink[] = [...sectionLinks];
 
 const connectLinks: FooterLink[] = [
   { href: "https://github.com/jakeoreillyy", label: "GitHub", external: true },

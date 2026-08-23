@@ -11,8 +11,26 @@
   --color-foreground: #f2f2f2;
   --color-muted: #9a9a9a;
   --color-faint: #5c5c5c;
-  --color-accent: #2f90e0;
-  --color-accent-bright: #6cc4ff;
+  /* The accent is now the top tier of the neutral ramp, not a hue: pure white
+     sits just above body text, and -dim is the pressed/hover state for the
+     solid white button. */
+  --color-accent: #ffffff;
+  --color-accent-dim: #cfcfcf;
+
+  /* Tokyo Night, shared by the about.ts card and the hero shell prompt so the
+     two terminal-flavoured elements read as one palette. Along with the brand
+     marks these are the only hues left on the site. */
+  --color-code-keyword: #bb9af7;
+  --color-code-key: #7aa2f7;
+  --color-code-string: #9ece6a;
+  --color-code-punct: #565f89;
+  --color-code-text: #c0caf5;
+
+  /* Brand marks keep their own colour, the same rule the Skills logos follow.
+     GitHub is already white on a dark ground and LinkedIn's tile carries its
+     own blue, so neither needs a token here. */
+  --color-gmail: #ea4335;
+  --color-pin: #4caf72;
 
   /* Archivo carries the display type; Inter the body; mono is meta/data only. */
   --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;

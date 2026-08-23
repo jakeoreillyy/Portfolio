@@ -84,10 +84,19 @@ export function GitHubIcon(props: IconProps) {
   );
 }
 
-export function LinkedInIcon(props: IconProps) {
+// LinkedIn's mark is the filled blue tile with the letters knocked out in
+// white, so it carries its own two colours rather than taking currentColor.
+export function LinkedInIcon({ size = 16, ...props }: IconProps) {
   return (
-    <Solid {...props}>
-      <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.55V9h3.57v11.45ZM22.22 0H1.77C.8 0 0 .78 0 1.75v20.5C0 23.2.8 24 1.77 24h20.45c.98 0 1.78-.8 1.78-1.75V1.75C24 .78 23.2 0 22.22 0Z" />
-    </Solid>
+    <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true" {...props}>
+      <path
+        fill="#0A66C2"
+        d="M22.22 0H1.77C.8 0 0 .78 0 1.75v20.5C0 23.2.8 24 1.77 24h20.45c.98 0 1.78-.8 1.78-1.75V1.75C24 .78 23.2 0 22.22 0Z"
+      />
+      <path
+        fill="#fff"
+        d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.55V9h3.57v11.45Z"
+      />
+    </svg>
   );
 }

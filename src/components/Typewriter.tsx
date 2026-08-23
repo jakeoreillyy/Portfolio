@@ -40,15 +40,16 @@ export function Typewriter() {
 
   return (
     <span className="font-mono">
-      {/* decorative shell prompt; reserved-width role keeps the prompt from shifting */}
+      {/* Decorative shell prompt, deliberately the one splash of colour left on the
+          site, sharing the about.ts card's Tokyo Night palette. */}
       <span aria-hidden="true" className="whitespace-nowrap">
-        <span className="text-[#7bbf6a]">jake@portfolio</span>
-        <span className="text-foreground">:</span>
-        <span className="text-[#6aa0d8]">~</span>
-        <span className="text-accent">$</span>{" "}
-        <span className="inline-block min-w-[25ch] text-left align-bottom text-foreground">
+        <span className="text-code-string">jake@portfolio</span>
+        <span className="text-code-text">:</span>
+        <span className="text-code-key">~</span>
+        <span className="text-code-text">$</span>{" "}
+        <span className="inline-block min-w-[25ch] text-left align-bottom text-code-text">
           {reduced ? words[0] : text}
-          <span className="caret ml-0.5 inline-block h-[1.05em] w-[2px] translate-y-[3px] bg-accent" />
+          <span className="caret ml-0.5 inline-block h-[1.05em] w-[2px] translate-y-[3px] bg-code-text" />
         </span>
       </span>
       <span className="sr-only">Computer science student, software engineer, and AI engineer</span>

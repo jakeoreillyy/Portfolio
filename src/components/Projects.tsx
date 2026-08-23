@@ -14,7 +14,7 @@ export function Projects() {
             delay={i * 90}
             className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"
           >
-            <article className="flex h-full flex-col overflow-hidden rounded-[14px] border border-line bg-surface transition-[border-color,box-shadow] duration-300 ease-out hover:border-accent/40 hover:shadow-[0_0_28px_-10px_rgba(47,144,224,0.35)]">
+            <article className="flex h-full flex-col overflow-hidden rounded-[14px] border border-line bg-surface transition-[border-color,box-shadow] duration-300 ease-out hover:border-accent/40 hover:shadow-[0_0_28px_-10px_rgba(255,255,255,0.18)]">
               <div className="h-[150px] border-b border-line bg-background">
                 <img
                   src={project.image.src}

@@ -51,10 +51,20 @@ const EMAIL = "oreillyjake16@gmail.com";
 
 // mailto entries open in place; the rest are external links.
 const details = [
-  { Icon: MailIcon, label: EMAIL, href: `mailto:${EMAIL}` },
-  { Icon: LinkedInIcon, label: "jake-o-reilly", href: "https://www.linkedin.com/in/jake-o-reilly" },
-  { Icon: GitHubIcon, label: "jakeoreillyy", href: "https://github.com/jakeoreillyy" },
-  { Icon: PinIcon, label: "Dublin, Ireland" },
+  { Icon: MailIcon, tint: "text-gmail", label: EMAIL, href: `mailto:${EMAIL}` },
+  {
+    Icon: LinkedInIcon,
+    tint: "",
+    label: "jake-o-reilly",
+    href: "https://www.linkedin.com/in/jake-o-reilly",
+  },
+  {
+    Icon: GitHubIcon,
+    tint: "text-foreground",
+    label: "jakeoreillyy",
+    href: "https://github.com/jakeoreillyy",
+  },
+  { Icon: PinIcon, tint: "text-pin", label: "Dublin, Ireland" },
 ];
 
 const fieldClass =
@@ -133,11 +143,11 @@ export default function Contact() {
           </h1>
 
           <div className="mt-6 flex flex-wrap gap-x-6 gap-y-3 border-b border-line pb-6">
-            {details.map(({ Icon, label, href }) => {
+            {details.map(({ Icon, tint, label, href }) => {
               const mail = href?.startsWith("mailto:");
               const content = (
                 <span className="flex items-center gap-2 font-mono text-sm text-muted">
-                  <span className={mail ? "text-accent" : "text-faint"}>
+                  <span className={tint}>
                     <Icon size={17} />
                   </span>
                   {label}
@@ -148,7 +158,7 @@ export default function Contact() {
                   key={label}
                   href={href}
                   {...(mail ? {} : { target: "_blank", rel: "noopener noreferrer" })}
-                  className="transition-colors hover:text-accent [&:hover_span]:text-accent"
+                  className="transition-colors hover:text-accent"
                 >
                   {content}
                 </a>

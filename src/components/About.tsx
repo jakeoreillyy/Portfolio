@@ -19,28 +19,29 @@ export function About() {
           <div className="overflow-hidden rounded-xl border border-line bg-surface">
             <WindowBar filename="about.ts" />
             <pre className="overflow-x-auto p-4 font-mono text-[13px] leading-relaxed">
-              <span className="text-faint italic">// tl;dr</span>
+              <span className="text-code-punct italic">// tl;dr</span>
               {"\n"}
-              <span className="text-muted">const</span>{" "}
-              <span className="text-foreground">jake</span> <span className="text-faint">=</span>{" "}
-              <span className="text-faint">{"{"}</span>
+              <span className="text-code-keyword">const</span>{" "}
+              <span className="text-code-text">jake</span>{" "}
+              <span className="text-code-punct">=</span>{" "}
+              <span className="text-code-punct">{"{"}</span>
               {"\n"}
               {facts.map(([key, values]) => (
                 <Fragment key={key}>
                   {"  "}
-                  <span className="text-muted">{key}</span>
-                  <span className="text-faint">: {values.length > 1 && "["}</span>
+                  <span className="text-code-key">{key}</span>
+                  <span className="text-code-punct">: {values.length > 1 && "["}</span>
                   {values.map((value, i) => (
                     <Fragment key={value}>
-                      {i > 0 && <span className="text-faint">, </span>}
-                      <span className="text-accent">"{value}"</span>
+                      {i > 0 && <span className="text-code-punct">, </span>}
+                      <span className="text-code-string">"{value}"</span>
                     </Fragment>
                   ))}
-                  <span className="text-faint">{values.length > 1 && "]"},</span>
+                  <span className="text-code-punct">{values.length > 1 && "]"},</span>
                   {"\n"}
                 </Fragment>
               ))}
-              <span className="text-faint">{"};"}</span>
+              <span className="text-code-punct">{"};"}</span>
             </pre>
           </div>
         </Reveal>

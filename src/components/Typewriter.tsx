@@ -42,11 +42,15 @@ export function Typewriter() {
     <span className="font-mono">
       {/* Decorative shell prompt, deliberately the one splash of colour left on the
           site, sharing the about.ts card's Tokyo Night palette. */}
-      <span aria-hidden="true" className="whitespace-nowrap">
-        <span className="text-code-string">jake@portfolio</span>
-        <span className="text-code-text">:</span>
-        <span className="text-code-key">~</span>
-        <span className="text-code-text">$</span>{" "}
+      {/* Only the prompt itself is unbreakable: below ~334px the typed line wraps
+          underneath it rather than pushing the page into a sideways scroll. */}
+      <span aria-hidden="true">
+        <span className="whitespace-nowrap">
+          <span className="text-code-string">jake@portfolio</span>
+          <span className="text-code-text">:</span>
+          <span className="text-code-key">~</span>
+          <span className="text-code-text">$</span>
+        </span>{" "}
         <span className="inline-block min-w-[25ch] text-left align-bottom text-code-text">
           {reduced ? words[0] : text}
           <span className="caret ml-0.5 inline-block h-[1.05em] w-[2px] translate-y-[3px] bg-code-text" />

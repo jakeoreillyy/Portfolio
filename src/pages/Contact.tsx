@@ -51,7 +51,7 @@ const EMAIL = "oreillyjake16@gmail.com";
 
 // mailto entries open in place; the rest are external links.
 const details = [
-  { Icon: MailIcon, tint: "text-gmail", label: EMAIL, href: `mailto:${EMAIL}` },
+  { Icon: MailIcon, tint: "text-muted", label: EMAIL, href: `mailto:${EMAIL}` },
   {
     Icon: LinkedInIcon,
     tint: "",
@@ -64,7 +64,7 @@ const details = [
     label: "jakeoreillyy",
     href: "https://github.com/jakeoreillyy",
   },
-  { Icon: PinIcon, tint: "text-pin", label: "Dublin, Ireland" },
+  { Icon: PinIcon, tint: "text-muted", label: "Dublin, Ireland" },
 ];
 
 const fieldClass =

@@ -51,9 +51,12 @@ export function Nav() {
     return () => observer.disconnect();
   }, [onContact]);
 
+  // Matches the section labels these links point at: same size, case and
+  // tracking, so the nav item and the heading it lands on read as one thing.
+  const labelType = "font-mono text-[11px] tracking-[0.22em] uppercase";
   const linkBase =
-    "relative font-mono text-[13px] transition-colors " +
-    "after:absolute after:inset-x-0 after:-bottom-1.5 after:h-[2px] after:origin-left " +
+    `relative ${labelType} transition-colors ` +
+    "after:absolute after:inset-x-0 after:-bottom-1.5 after:h-px after:origin-left " +
     "after:bg-accent after:transition-transform after:duration-300 hover:after:scale-x-100";
 
   // On /contact the pill is already "arrived", so it renders pre-filled.
@@ -77,7 +80,7 @@ export function Nav() {
       <nav className="mx-auto flex min-h-16 max-w-5xl items-center justify-between gap-4 px-4 sm:px-6">
         <HashLink
           hash="#top"
-          className="font-mono text-sm font-semibold tracking-tight text-foreground"
+          className="font-display text-[15px] tracking-[-0.02em] text-foreground"
         >
           Jake O'Reilly
         </HashLink>
@@ -86,7 +89,7 @@ export function Nav() {
             <HashLink
               key={link.href}
               hash={link.href}
-              aria-current={isActive(link.href) ? "page" : undefined}
+              aria-current={isActive(link.href) ? "true" : undefined}
               className={`${linkBase} ${
                 isActive(link.href)
                   ? "text-foreground after:scale-x-100"
@@ -142,8 +145,8 @@ export function Nav() {
                 key={link.href}
                 hash={link.href}
                 onClick={() => setOpen(false)}
-                className={`rounded-md px-2 py-2.5 font-mono text-sm transition-colors ${
-                  isActive(link.href) ? "text-accent" : "text-muted hover:text-foreground"
+                className={`rounded-md px-2 py-2.5 ${labelType} transition-colors ${
+                  isActive(link.href) ? "text-foreground" : "text-muted hover:text-foreground"
                 }`}
               >
                 {link.label}

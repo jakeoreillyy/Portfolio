@@ -49,16 +49,16 @@ export function About() {
         <Reveal delay={120}>
           <div className="space-y-4 text-[15px] leading-relaxed text-muted">
             <p>
-              I'm Jake, a computer science student at TU Dublin with an interest in full stack
-              development and AI. I enjoy building software that solves real problems, especially
-              when I can take an idea from a rough concept to something people genuinely enjoy
-              using.
+              I'm Jake, a computer science student at TU Dublin. I work across the whole stack
+              because I want to understand how the pieces fit together. The part I enjoy most is
+              taking something from a rough idea to a working product, then finding out what I got
+              wrong along the way.
             </p>
             <p>
-              I like working across the whole stack because I enjoy understanding how everything
-              fits together. Whether I'm designing an interface, building APIs, or improving
-              performance behind the scenes, I like thinking about both the technical details and
-              the experience for the person using it.
+              In practice that means designing interfaces, building APIs, and hunting down the
+              queries that make a dashboard slow. I care as much about how something feels to use as
+              whether it holds up technically, and most of the time those turn out to be the same
+              problem.
             </p>
           </div>
         </Reveal>

@@ -6,7 +6,6 @@ type Job = {
   role: string;
   org: string;
   date: string;
-  badge?: string;
   highlights: string[];
   tags: string[];
 };
@@ -16,7 +15,6 @@ const jobs: Job[] = [
     role: "Software Development Engineer Intern",
     org: "Amazon Web Services",
     date: "Feb 2027",
-    badge: "Incoming",
     highlights: ["Lambda Team"],
     tags: [],
   },
@@ -25,17 +23,17 @@ const jobs: Job[] = [
     org: "Speed-Deed",
     date: "Jun 2026 - Present",
     highlights: [
-      "Diagnosed and fixed a production outage in under 10 minutes during a live pilot, tracing 429 upload failures to a database migration that hadn't been re-applied.",
-      "Architected a backend analytics pipeline (PostHog, PostgreSQL, Recharts) on a Cloud Scheduler cron, collapsing 15+ live queries per dashboard load into a single snapshot read.",
-      "Delivered features end-to-end, including a per-property cost tracker for admin insights, query optimisations for faster dashboards, and seller-onboarding UI improvements.",
+      "Cut per-dashboard query volume ~95% (19 live queries to one snapshot read) by architecting a cron-driven PostHog/PostgreSQL/Recharts pipeline that pre-computes funnel, timing, and cost metrics into a single row.",
+      "Restored a production upload failure affecting live pilot users in under 10 minutes by tracing 429 errors to a database migration that had not been applied to production and running it against the live instance mid-pilot.",
+      "Gave admins visibility into third-party spend across 4 categories by building an immutable cost-events ledger that logs each priced action at a frozen FX rate and survives property deletion.",
+      "Closed 4 authorization and data-integrity gaps by locking sensitive write endpoints to the owning user and making retried webhooks and reopened tasks apply their effect only once, preventing duplicate charges and corrupted task state.",
     ],
     tags: ["React", "TypeScript", "PostHog", "PostgreSQL"],
   },
   {
-    role: "Algorithms Workshop",
+    role: "Algorithms Workshop Participant",
     org: "Google",
     date: "Jul 2026 - Aug 2026",
-    badge: "Standout",
     highlights: [
       "Selected for Google Ireland's invite-only Algorithms Workshop, covering technical interview strategy and algorithmic problem-solving with Google engineers.",
       "Recognised as a standout participant in the day's coding assessment, earning selection into Google's Extended Algorithms Workshop.",
@@ -43,10 +41,9 @@ const jobs: Job[] = [
     tags: ["Data Structures", "Algorithms", "Python"],
   },
   {
-    role: "Founder Programme",
+    role: "Founder Programme Participant",
     org: "Hatch105",
     date: "May 2026",
-    badge: "Top 1.5%",
     highlights: [
       "Selected as 1 of 27 participants (top 1.5% of 1,700+ applicants) to pitch a technical AI prototype to a panel of founders and CEOs.",
       "Built ClearStep, an AI SaaS that replaces manual store-data analysis with a real-time dashboard of prioritised business actions for merchants without data teams.",
@@ -58,7 +55,6 @@ const jobs: Job[] = [
     role: "SWE Insight Programme",
     org: "Bank of America",
     date: "Apr 2026",
-    badge: "1st place",
     highlights: [
       "Placed 1st of 4 teams (16 participants), judged by Bank of America engineers, for patching critical auth vulnerabilities and delivering a Savings Goals feature.",
       "Eliminated session-hijacking risk by replacing plain-text password storage with bcrypt hashing and adding a JWT blacklist to block post-logout token reuse.",
@@ -67,10 +63,9 @@ const jobs: Job[] = [
     tags: ["Node.js", "PostgreSQL", "Zod", "Drizzle"],
   },
   {
-    role: "Hackathon",
+    role: "Hackathon Participant",
     org: "Workday",
     date: "Apr 2026",
-    badge: "3rd place",
     highlights: [
       "Placed 3rd building HushPath, a sensory-friendly journey planner, over the course of the hackathon.",
       "Scored Dublin city centre across 80m grids using the Overpass and Nominatim APIs to estimate noise from POI density.",
@@ -132,16 +127,20 @@ export function Experience() {
         {/* rail track + scroll-linked progress fill */}
         <span
           aria-hidden
-          className="absolute bottom-0 left-[7px] top-0 w-0.5 -translate-x-1/2 rounded-full bg-line"
+          className="absolute bottom-0 left-[7px] top-0 w-px -translate-x-1/2 bg-line"
         />
         <span
           aria-hidden
-          className="absolute left-[7px] top-0 w-0.5 -translate-x-1/2 rounded-full bg-accent"
+          className="absolute left-[7px] top-0 w-px -translate-x-1/2 bg-accent"
           style={{ height: fill }}
         />
 
         {jobs.map((job, i) => (
-          <Reveal key={job.org} delay={i * 90} className="relative pb-10 pl-8 last:pb-0">
+          <Reveal
+            key={`${job.org} ${job.date}`}
+            delay={i * 90}
+            className="relative pb-10 pl-8 last:pb-0"
+          >
             <span
               ref={(el) => {
                 dotRefs.current[i] = el;
@@ -160,16 +159,13 @@ export function Experience() {
               <p className="shrink-0 font-mono text-xs text-faint">{job.date}</p>
             </div>
 
-            <div className="mt-1.5 flex flex-wrap items-center gap-x-2.5 gap-y-1.5">
-              <p className="text-sm text-muted">{job.org}</p>
-              {job.badge && <Tag accent>{job.badge}</Tag>}
-            </div>
+            <p className="mt-1.5 text-sm text-muted">{job.org}</p>
 
             <ul className="mb-3 mt-4 max-w-2xl space-y-1.5">
               {job.highlights.map((point) => (
-                <li key={point} className="flex gap-2 text-sm leading-relaxed text-muted">
-                  <span aria-hidden className="mt-px shrink-0 text-accent">
-                    ▹
+                <li key={point} className="flex gap-2.5 text-sm leading-relaxed text-muted">
+                  <span aria-hidden className="shrink-0 text-faint">
+                    •
                   </span>
                   <span>{point}</span>
                 </li>

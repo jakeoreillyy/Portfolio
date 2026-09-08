@@ -26,14 +26,10 @@ export function Section({
   );
 }
 
-// Small metadata pill: neutral for tech tags, accent for awards and results.
-export function Tag({ accent, children }: { accent?: boolean; children: ReactNode }) {
+// Small metadata pill for tech tags.
+export function Tag({ children }: { children: ReactNode }) {
   return (
-    <span
-      className={`rounded border px-2 py-0.5 font-mono text-[11.5px] ${
-        accent ? "border-accent/30 bg-accent/10 text-accent" : "border-line text-muted"
-      }`}
-    >
+    <span className="rounded border border-line px-2 py-0.5 font-mono text-[11.5px] text-muted">
       {children}
     </span>
   );

@@ -36,7 +36,7 @@ export function Education() {
 
   return (
     <Section id="education" title="Education">
-      <Reveal delay={120} className="mt-10">
+      <Reveal className="mt-10">
         <p className="font-display text-[clamp(1.3rem,2.3vw,1.7rem)] leading-[1.15] tracking-[-0.03em] text-foreground">
           BSc Computer Science
         </p>
@@ -45,24 +45,31 @@ export function Education() {
           <span className="text-faint"> · </span>
           <span className="font-mono text-xs text-faint tabular-nums">3.5 GPA</span>
         </p>
+      </Reveal>
 
+      <Reveal delay={120}>
         <div className="mt-9">
+          <div className="relative mb-2 h-4 font-mono text-[11px] tabular-nums">
+            <span className="absolute left-0 whitespace-nowrap text-muted">Sep 2024</span>
+            <span className="absolute right-0 whitespace-nowrap text-muted">May 2028</span>
+          </div>
+
           <div className="relative h-px bg-line">
             <span
               aria-hidden
-              className="absolute inset-y-0 left-0 bg-foreground"
+              className="absolute inset-y-0 left-0 bg-accent"
               style={{ width: `${progress * 100}%` }}
             />
             <span
               aria-hidden
-              className="absolute top-1/2 left-0 size-[7px] -translate-y-1/2 rounded-full bg-foreground"
+              className="absolute top-1/2 left-0 size-[7px] -translate-y-1/2 rounded-full bg-accent"
             />
             {YEARS.map((year) => (
               <span
                 key={year}
                 aria-hidden
                 className={`absolute top-1/2 size-[7px] -translate-x-1/2 -translate-y-1/2 rounded-full ${
-                  year <= currentYear ? "bg-foreground" : "border border-faint bg-background"
+                  year <= currentYear ? "bg-accent" : "border border-faint bg-background"
                 }`}
                 style={{ left: `${at(new Date(year, 0, 1)) * 100}%` }}
               />
@@ -74,26 +81,26 @@ export function Education() {
           </div>
 
           <div className="relative mt-3 h-4 font-mono text-[11px] tabular-nums">
-            <span className="absolute left-0 whitespace-nowrap text-muted">Sep 2024</span>
             {YEARS.map((year) => (
               <span
                 key={year}
                 className={`absolute hidden -translate-x-1/2 sm:inline ${
-                  year === currentYear ? "text-foreground" : "text-faint"
+                  year === currentYear ? "text-muted" : "text-faint"
                 }`}
                 style={{ left: `${at(new Date(year, 0, 1)) * 100}%` }}
               >
                 {year}
               </span>
             ))}
-            <span className="absolute right-0 whitespace-nowrap text-muted">May 2028</span>
           </div>
 
           <p className="mt-3 font-mono text-[11px] text-faint">
             Year {yearOfStudy(now)} of {TOTAL_YEARS}
           </p>
         </div>
+      </Reveal>
 
+      <Reveal delay={240}>
         <p className="mt-8 font-mono text-xs leading-loose text-faint">
           <span className="text-muted">Relevant coursework:</span> {modules.join(" · ")}
         </p>

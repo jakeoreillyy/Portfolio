@@ -25,7 +25,7 @@ const logoFor = (name: string) => name.toLowerCase().replace(/[^a-z0-9]/g, "");
 export function Skills() {
   return (
     <Section id="skills" title="Skills">
-      <div className="mt-10 space-y-7">
+      <div className="mt-10 space-y-8">
         {Object.entries(groups).map(([label, skills], i) => (
           <Reveal key={label} delay={i * 90}>
             {/* Label, then a hairline running out to the section edge. */}
@@ -36,22 +36,22 @@ export function Skills() {
               <span aria-hidden className="h-px flex-1 bg-line" />
             </div>
 
-            <div className="mt-3.5 flex flex-wrap items-center gap-2">
+            {/* Logo board: the mark carries each entry, name sits underneath. */}
+            <div className="mt-5 grid grid-cols-[repeat(auto-fill,minmax(5rem,1fr))] gap-x-3 gap-y-6">
               {skills.map((name) => (
-                <span
-                  key={name}
-                  className="group inline-flex items-center gap-2 rounded-md border border-line bg-white/[0.03] px-2.5 py-1.5 align-middle transition-colors hover:border-accent/50 hover:bg-white/[0.05]"
-                >
-                  <img
-                    src={`/logos/${logoFor(name)}.svg`}
-                    alt=""
-                    aria-hidden
-                    width={18}
-                    height={18}
-                    loading="lazy"
-                    className="h-[18px] w-[18px] object-contain"
-                  />
-                  <span className="text-[13px] text-muted transition-colors group-hover:text-foreground">
+                <span key={name} className="group flex flex-col items-center gap-2.5 text-center">
+                  <span className="grid size-[34px] place-items-center">
+                    <img
+                      src={`/logos/${logoFor(name)}.svg`}
+                      alt=""
+                      aria-hidden
+                      width={34}
+                      height={34}
+                      loading="lazy"
+                      className="size-full object-contain"
+                    />
+                  </span>
+                  <span className="text-[11px] leading-tight text-muted transition-colors group-hover:text-foreground">
                     {name}
                   </span>
                 </span>

@@ -35,8 +35,8 @@ const jobs: Job[] = [
     org: "Google",
     date: "Jul 2026 - Aug 2026",
     highlights: [
-      "Selected for Google Ireland's invite-only Algorithms Workshop, covering technical interview strategy and algorithmic problem-solving with Google engineers.",
-      "Recognised as a standout participant in the day's coding assessment, earning selection into Google's Extended Algorithms Workshop.",
+      "Selected for Google Ireland's invite-only Algorithms Workshop at the Dublin office, covering algorithmic problem-solving with Google engineers.",
+      "Finished among the top 20 participants (from a cohort of ~100) chosen by the day's timed assessment for Google's Extended Algorithms Workshop.",
     ],
     tags: ["Data Structures", "Algorithms", "Python"],
   },

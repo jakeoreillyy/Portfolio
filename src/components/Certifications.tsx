@@ -2,7 +2,6 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react
 import { ArrowUpRightIcon, ChevronIcon } from "./icons";
 import { Reveal } from "./Reveal";
 import { Section } from "./Section";
-import { accentButton } from "../lib/styles";
 
 type Cert = {
   title: string;
@@ -72,16 +71,16 @@ const certs: Cert[] = [
 ];
 
 const N = certs.length;
-const OFF = 250; // horizontal offset of the neighbour cards, px
+const OFF = 300; // horizontal offset of the neighbour cards, px
 const SIDE_SCALE = 0.82; // how much the neighbours shrink
-const VEIL = 0.5; // how much the neighbours are dimmed (solid veil opacity, never card transparency)
+const VEIL = 0.7; // how much the neighbours are dimmed (solid veil opacity, never card transparency)
 const INTERVAL = 4500; // autoplay cadence, ms
 const TRANS = "transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1)";
 const VEIL_TRANS = "opacity 0.45s ease";
 
-// mt aligns the 44px button with the vertical centre of the card artwork.
+// mt aligns the 44px button with the vertical centre of the card.
 const ARROW =
-  "mt-[164px] hidden size-11 shrink-0 cursor-pointer items-center justify-center rounded-full " +
+  "mt-[172px] hidden size-11 shrink-0 cursor-pointer items-center justify-center rounded-full " +
   "border border-line-bright bg-raised text-foreground shadow-[0_8px_22px_rgba(0,0,0,0.65)] " +
   "transition-colors hover:border-accent hover:bg-accent hover:text-background sm:flex";
 
@@ -121,7 +120,7 @@ export function Certifications() {
       const teleport = !dragging && Math.abs(rel - prevRel.current[i]) > 1;
 
       el.style.transition = dragging || teleport ? "none" : TRANS;
-      el.style.transform = `translateX(${s.x + dragPx}px) scale(${s.scale})`;
+      el.style.transform = `translateX(calc(-50% + ${s.x + dragPx}px)) scale(${s.scale})`;
       el.style.zIndex = rel === 0 ? "30" : "20";
       // Off-centre cards are only hidden visually, so without inert their
       // "View credential" links stay tabbable behind the veil.
@@ -191,9 +190,9 @@ export function Certifications() {
             <ChevronIcon dir="left" size={20} />
           </button>
 
-          <div className="w-full max-w-2xl min-w-0">
+          <div className="w-full max-w-2xl min-w-0 max-sm:w-screen max-sm:ml-[calc(50%-50vw)]">
             <div
-              className="relative h-[372px] cursor-grab overflow-hidden active:cursor-grabbing"
+              className="relative h-[392px] cursor-grab overflow-hidden active:cursor-grabbing sm:[mask-image:linear-gradient(to_right,transparent,#000_12%,#000_88%,transparent)] sm:[-webkit-mask-image:linear-gradient(to_right,transparent,#000_12%,#000_88%,transparent)]"
               style={{ touchAction: "pan-y" }}
               onPointerDown={onPointerDown}
               onPointerMove={onPointerMove}
@@ -206,10 +205,10 @@ export function Certifications() {
                   ref={(el) => {
                     cardRefs.current[i] = el;
                   }}
-                  className="absolute top-2 left-1/2 -ml-[150px] w-[300px] will-change-transform"
+                  className="absolute top-2 left-1/2 w-[min(300px,88vw)] will-change-transform"
                 >
-                  <div className="relative overflow-hidden rounded-[14px] border border-line-strong bg-surface">
-                    <div className="flex h-[150px] items-center justify-center border-b border-line bg-background p-3">
+                  <div className="relative flex min-h-[368px] flex-col border border-line-bright bg-surface">
+                    <div className="p-3.5 pb-0">
                       <img
                         src={c.image}
                         alt={`${c.title} certificate`}
@@ -217,31 +216,32 @@ export function Certifications() {
                         height={c.imageSize[1]}
                         loading="lazy"
                         draggable={false}
-                        className="max-h-full max-w-full object-contain select-none"
+                        className="aspect-[3/2] w-full border border-line object-cover object-top select-none"
                       />
                     </div>
 
-                    <div className="p-5">
-                      <p className="font-mono text-[10.5px] tracking-[0.15em] text-accent uppercase">
-                        {c.tag}
-                      </p>
-                      <h3 className="mt-2 min-h-[46px] font-display text-[19px] leading-[1.2] tracking-[-0.02em] text-foreground">
+                    <div className="p-3.5">
+                      <h3 className="min-h-[46px] font-display text-[19px] leading-[1.2] tracking-[-0.02em] text-foreground">
                         {c.title}
                       </h3>
-                      <p className="mt-2 text-[13px] text-muted">{c.issuer}</p>
-                      <div className="mt-1.5 flex items-center gap-3.5">
-                        <span className="font-mono text-[11.5px] text-faint">{c.date}</span>
-                        <span className="font-mono text-[11.5px] text-faint">{c.meta}</span>
-                      </div>
+                      {/* Metadata as an aligned key/value ledger. */}
+                      <dl className="mt-1 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 border-t border-line pt-2.5 font-mono text-[10.5px]">
+                        <dt className="text-faint">Issuer</dt>
+                        <dd className="text-right text-muted">{c.issuer}</dd>
+                        <dt className="text-faint">Awarded</dt>
+                        <dd className="text-right text-muted">{c.date}</dd>
+                        <dt className="text-faint">Format</dt>
+                        <dd className="text-right text-muted">{c.meta}</dd>
+                      </dl>
                       <a
                         href={c.credentialUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         onPointerDown={(e) => e.stopPropagation()}
-                        className={`${accentButton} mt-4`}
+                        className="mt-3 inline-flex items-center gap-1.5 font-mono text-[11px] text-muted transition-colors hover:text-foreground"
                       >
                         View credential
-                        <ArrowUpRightIcon size={15} />
+                        <ArrowUpRightIcon size={13} />
                       </a>
                     </div>
 
@@ -252,7 +252,7 @@ export function Certifications() {
                         veilRefs.current[i] = el;
                       }}
                       aria-hidden="true"
-                      className="pointer-events-none absolute inset-0 rounded-[14px] bg-background"
+                      className="pointer-events-none absolute inset-0 bg-background"
                       style={{ opacity: 0 }}
                     />
                   </div>

@@ -13,6 +13,9 @@
   --color-faint: #757575; /* 4.56:1 on black, AA for the small meta text */
   /* The accent is the top tier of the neutral ramp, not a hue. */
   --color-accent: #ffffff;
+  /* The one semantic hue: form validation errors. Tokyo Night's red, so it
+     stays inside the palette the code blocks already use. */
+  --color-danger: #f7768e;
 
   /* Tokyo Night, shared by the about.ts card and the hero shell prompt so the
      two terminal-flavoured elements read as one palette. Along with the brand

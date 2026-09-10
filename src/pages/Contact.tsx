@@ -49,26 +49,17 @@ async function getRecaptchaToken(): Promise<string | undefined> {
 
 const EMAIL = "oreillyjake16@gmail.com";
 
-// mailto entries open in place; the rest are external links.
+// mailto entries open in place; the rest are external links; the last has no
+// href and renders dimmer so it doesn't read as clickable.
 const details = [
-  { Icon: MailIcon, tint: "text-muted", label: EMAIL, href: `mailto:${EMAIL}` },
-  {
-    Icon: LinkedInIcon,
-    tint: "",
-    label: "jake-o-reilly",
-    href: "https://www.linkedin.com/in/jake-o-reilly",
-  },
-  {
-    Icon: GitHubIcon,
-    tint: "text-foreground",
-    label: "jakeoreillyy",
-    href: "https://github.com/jakeoreillyy",
-  },
-  { Icon: PinIcon, tint: "text-muted", label: "Dublin, Ireland" },
+  { Icon: MailIcon, label: EMAIL, href: `mailto:${EMAIL}` },
+  { Icon: LinkedInIcon, label: "jake-o-reilly", href: "https://www.linkedin.com/in/jake-o-reilly" },
+  { Icon: GitHubIcon, label: "jakeoreillyy", href: "https://github.com/jakeoreillyy" },
+  { Icon: PinIcon, label: "Dublin, Ireland" },
 ];
 
 const fieldClass =
-  "w-full rounded-lg border border-line bg-background px-3.5 pt-4 pb-2 text-sm text-foreground placeholder:text-faint focus:border-accent focus:outline-none";
+  "w-full rounded border border-line bg-background px-3.5 pt-4 pb-2 text-sm text-foreground placeholder:text-faint transition-colors focus:border-accent";
 
 // Floating label notched into the field's top border.
 function Field({
@@ -135,35 +126,37 @@ export default function Contact() {
   }
 
   return (
-    <section className="flex min-h-screen items-center px-6 py-32">
+    <section className="px-6 pt-32 pb-24 sm:pt-40">
       <div className="mx-auto w-full max-w-3xl">
         <Reveal>
-          <h1 className="font-display text-[clamp(2.5rem,6.5vw,4.5rem)] leading-[0.98] tracking-[-0.04em]">
+          <h1 className="font-display text-[clamp(2.5rem,6.5vw,4.5rem)] leading-[0.98] tracking-[-0.04em] text-balance">
             Get in touch.
           </h1>
 
-          <div className="mt-6 flex flex-wrap gap-x-6 gap-y-3 border-b border-line pb-6">
-            {details.map(({ Icon, tint, label, href }) => {
-              const mail = href?.startsWith("mailto:");
-              const content = (
-                <span className="flex items-center gap-2 font-mono text-sm text-muted">
-                  <span className={tint}>
-                    <Icon size={17} />
-                  </span>
+          <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3 border-b border-line pb-8">
+            {details.map(({ Icon, label, href }) => {
+              const inner = (
+                <>
+                  <Icon size={16} className="shrink-0" />
                   {label}
-                </span>
+                </>
               );
+              const base = "flex items-center gap-2 font-mono text-sm";
               return href ? (
                 <a
                   key={label}
                   href={href}
-                  {...(mail ? {} : { target: "_blank", rel: "noopener noreferrer" })}
-                  className="transition-colors hover:text-accent"
+                  {...(href.startsWith("mailto:")
+                    ? {}
+                    : { target: "_blank", rel: "noopener noreferrer" })}
+                  className={`${base} text-muted transition-colors hover:text-accent`}
                 >
-                  {content}
+                  {inner}
                 </a>
               ) : (
-                <span key={label}>{content}</span>
+                <span key={label} className={`${base} text-faint`}>
+                  {inner}
+                </span>
               );
             })}
           </div>
@@ -194,7 +187,7 @@ export default function Contact() {
             <button
               type="submit"
               disabled={status === "sending"}
-              className="inline-flex items-center gap-2 rounded-lg border border-accent bg-accent/10 px-4 py-2.5 font-mono text-sm text-accent transition-colors hover:bg-accent hover:text-background disabled:cursor-not-allowed disabled:opacity-60"
+              className="inline-flex items-center gap-2 rounded border border-accent px-4 py-2.5 font-mono text-sm text-accent transition-colors hover:bg-accent hover:text-background disabled:opacity-50"
             >
               {status === "sending" ? "Sending…" : "Send message"}
               {status !== "sending" && <span aria-hidden="true">→</span>}
@@ -202,12 +195,16 @@ export default function Contact() {
 
             <p className="font-mono text-xs text-faint">Protected by reCAPTCHA.</p>
 
-            {status === "sent" && (
-              <p className="font-mono text-xs text-accent">Thanks, I'll get back to you soon.</p>
-            )}
-            {status === "error" && error && (
-              <p className="font-mono text-xs text-red-400">{error}</p>
-            )}
+            <div aria-live="polite" className="empty:hidden">
+              {status === "sent" && (
+                <p className="font-mono text-xs text-accent">
+                  Thanks, I'll get back to you soon.
+                </p>
+              )}
+              {status === "error" && error && (
+                <p className="font-mono text-xs text-danger">{error}</p>
+              )}
+            </div>
           </form>
         </Reveal>
       </div>

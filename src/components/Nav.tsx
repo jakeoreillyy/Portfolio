@@ -61,7 +61,7 @@ export function Nav() {
 
   // On /contact the pill is already "arrived", so it renders pre-filled.
   const contactStyle = onContact
-    ? "inline-flex items-center gap-1.5 rounded-lg border border-accent bg-accent px-3.5 py-1.5 font-mono text-[13px] text-background"
+    ? "inline-flex items-center gap-1.5 rounded border border-accent bg-accent px-3.5 py-1.5 font-mono text-[13px] text-background"
     : accentButton;
 
   const barLine = "absolute left-0 block h-[2px] w-5 rounded-full bg-current";

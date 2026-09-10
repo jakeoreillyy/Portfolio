@@ -61,7 +61,7 @@ export function Footer() {
             Jake O'Reilly
           </Link>
           <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted">
-            Building from Dublin, Ireland. ☘️
+            Building from Dublin, Ireland. ☘️🇮🇪
           </p>
         </div>
         <div className="flex gap-12 sm:gap-20">
@@ -72,7 +72,7 @@ export function Footer() {
 
       <div className="border-t border-line">
         <div className="mx-auto flex max-w-5xl flex-col gap-2 px-6 py-6 text-xs text-faint sm:flex-row sm:items-center sm:justify-between">
-          <p>© 2026 Jake O'Reilly. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Jake O'Reilly. All rights reserved.</p>
           <a href="#top" className="transition-colors hover:text-accent">
             Back to top ↑
           </a>

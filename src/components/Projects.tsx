@@ -17,7 +17,23 @@ export function Projects() {
     setActive((i) => (i + delta + projects.length) % projects.length);
 
   return (
-    <Section id="projects" title="Projects">
+    <Section
+      id="projects"
+      title="Projects"
+      srDetail="Software engineering projects built by Jake O'Reilly"
+    >
+      {/* Only the active project's description renders visibly (see below) —
+          this lists all of them for crawlers, since clicking through the
+          index isn't something a crawler does. Hidden from assistive tech so
+          screen-reader users don't hear the active project described twice. */}
+      <div className="sr-only" aria-hidden="true">
+        {projects.map((p) => (
+          <p key={`${p.id}-sr`}>
+            <strong>{p.title}</strong>: {p.description}
+          </p>
+        ))}
+      </div>
+
       <Reveal className="mt-12 grid gap-x-12 gap-y-8 md:grid-cols-[minmax(0,18rem)_1fr]">
         <div
           className="flex flex-col self-start"

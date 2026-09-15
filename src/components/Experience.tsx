@@ -122,7 +122,11 @@ export function Experience() {
   }, []);
 
   return (
-    <Section id="experience" title="Experience">
+    <Section
+      id="experience"
+      title="Experience"
+      srDetail="Software engineering work experience of Jake O'Reilly"
+    >
       <div ref={railRef} className="relative mt-10">
         {/* rail track + scroll-linked progress fill */}
         <span

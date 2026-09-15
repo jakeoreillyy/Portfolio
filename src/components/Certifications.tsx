@@ -166,7 +166,11 @@ export function Certifications() {
   };
 
   return (
-    <Section id="certifications" title="Certifications">
+    <Section
+      id="certifications"
+      title="Certifications"
+      srDetail="Software engineering and AI certifications earned by Jake O'Reilly"
+    >
       <Reveal delay={120} className="mt-10">
         {/* The arrows flank the track as flex siblings rather than sitting on top
               of it, so they land on page background instead of on the dimmed

@@ -24,7 +24,11 @@ const logoFor = (name: string) => name.toLowerCase().replace(/[^a-z0-9]/g, "");
 
 export function Skills() {
   return (
-    <Section id="skills" title="Skills">
+    <Section
+      id="skills"
+      title="Skills"
+      srDetail="Technical skills of Jake O'Reilly, software engineer"
+    >
       <div className="mt-10 space-y-8">
         {Object.entries(groups).map(([label, skills], i) => (
           <Reveal key={label} delay={i * 90}>

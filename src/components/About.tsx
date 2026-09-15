@@ -13,7 +13,11 @@ const facts: [key: string, values: string[]][] = [
 
 export function About() {
   return (
-    <Section id="about" title="About">
+    <Section
+      id="about"
+      title="About"
+      srDetail="Jake O'Reilly, a software engineer and computer science student based in Dublin, Ireland"
+    >
       <div className="mt-10 grid grid-cols-1 items-start gap-10 md:grid-cols-[minmax(0,1fr)_1.1fr] md:gap-14">
         <Reveal className="min-w-0">
           <div className="overflow-hidden rounded-xl border border-line bg-surface">

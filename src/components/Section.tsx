@@ -8,17 +8,25 @@ import { Reveal } from "./Reveal";
 export function Section({
   id,
   title,
+  srDetail,
   children,
 }: {
   id: string;
   title: string;
+  // Visually-hidden elaboration on the heading, read by screen readers and
+  // crawlers but not shown — keeps the minimalist label while still giving
+  // search engines the keywords the bare category word doesn't carry.
+  srDetail?: string;
   children: ReactNode;
 }) {
   return (
     <section id={id} className="scroll-mt-20 px-6 py-24">
       <div className="mx-auto max-w-5xl">
         <Reveal>
-          <h2 className="font-mono text-[11px] tracking-[0.22em] text-faint uppercase">{title}</h2>
+          <h2 className="font-mono text-[11px] tracking-[0.22em] text-faint uppercase">
+            {title}
+            {srDetail && <span className="sr-only">: {srDetail}</span>}
+          </h2>
         </Reveal>
         {children}
       </div>

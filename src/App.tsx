@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { Analytics } from "@vercel/analytics/react";
 import { useLenis, lenisRef } from "./lib/useLenis";
 import { Nav } from "./components/Nav";
@@ -11,6 +11,11 @@ import Contact from "./pages/Contact";
 // hashed section if the destination URL carries one (e.g. /#projects).
 function ScrollReset() {
   const { pathname, hash } = useLocation();
+
+  useEffect(() => {
+    const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    if (canonical) canonical.href = `https://www.jakeoreilly.dev${pathname}`;
+  }, [pathname]);
 
   useEffect(() => {
     const target = hash ? document.getElementById(hash.slice(1)) : null;
@@ -42,6 +47,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
       <Footer />

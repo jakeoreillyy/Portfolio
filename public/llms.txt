@@ -1,0 +1,16 @@
+# Jake O'Reilly
+
+> Computer science student and software engineer in Dublin, Ireland.
+
+Personal portfolio site covering about, experience, education, projects, skills, and certifications. Contact details and links to GitHub, LinkedIn, and LeetCode are included.
+
+## Pages
+
+- [Home](https://www.jakeoreilly.dev/): About, experience, education, projects, skills, and certifications.
+- [Contact](https://www.jakeoreilly.dev/contact): Get in touch.
+
+## Links
+
+- [GitHub](https://github.com/jakeoreillyy)
+- [LinkedIn](https://www.linkedin.com/in/jake-o-reilly)
+- [LeetCode](https://leetcode.com/u/jakeoreilly/)

@@ -43,7 +43,7 @@ export function Skills() {
                   <span className="grid size-[34px] place-items-center">
                     <img
                       src={`/logos/${logoFor(name)}.svg`}
-                      alt=""
+                      alt={`${name} logo`}
                       aria-hidden
                       width={34}
                       height={34}

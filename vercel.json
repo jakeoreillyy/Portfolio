@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/contact",
+      "destination": "/contact/index.html"
+    },
+    {
       "source": "/((?!api/|robots\\.txt|sitemap\\.xml|llms\\.txt|googlee545b6f12b0c78e9\\.html).*)",
       "destination": "/index.html"
     }

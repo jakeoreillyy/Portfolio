@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import Lenis from "lenis";
+import { prefersReducedMotion } from "./prefersReducedMotion";
 
 // Shared handle so route/hash changes can drive the same Lenis
 // instance instead of fighting it with raw window.scrollTo calls.
@@ -7,7 +8,7 @@ export const lenisRef: { current: Lenis | null } = { current: null };
 
 export function useLenis() {
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (prefersReducedMotion()) {
       // reduced motion: let native anchor jumps (with scroll-margin-top) handle it
       return;
     }

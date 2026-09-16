@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { prefersReducedMotion } from "../lib/prefersReducedMotion";
 import { Reveal } from "./Reveal";
 import { Section, Tag } from "./Section";
 
@@ -86,7 +87,7 @@ export function Experience() {
     if (!rail) return;
 
     // Reduced motion: skip the scroll-linked animation, show it complete.
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (prefersReducedMotion()) {
       setFill(rail.getBoundingClientRect().height);
       setActiveCount(jobs.length);
       return;

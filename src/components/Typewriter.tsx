@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { prefersReducedMotion } from "../lib/prefersReducedMotion";
 
 const words = ["computer science student", "software engineer", "ai engineer"];
 
@@ -11,7 +12,7 @@ export function Typewriter() {
   const [text, setText] = useState("");
   const [index, setIndex] = useState(0);
   const [deleting, setDeleting] = useState(false);
-  const [reduced] = useState(() => window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  const [reduced] = useState(prefersReducedMotion);
 
   useEffect(() => {
     if (reduced) return;

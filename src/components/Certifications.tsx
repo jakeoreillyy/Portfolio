@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { ArrowUpRightIcon, ChevronIcon } from "./icons";
+import { prefersReducedMotion } from "../lib/prefersReducedMotion";
 import { Reveal } from "./Reveal";
 import { Section } from "./Section";
 
@@ -99,7 +100,7 @@ function slotFor(rel: number) {
 export function Certifications() {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
-  const [reduced] = useState(() => window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  const [reduced] = useState(prefersReducedMotion);
 
   const activeRef = useRef(0);
   const prevRel = useRef<number[]>(certs.map(() => 0));

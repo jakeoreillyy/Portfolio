@@ -197,9 +197,7 @@ export default function Contact() {
 
             <div aria-live="polite" className="empty:hidden">
               {status === "sent" && (
-                <p className="font-mono text-xs text-accent">
-                  Thanks, I'll get back to you soon.
-                </p>
+                <p className="font-mono text-xs text-accent">Thanks, I'll get back to you soon.</p>
               )}
               {status === "error" && error && (
                 <p className="font-mono text-xs text-danger">{error}</p>

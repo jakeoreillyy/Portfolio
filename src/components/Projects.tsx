@@ -13,8 +13,7 @@ export function Projects() {
   const [active, setActive] = useState(0);
   const project = projects[active];
 
-  const step = (delta: number) =>
-    setActive((i) => (i + delta + projects.length) % projects.length);
+  const step = (delta: number) => setActive((i) => (i + delta + projects.length) % projects.length);
 
   return (
     <Section
@@ -92,9 +91,7 @@ export function Projects() {
             <h3 className="font-display text-[clamp(1.6rem,3.4vw,2.2rem)] leading-[1.05] tracking-[-0.035em] text-foreground">
               {project.title}
             </h3>
-            <p className="max-w-[52ch] text-sm leading-relaxed text-muted">
-              {project.description}
-            </p>
+            <p className="max-w-[52ch] text-sm leading-relaxed text-muted">{project.description}</p>
             <div className="mt-1 flex flex-wrap gap-1.5">
               {project.tags.map((tag) => (
                 <Tag key={tag}>{tag}</Tag>

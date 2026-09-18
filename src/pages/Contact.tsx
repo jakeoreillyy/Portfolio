@@ -187,7 +187,7 @@ export default function Contact() {
             <button
               type="submit"
               disabled={status === "sending"}
-              className="inline-flex items-center gap-2 rounded border border-accent px-4 py-2.5 font-mono text-sm text-accent transition-colors hover:bg-accent hover:text-background disabled:opacity-50"
+              className="inline-flex cursor-pointer items-center gap-2 rounded border border-accent px-4 py-2.5 font-mono text-sm text-accent transition-colors hover:bg-accent hover:text-background disabled:cursor-default disabled:opacity-50"
             >
               {status === "sending" ? "Sending…" : "Send message"}
               {status !== "sending" && <span aria-hidden="true">→</span>}

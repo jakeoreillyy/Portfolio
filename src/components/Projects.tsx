@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { ArrowUpRightIcon, GitHubIcon } from "./icons";
 import { projects } from "../data/projects";
-import { Reveal } from "./Reveal";
 import { Section, Tag } from "./Section";
 import { accentButton } from "../lib/styles";
 
@@ -33,7 +32,7 @@ export function Projects() {
         ))}
       </div>
 
-      <Reveal className="mt-12 grid gap-x-12 gap-y-8 md:grid-cols-[minmax(0,18rem)_1fr]">
+      <div className="mt-12 grid gap-x-12 gap-y-8 md:grid-cols-[minmax(0,18rem)_1fr]">
         <div
           className="flex flex-col self-start"
           onKeyDown={(e) => {
@@ -114,7 +113,7 @@ export function Projects() {
             )}
           </div>
         </div>
-      </Reveal>
+      </div>
     </Section>
   );
 }

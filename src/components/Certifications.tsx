@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { ArrowUpRightIcon, ChevronIcon } from "./icons";
 import { prefersReducedMotion } from "../lib/prefersReducedMotion";
-import { Reveal } from "./Reveal";
 import { Section } from "./Section";
 
 type Cert = {
@@ -172,7 +171,7 @@ export function Certifications() {
       title="Certifications"
       srDetail="Software engineering and AI certifications earned by Jake O'Reilly"
     >
-      <Reveal delay={120} className="mt-10">
+      <div className="mt-10">
         {/* The arrows flank the track as flex siblings rather than sitting on top
               of it, so they land on page background instead of on the dimmed
               neighbour cards. Below sm they collapse and the track takes the full
@@ -290,7 +289,7 @@ export function Certifications() {
             <ChevronIcon dir="right" size={20} />
           </button>
         </div>
-      </Reveal>
+      </div>
     </Section>
   );
 }

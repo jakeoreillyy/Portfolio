@@ -1,6 +1,5 @@
 import { Fragment } from "react";
 import { WindowBar } from "./WindowBar";
-import { Reveal } from "./Reveal";
 import { Section } from "./Section";
 
 // Values are always lists; a single-element one prints unbracketed.
@@ -19,7 +18,7 @@ export function About() {
       srDetail="Jake O'Reilly, a software engineer and computer science student based in Dublin, Ireland"
     >
       <div className="mt-10 grid grid-cols-1 items-start gap-10 md:grid-cols-[minmax(0,1fr)_1.1fr] md:gap-14">
-        <Reveal className="min-w-0">
+        <div className="min-w-0">
           <div className="overflow-hidden rounded-xl border border-line bg-surface">
             <WindowBar filename="about.ts" />
             <pre className="overflow-x-auto p-4 font-mono text-[13px] leading-relaxed">
@@ -48,9 +47,9 @@ export function About() {
               <span className="text-code-punct">{"};"}</span>
             </pre>
           </div>
-        </Reveal>
+        </div>
 
-        <Reveal delay={120}>
+        <div>
           <div className="space-y-4 text-[15px] leading-relaxed text-muted">
             <p>
               I'm Jake, a computer science student at TU Dublin. I work across the whole stack
@@ -65,7 +64,7 @@ export function About() {
               problem.
             </p>
           </div>
-        </Reveal>
+        </div>
       </div>
     </Section>
   );

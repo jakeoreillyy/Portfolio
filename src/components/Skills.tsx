@@ -1,4 +1,3 @@
-import { Reveal } from "./Reveal";
 import { Section } from "./Section";
 
 // Logo filenames in /public/logos are the skill name lowercased with every
@@ -30,8 +29,8 @@ export function Skills() {
       srDetail="Technical skills of Jake O'Reilly, software engineer"
     >
       <div className="mt-10 space-y-8">
-        {Object.entries(groups).map(([label, skills], i) => (
-          <Reveal key={label} delay={i * 90}>
+        {Object.entries(groups).map(([label, skills]) => (
+          <div key={label}>
             {/* Label, then a hairline running out to the section edge. */}
             <div className="flex items-center gap-3.5">
               <h3 className="font-display text-[1.05rem] tracking-[-0.02em] text-foreground">
@@ -61,7 +60,7 @@ export function Skills() {
                 </span>
               ))}
             </div>
-          </Reveal>
+          </div>
         ))}
       </div>
     </Section>

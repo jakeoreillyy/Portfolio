@@ -14,20 +14,14 @@ export function Hero() {
     <section id="top" className="flex min-h-[90svh] items-center px-6 pt-16">
       <div className="mx-auto grid w-full max-w-5xl items-center gap-10 lg:grid-cols-[1fr_auto] lg:gap-16">
         <div className="text-center lg:text-left">
-          <h1 className="fade-up font-display text-[clamp(2.75rem,7.5vw,6rem)] leading-[0.95] font-normal tracking-[-0.04em]">
+          <h1 className="font-display text-[clamp(2.75rem,7.5vw,6rem)] leading-[0.95] font-normal tracking-[-0.04em]">
             Jake O'Reilly
           </h1>
           {/* Typewriter carries its own sr-only description of the rotating roles. */}
-          <p
-            className="fade-up mt-5 text-sm sm:text-lg md:text-xl"
-            style={{ animationDelay: "200ms" }}
-          >
+          <p className="mt-5 text-sm sm:text-lg md:text-xl">
             <Typewriter />
           </p>
-          <div
-            className="fade-up mt-8 flex flex-wrap justify-center gap-3 lg:justify-start"
-            style={{ animationDelay: "300ms" }}
-          >
+          <div className="mt-8 flex flex-wrap justify-center gap-3 lg:justify-start">
             <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" className={socialLink}>
               <GitHubIcon size={16} />
               GitHub
@@ -39,7 +33,7 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="fade-up order-first lg:order-last" style={{ animationDelay: "150ms" }}>
+        <div className="order-first lg:order-last">
           <div className="mx-auto aspect-square w-52 overflow-hidden rounded-full border border-line sm:w-60 md:w-72">
             <img
               src="/linkedin-pfp.webp"

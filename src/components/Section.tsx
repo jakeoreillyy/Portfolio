@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import { Reveal } from "./Reveal";
 
 // Every home-page section shares this shell, so the width, rhythm, heading
 // style and scroll offset are set once rather than copied per section.
@@ -22,12 +21,10 @@ export function Section({
   return (
     <section id={id} className="scroll-mt-20 px-6 py-24">
       <div className="mx-auto max-w-5xl">
-        <Reveal>
-          <h2 className="font-mono text-[11px] tracking-[0.22em] text-faint uppercase">
-            {title}
-            {srDetail && <span className="sr-only">: {srDetail}</span>}
-          </h2>
-        </Reveal>
+        <h2 className="font-mono text-[11px] tracking-[0.22em] text-faint uppercase">
+          {title}
+          {srDetail && <span className="sr-only">: {srDetail}</span>}
+        </h2>
         {children}
       </div>
     </section>

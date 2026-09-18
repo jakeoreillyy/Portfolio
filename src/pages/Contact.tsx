@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import type { ComponentProps, SubmitEvent } from "react";
-import { Reveal } from "../components/Reveal";
 import { GitHubIcon, LinkedInIcon, MailIcon, PinIcon } from "../components/icons";
 
 const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY as string | undefined;
@@ -128,7 +127,7 @@ export default function Contact() {
   return (
     <section className="px-6 pt-32 pb-24 sm:pt-40">
       <div className="mx-auto w-full max-w-3xl">
-        <Reveal>
+        <>
           <h1 className="font-display text-[clamp(2.5rem,6.5vw,4.5rem)] leading-[0.98] tracking-[-0.04em] text-balance">
             Get in touch.
           </h1>
@@ -160,9 +159,9 @@ export default function Contact() {
               );
             })}
           </div>
-        </Reveal>
+        </>
 
-        <Reveal delay={120}>
+        <>
           <form onSubmit={handleSubmit} className="mt-8 space-y-5">
             <div className="grid gap-5 sm:grid-cols-2">
               <Field name="name" label="Name" placeholder="Andrej Karpathy" />
@@ -204,7 +203,7 @@ export default function Contact() {
               )}
             </div>
           </form>
-        </Reveal>
+        </>
       </div>
     </section>
   );

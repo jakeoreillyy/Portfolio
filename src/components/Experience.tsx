@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { prefersReducedMotion } from "../lib/prefersReducedMotion";
-import { Reveal } from "./Reveal";
 import { Section, Tag } from "./Section";
 
 type Job = {
@@ -141,11 +140,7 @@ export function Experience() {
         />
 
         {jobs.map((job, i) => (
-          <Reveal
-            key={`${job.org} ${job.date}`}
-            delay={i * 90}
-            className="relative pb-10 pl-8 last:pb-0"
-          >
+          <div key={`${job.org} ${job.date}`} className="relative pb-10 pl-8 last:pb-0">
             <span
               ref={(el) => {
                 dotRefs.current[i] = el;
@@ -182,7 +177,7 @@ export function Experience() {
                 <Tag key={tag}>{tag}</Tag>
               ))}
             </div>
-          </Reveal>
+          </div>
         ))}
       </div>
     </Section>

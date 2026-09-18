@@ -1,4 +1,3 @@
-import { Reveal } from "./Reveal";
 import { Section } from "./Section";
 
 const START = new Date(2024, 8, 1); // September 2024
@@ -40,7 +39,7 @@ export function Education() {
       title="Education"
       srDetail="Computer science education of Jake O'Reilly, software engineer in Dublin, Ireland"
     >
-      <Reveal className="mt-10">
+      <div className="mt-10">
         <p className="font-display text-[clamp(1.3rem,2.3vw,1.7rem)] leading-[1.15] tracking-[-0.03em] text-foreground">
           BSc Computer Science
         </p>
@@ -49,9 +48,9 @@ export function Education() {
           <span className="text-faint"> · </span>
           <span className="font-mono text-xs text-faint tabular-nums">3.5 GPA</span>
         </p>
-      </Reveal>
+      </div>
 
-      <Reveal delay={120}>
+      <div>
         <div className="mt-9">
           <div className="relative mb-2 h-4 font-mono text-[11px] tabular-nums">
             <span className="absolute left-0 whitespace-nowrap text-muted">Sep 2024</span>
@@ -102,13 +101,11 @@ export function Education() {
             Year {yearOfStudy(now)} of {TOTAL_YEARS}
           </p>
         </div>
-      </Reveal>
+      </div>
 
-      <Reveal delay={240}>
-        <p className="mt-8 font-mono text-xs leading-loose text-faint">
-          <span className="text-muted">Relevant coursework:</span> {modules.join(" · ")}
-        </p>
-      </Reveal>
+      <p className="mt-8 font-mono text-xs leading-loose text-faint">
+        <span className="text-muted">Relevant coursework:</span> {modules.join(" · ")}
+      </p>
     </Section>
   );
 }

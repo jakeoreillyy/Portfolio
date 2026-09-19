@@ -36,10 +36,10 @@ export function Hero() {
         <div className="order-first lg:order-last">
           <div className="mx-auto aspect-square w-52 overflow-hidden rounded-full border border-line sm:w-60 md:w-72">
             <img
-              src="/linkedin-pfp.webp"
+              src="/ascii-pfp.webp"
               alt="Jake O'Reilly"
-              width={600}
-              height={600}
+              width={640}
+              height={640}
               fetchPriority="high"
               className="h-full w-full object-cover object-center"
             />

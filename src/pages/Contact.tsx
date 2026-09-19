@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { ComponentProps, SubmitEvent } from "react";
-import { GitHubIcon, LinkedInIcon, MailIcon, PinIcon, XIcon } from "../components/icons";
+import { GitHubIcon, LinkedInIcon, MailIcon, XIcon } from "../components/icons";
 
 const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY as string | undefined;
 

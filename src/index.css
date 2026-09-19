@@ -72,6 +72,34 @@ body.show-recaptcha .grecaptcha-badge {
   animation: swap-in 0.32s ease both;
 }
 
+/* Edge fade for the certifications carousel. The track is wide enough that the
+   neighbour cards sit inside it on desktop, so this only feathers their outer
+   edge (and softens the clip on narrower screens). Below sm the track is
+   full-bleed and unmasked. */
+@media (min-width: 40rem) {
+  .cert-track {
+    --cert-fade: linear-gradient(
+      to right,
+      transparent 0%,
+      rgb(0 0 0 / 0.04) 3%,
+      rgb(0 0 0 / 0.14) 6%,
+      rgb(0 0 0 / 0.32) 9%,
+      rgb(0 0 0 / 0.58) 12%,
+      rgb(0 0 0 / 0.84) 15%,
+      #000 18%,
+      #000 82%,
+      rgb(0 0 0 / 0.84) 85%,
+      rgb(0 0 0 / 0.58) 88%,
+      rgb(0 0 0 / 0.32) 91%,
+      rgb(0 0 0 / 0.14) 94%,
+      rgb(0 0 0 / 0.04) 97%,
+      transparent 100%
+    );
+    -webkit-mask-image: var(--cert-fade);
+    mask-image: var(--cert-fade);
+  }
+}
+
 @keyframes caret-blink {
   0%,
   49% {

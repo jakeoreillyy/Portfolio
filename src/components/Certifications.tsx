@@ -179,7 +179,7 @@ export function Certifications() {
         {/* Pause on focus as well as hover, so a keyboard user reading a card
               doesn't have it auto-advance out from under them. */}
         <div
-          className="mx-auto flex max-w-[51rem] items-start justify-center gap-3.5"
+          className="mx-auto flex max-w-[62rem] items-start justify-center gap-3.5"
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
           onFocus={() => setPaused(true)}
@@ -194,9 +194,9 @@ export function Certifications() {
             <ChevronIcon dir="left" size={20} />
           </button>
 
-          <div className="w-full max-w-2xl min-w-0 max-sm:w-screen max-sm:ml-[calc(50%-50vw)]">
+          <div className="w-full max-w-[54rem] min-w-0 max-sm:w-screen max-sm:ml-[calc(50%-50vw)]">
             <div
-              className="relative h-[392px] cursor-grab overflow-hidden active:cursor-grabbing sm:[mask-image:linear-gradient(to_right,transparent,#000_12%,#000_88%,transparent)] sm:[-webkit-mask-image:linear-gradient(to_right,transparent,#000_12%,#000_88%,transparent)]"
+              className="relative h-[392px] cursor-grab overflow-hidden active:cursor-grabbing cert-track"
               style={{ touchAction: "pan-y" }}
               onPointerDown={onPointerDown}
               onPointerMove={onPointerMove}

@@ -7,6 +7,7 @@ import type { NavLink } from "../data/nav";
 const connectLinks: NavLink[] = [
   { href: "https://github.com/jakeoreillyy", label: "GitHub" },
   { href: "https://www.linkedin.com/in/jake-o-reilly", label: "LinkedIn" },
+  { href: "https://x.com/jakeorei", label: "X" },
   {
     href: "https://drive.google.com/file/d/1g9zu01wSZb98pxBCtKQLQGVbjlgI6hR5/view?usp=drive_link",
     label: "Resume",

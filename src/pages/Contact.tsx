@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { ComponentProps, SubmitEvent } from "react";
-import { GitHubIcon, LinkedInIcon, MailIcon, PinIcon } from "../components/icons";
+import { GitHubIcon, LinkedInIcon, MailIcon, PinIcon, XIcon } from "../components/icons";
 
 const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY as string | undefined;
 
@@ -54,7 +54,7 @@ const details = [
   { Icon: MailIcon, label: EMAIL, href: `mailto:${EMAIL}` },
   { Icon: LinkedInIcon, label: "jake-o-reilly", href: "https://www.linkedin.com/in/jake-o-reilly" },
   { Icon: GitHubIcon, label: "jakeoreillyy", href: "https://github.com/jakeoreillyy" },
-  { Icon: PinIcon, label: "Dublin, Ireland" },
+  { Icon: XIcon, label: "@jakeorei", href: "https://x.com/jakeorei" },
 ];
 
 const fieldClass =

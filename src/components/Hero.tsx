@@ -1,4 +1,5 @@
 import { Typewriter } from "./Typewriter";
+import { PortraitLight } from "./PortraitLight";
 import { FileTextIcon, GitHubIcon, LinkedInIcon } from "./icons";
 import { RESUME_URL } from "../data/links";
 
@@ -39,7 +40,7 @@ export function Hero() {
         </div>
 
         <div className="order-first lg:order-last">
-          <div className="mx-auto aspect-square w-52 overflow-hidden rounded-full border border-line sm:w-60 md:w-72">
+          <div className="relative mx-auto aspect-square w-52 overflow-hidden rounded-full border border-line sm:w-60 md:w-72">
             <img
               src="/ascii-pfp.webp"
               alt="Jake O'Reilly"
@@ -48,6 +49,7 @@ export function Hero() {
               fetchPriority="high"
               className="h-full w-full object-cover object-center"
             />
+            <PortraitLight src="/ascii-pfp.webp" />
           </div>
         </div>
       </div>

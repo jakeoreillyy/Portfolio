@@ -1,10 +1,11 @@
 import { Typewriter } from "./Typewriter";
-import { GitHubIcon, LinkedInIcon } from "./icons";
+import { FileTextIcon, GitHubIcon, LinkedInIcon } from "./icons";
+import { RESUME_URL } from "../data/links";
 
 const GITHUB_URL = "https://github.com/jakeoreillyy";
 const LINKEDIN_URL = "https://www.linkedin.com/in/jake-o-reilly";
 
-// Both links are the same control; the brand marks carry the only colour.
+// All three links are the same control; the brand marks carry the only colour.
 const socialLink =
   "inline-flex items-center gap-2 rounded-lg border border-line px-5 py-2.5 text-sm " +
   "font-medium text-foreground transition-colors hover:border-line-bright";
@@ -29,6 +30,10 @@ export function Hero() {
             <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" className={socialLink}>
               <LinkedInIcon size={16} />
               LinkedIn
+            </a>
+            <a href={RESUME_URL} target="_blank" rel="noopener noreferrer" className={socialLink}>
+              <FileTextIcon size={16} />
+              Resume
             </a>
           </div>
         </div>

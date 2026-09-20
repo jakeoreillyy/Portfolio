@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { HashLink } from "./HashLink";
 import { MailIcon } from "./icons";
+import { RESUME_URL } from "../data/links";
 import { sectionLinks } from "../data/nav";
 import type { NavLink } from "../data/nav";
 
@@ -8,10 +9,7 @@ const connectLinks: NavLink[] = [
   { href: "https://github.com/jakeoreillyy", label: "GitHub" },
   { href: "https://www.linkedin.com/in/jake-o-reilly", label: "LinkedIn" },
   { href: "https://x.com/jakeorei", label: "X" },
-  {
-    href: "https://drive.google.com/file/d/1g9zu01wSZb98pxBCtKQLQGVbjlgI6hR5/view?usp=drive_link",
-    label: "Resume",
-  },
+  { href: RESUME_URL, label: "Resume" },
   { href: "https://leetcode.com/u/jakeoreilly/", label: "LeetCode" },
   { href: "/contact", label: "Contact" },
 ];

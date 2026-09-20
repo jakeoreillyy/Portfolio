@@ -9,8 +9,7 @@ export function WindowBar({ filename }: { filename: string }) {
       <div className="flex items-center gap-2 px-4 py-2.5">
         <img
           src="/favicon.png"
-          alt="Jake O'Reilly favicon"
-          aria-hidden
+          alt=""
           width={18}
           height={18}
           className="h-[18px] w-[18px] object-contain"

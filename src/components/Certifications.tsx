@@ -8,7 +8,6 @@ type Cert = {
   issuer: string;
   date: string;
   meta: string;
-  tag: string;
   image: string;
   imageSize: [width: number, height: number];
   credentialUrl: string;
@@ -20,7 +19,6 @@ const certs: Cert[] = [
     issuer: "DataCamp",
     date: "Mar 2026",
     meta: "9hrs",
-    tag: "Version control",
     image: "/certs/github-foundations.webp",
     imageSize: [760, 439],
     credentialUrl: "https://drive.google.com/file/d/1_t_71bJ6y3-lkrjQJGOO5C_q6-3_kQwt/view",
@@ -30,7 +28,6 @@ const certs: Cert[] = [
     issuer: "NVIDIA",
     date: "Dec 2024",
     meta: "Certificate of Competency",
-    tag: "Machine learning",
     image: "/certs/nvidia-deep-learning.webp",
     imageSize: [760, 649],
     credentialUrl: "https://learn.nvidia.com/certificates?id=01odK5ZsSkOEBhyeCFTXzA",
@@ -40,7 +37,6 @@ const certs: Cert[] = [
     issuer: "DeepLearning.AI · OpenAI",
     date: "Sep 2025",
     meta: "Short course · 1h 30m",
-    tag: "AI / LLMs",
     image: "/certs/prompt-engineering.webp",
     imageSize: [760, 504],
     credentialUrl:
@@ -51,7 +47,6 @@ const certs: Cert[] = [
     issuer: "Udemy",
     date: "Apr 2025",
     meta: "9hrs",
-    tag: "Databases",
     image: "/certs/sql-bootcamp.webp",
     imageSize: [1600, 1190],
     credentialUrl:
@@ -62,7 +57,6 @@ const certs: Cert[] = [
     issuer: "Cohere Labs",
     date: "Aug 2026",
     meta: "Participant",
-    tag: "Machine learning",
     image: "/certs/cohere-machine-learning.webp",
     imageSize: [600, 424],
     credentialUrl:

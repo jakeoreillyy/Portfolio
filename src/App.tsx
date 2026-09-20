@@ -12,10 +12,10 @@ function setMetaContent(selector: string, content: string) {
   document.querySelector<HTMLMetaElement>(selector)?.setAttribute("content", content);
 }
 
-// Start each page at the top when switching routes, or jump to the
-// hashed section if the destination URL carries one (e.g. /#projects).
-function ScrollReset() {
-  const { pathname, hash } = useLocation();
+// Keep the title, description, Open Graph and canonical tags in step with the
+// current route (the prerender pass bakes the same set into each static page).
+function RouteMeta() {
+  const { pathname } = useLocation();
 
   useEffect(() => {
     const meta = metaForPath(pathname);
@@ -29,6 +29,14 @@ function ScrollReset() {
     const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
     if (canonical) canonical.href = url;
   }, [pathname]);
+
+  return null;
+}
+
+// Start each page at the top when switching routes, or jump to the
+// hashed section if the destination URL carries one (e.g. /#projects).
+function ScrollReset() {
+  const { pathname, hash } = useLocation();
 
   useEffect(() => {
     const target = hash ? document.getElementById(hash.slice(1)) : null;
@@ -56,6 +64,7 @@ export function AppRoutes() {
 
   return (
     <>
+      <RouteMeta />
       <ScrollReset />
       <Nav />
       <main>

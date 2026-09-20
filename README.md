@@ -1,6 +1,6 @@
 # Jake O'Reilly Portfolio
 
-<img src=".github/social-preview.png" alt="The jakeoreilly.dev homepage: a dark terminal-styled hero reading 'Jake O'Reilly, software engineer'" width="100%" />
+<img src="public/social-preview.png" alt="The jakeoreilly.dev homepage: a dark terminal-styled hero reading 'Jake O'Reilly, software engineer'" width="100%" />
 
 My personal portfolio site: projects, experience, and a contact form.
 
@@ -48,10 +48,11 @@ The site runs fine without these; they're only needed for the contact form to ac
 | Command | Description |
 | --- | --- |
 | `npm run dev` | Start the dev server |
-| `npm run build` | Type-check and build for production |
+| `npm run build` | Type-check, build, and prerender the pages to static HTML |
 | `npm run preview` | Preview the production build |
 | `npm run lint` | Run ESLint |
 | `npm run format` | Format with Prettier |
+| `npm run format:check` | Check formatting without changing files |
 
 ## License
 

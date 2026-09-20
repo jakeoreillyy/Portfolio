@@ -3,17 +3,28 @@ import { Section } from "./Section";
 // Logo filenames in /public/logos are the skill name lowercased with every
 // separator stripped ("Node.js" -> nodejs, "GitHub Actions" -> githubactions).
 const groups: Record<string, string[]> = {
-  Languages: ["Python", "SQL", "TypeScript", "JavaScript", "Java", "PHP", "C", "HTML5", "CSS3"],
+  Languages: [
+    "Python",
+    "TypeScript",
+    "JavaScript",
+    "Java",
+    "SQL",
+    "C",
+    "Kotlin",
+    "PHP",
+    "HTML5",
+    "CSS3",
+  ],
   "Frameworks & Libraries": ["FastAPI", "Node.js", "React", "SQLAlchemy", "Pytest", "Tailwind CSS"],
-  Databases: ["PostgreSQL", "MySQL", "Supabase"],
+  Databases: ["PostgreSQL", "MySQL", "Supabase", "MongoDB"],
   "Developer Tools & Platforms": [
     "Git",
     "GitHub Actions",
     "Docker",
+    "Linux",
     "Amazon Web Services",
     "Google Cloud",
     "Cloudflare",
-    "Linux",
     "Vercel",
     "Heroku",
   ],

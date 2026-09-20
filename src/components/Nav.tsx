@@ -80,8 +80,15 @@ export function Nav() {
       <nav className="mx-auto flex min-h-16 max-w-5xl items-center justify-between gap-4 px-4 sm:px-6">
         <HashLink
           hash="#top"
-          className="font-display text-[15px] tracking-[-0.02em] text-foreground"
+          className="flex items-center gap-2.5 font-display text-[15px] tracking-[-0.02em] text-foreground"
         >
+          <img
+            src="/ascii-pfp.webp"
+            alt=""
+            width={28}
+            height={28}
+            className="size-7 rounded-full border border-line"
+          />
           Jake O'Reilly
         </HashLink>
         <div className="hidden items-center gap-5 lg:flex">

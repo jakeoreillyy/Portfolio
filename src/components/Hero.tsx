@@ -14,7 +14,7 @@ const socialLink =
 export function Hero() {
   return (
     <section id="top" className="flex min-h-[90svh] items-center px-6 pt-16">
-      <div className="mx-auto grid w-full max-w-5xl items-center gap-10 lg:grid-cols-[1fr_auto] lg:gap-16">
+      <div className="mx-auto grid w-full max-w-7xl items-center gap-10 lg:grid-cols-[1fr_auto] lg:gap-16">
         <div className="text-center lg:text-left">
           <h1 className="font-display text-[clamp(2.75rem,7.5vw,6rem)] leading-[0.95] font-normal tracking-[-0.04em]">
             Jake O'Reilly

@@ -20,7 +20,7 @@ export function Section({
 }) {
   return (
     <section id={id} className="scroll-mt-20 px-6 py-24">
-      <div className="mx-auto max-w-5xl">
+      <div className="mx-auto max-w-7xl">
         <h2 className="font-mono text-[11px] tracking-[0.22em] text-faint uppercase">
           {title}
           {srDetail && <span className="sr-only">: {srDetail}</span>}

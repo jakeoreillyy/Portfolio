@@ -77,7 +77,7 @@ export function Nav() {
           : "border-transparent bg-transparent"
       }`}
     >
-      <nav className="mx-auto flex min-h-16 max-w-5xl items-center justify-between gap-4 px-4 sm:px-6">
+      <nav className="mx-auto flex min-h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
         <HashLink
           hash="#top"
           className="flex items-center gap-2.5 font-display text-[15px] tracking-[-0.02em] text-foreground"

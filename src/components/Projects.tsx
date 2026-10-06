@@ -32,7 +32,7 @@ export function Projects() {
         ))}
       </div>
 
-      <div className="mt-12 grid gap-x-12 gap-y-8 md:grid-cols-[minmax(0,18rem)_1fr]">
+      <div className="mt-12 grid gap-x-12 gap-y-8 lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)]">
         <div
           className="flex flex-col self-start"
           onKeyDown={(e) => {
@@ -74,8 +74,8 @@ export function Projects() {
           })}
         </div>
 
-        <div className="grid gap-8 md:h-[24rem] md:grid-cols-[minmax(0,24rem)_1fr]">
-          <div key={project.id} className="swap-in relative h-56 overflow-hidden md:h-full">
+        <div className="grid gap-8 xl:h-[24rem] xl:grid-cols-[minmax(0,24rem)_minmax(0,1fr)]">
+          <div key={project.id} className="swap-in relative h-56 overflow-hidden xl:h-full">
             <img
               src={project.image.src}
               alt={project.image.alt}

@@ -1,77 +1,45 @@
 import { useEffect, useRef, useState } from "react";
 import { prefersReducedMotion } from "../lib/prefersReducedMotion";
-import { Section, Tag } from "./Section";
+import { Section } from "./Section";
 
 type Job = {
   role: string;
   org: string;
   date: string;
-  highlights: string[];
-  tags: string[];
+  description: string;
 };
 
 const jobs: Job[] = [
   {
     role: "Software Development Engineer Intern",
     org: "Amazon Web Services",
-    date: "Feb 2027",
-    highlights: ["Lambda Team"],
-    tags: [],
+    date: "Incoming Feb 2027",
+    description: "Serverless cloud computing and infrastructure on the AWS Lambda team.",
   },
   {
     role: "Software Engineer Intern",
     org: "Speed-Deed",
     date: "Jun 2026 - Present",
-    highlights: [
-      "Cut per-dashboard query volume ~95% (19 live queries to one snapshot read) by architecting a cron-driven PostHog/PostgreSQL/Recharts pipeline that pre-computes funnel, timing, and cost metrics into a single row.",
-      "Restored a production upload failure affecting live pilot users in under 10 minutes by tracing 429 errors to a database migration that had not been applied to production and running it against the live instance mid-pilot.",
-      "Gave admins visibility into third-party spend across 4 categories by building an immutable cost-events ledger that logs each priced action at a frozen FX rate and survives property deletion.",
-      "Closed 4 authorization and data-integrity gaps by locking sensitive write endpoints to the owning user and making retried webhooks and reopened tasks apply their effect only once, preventing duplicate charges and corrupted task state.",
-    ],
-    tags: ["React", "TypeScript", "PostHog", "PostgreSQL"],
+    description: "Pre-sale property and conveyancing platform for the Irish market.",
   },
   {
     role: "Algorithms Workshop Participant",
     org: "Google",
     date: "Jul 2026 - Aug 2026",
-    highlights: [
-      "Selected for Google Ireland's invite-only Algorithms Workshop at the Dublin office, covering algorithmic problem-solving with Google engineers.",
-      "Finished among the top 20 participants (from a cohort of ~100) chosen by the day's timed assessment for Google's Extended Algorithms Workshop.",
-    ],
-    tags: ["Data Structures", "Algorithms", "Python"],
+    description:
+      "Technical programme covering data structures, algorithms, and algorithmic problem-solving.",
   },
   {
     role: "Founder Programme Participant",
     org: "Hatch105",
     date: "May 2026",
-    highlights: [
-      "Selected as 1 of 27 participants (top 1.5% of 1,700+ applicants) to pitch a technical AI prototype to a panel of founders and CEOs.",
-      "Built ClearStep, an AI SaaS that replaces manual store-data analysis with a real-time dashboard of prioritised business actions for merchants without data teams.",
-      "Engineered an LLM pipeline in TypeScript with the Claude API, turning raw Shopify data into structured JSON with custom prompt logic for priority ranking.",
-    ],
-    tags: ["TypeScript", "Claude API", "Shopify", "AI"],
+    description: "Founder accelerator focused on turning technical concepts into viable products.",
   },
   {
     role: "SWE Insight Programme",
     org: "Bank of America",
     date: "Apr 2026",
-    highlights: [
-      "Placed 1st of 4 teams (16 participants), judged by Bank of America engineers, for patching critical auth vulnerabilities and delivering a Savings Goals feature.",
-      "Eliminated session-hijacking risk by replacing plain-text password storage with bcrypt hashing and adding a JWT blacklist to block post-logout token reuse.",
-      "Built 5 REST endpoints for the full Savings Goals lifecycle (creation, deposits, deletion, and completion) using Zod validation and Drizzle ORM migrations.",
-    ],
-    tags: ["Node.js", "PostgreSQL", "Zod", "Drizzle"],
-  },
-  {
-    role: "Hackathon Participant",
-    org: "Workday",
-    date: "Apr 2026",
-    highlights: [
-      "Placed 3rd building HushPath, a sensory-friendly journey planner, over the course of the hackathon.",
-      "Scored Dublin city centre across 80m grids using the Overpass and Nominatim APIs to estimate noise from POI density.",
-      "Generated noise-aware walking routes by pairing the Google Maps API with a custom waypoint algorithm that favours calmer, lower-density cells over the shortest path.",
-    ],
-    tags: ["Python", "Overpass API", "Google Maps"],
+    description: "Software engineering insight programme focused on secure financial applications.",
   },
 ];
 
@@ -140,42 +108,32 @@ export function Experience() {
         />
 
         {jobs.map((job, i) => (
-          <div key={`${job.org} ${job.date}`} className="relative pb-10 pl-8 last:pb-0">
+          <div key={`${job.org} ${job.date}`} className="relative pb-20 pl-10 last:pb-0">
             <span
               ref={(el) => {
                 dotRefs.current[i] = el;
               }}
               aria-hidden
-              className={`absolute left-[7px] top-[9px] size-[13px] -translate-x-1/2 rounded-full border-2 transition-colors duration-500 ${
+              className={`absolute left-[7px] top-[14px] size-[13px] -translate-x-1/2 rounded-full border-2 transition-colors duration-500 ${
                 i < activeCount ? "border-accent bg-accent" : "border-line bg-background"
               }`}
             />
 
-            {/* Role carries the display type; the org sits underneath it. */}
-            <div className="flex items-baseline justify-between gap-4">
-              <p className="font-display text-[clamp(1.3rem,2.3vw,1.7rem)] leading-[1.15] tracking-[-0.03em] text-foreground">
-                {job.role}
+            <div className="grid gap-y-4 md:grid-cols-[minmax(16rem,1fr)_minmax(18rem,1.1fr)_9.5rem] md:items-baseline md:gap-x-10 md:gap-y-0">
+              <div>
+                <p className="font-display text-[clamp(1.75rem,3.2vw,2.5rem)] leading-[1.05] tracking-[-0.035em] text-foreground">
+                  {job.org}
+                </p>
+                <p className="mt-3 text-sm leading-relaxed text-faint">{job.role}</p>
+              </div>
+
+              <p className="max-w-[60ch] text-base leading-relaxed text-muted md:text-[17px]">
+                {job.description}
               </p>
-              <p className="shrink-0 font-mono text-xs text-faint">{job.date}</p>
-            </div>
 
-            <p className="mt-1.5 text-sm text-muted">{job.org}</p>
-
-            <ul className="mb-3 mt-4 max-w-2xl space-y-1.5">
-              {job.highlights.map((point) => (
-                <li key={point} className="flex gap-2.5 text-sm leading-relaxed text-muted">
-                  <span aria-hidden className="shrink-0 text-faint">
-                    •
-                  </span>
-                  <span>{point}</span>
-                </li>
-              ))}
-            </ul>
-
-            <div className="flex flex-wrap gap-1.5">
-              {job.tags.map((tag) => (
-                <Tag key={tag}>{tag}</Tag>
-              ))}
+              <p className="order-first font-mono text-[11px] uppercase leading-relaxed tracking-[0.04em] text-faint md:order-none md:text-right">
+                {job.date}
+              </p>
             </div>
           </div>
         ))}

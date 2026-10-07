@@ -8,6 +8,5 @@ export const sectionLinks: NavLink[] = [
   { href: "#experience", label: "Experience" },
   { href: "#education", label: "Education" },
   { href: "#projects", label: "Projects" },
-  // "Skills" also stands in for the certifications carousel below it.
   { href: "#skills", label: "Skills" },
 ];

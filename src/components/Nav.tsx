@@ -22,7 +22,7 @@ export function Nav() {
   useEffect(() => {
     if (onContact) return;
 
-    // The "About" and "Skills" links each cover more than one on-page section,
+    // The "About" link covers more than one on-page section,
     // so map every observed id back to the nav link it should light up.
     const idToLink: Record<string, string> = {
       top: "#top",
@@ -31,7 +31,6 @@ export function Nav() {
       education: "#education",
       projects: "#projects",
       skills: "#skills",
-      certifications: "#skills",
     };
     const sections = Object.keys(idToLink)
       .map((id) => document.getElementById(id))

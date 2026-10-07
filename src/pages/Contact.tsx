@@ -53,7 +53,6 @@ const EMAIL = "oreillyjake16@gmail.com";
 const details = [
   { Icon: MailIcon, label: EMAIL, href: `mailto:${EMAIL}` },
   { Icon: LinkedInIcon, label: "jake-o-reilly", href: "https://www.linkedin.com/in/jake-o-reilly" },
-  { Icon: GitHubIcon, label: "jakeoreillyy", href: "https://github.com/jakeoreillyy" },
   { Icon: XIcon, label: "@jakeorei", href: "https://x.com/jakeorei" },
 ];
 

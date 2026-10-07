@@ -1,13 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { prefersReducedMotion } from "../lib/prefersReducedMotion";
-import { Section, Tag } from "./Section";
+import { Section } from "./Section";
 
 type Job = {
   role: string;
   org: string;
   date: string;
   description: string;
-  skills: string[];
 };
 
 const jobs: Job[] = [
@@ -16,35 +15,30 @@ const jobs: Job[] = [
     org: "Amazon Web Services",
     date: "Incoming Feb 2027",
     description: "Serverless cloud computing and infrastructure on the AWS Lambda team.",
-    skills: ["Serverless", "AWS Lambda"],
   },
   {
     role: "Software Engineer Intern",
     org: "Speed-Deed",
     date: "Jun 2026 - Present",
     description: "Building a pre-sale property and conveyancing platform for the Irish market.",
-    skills: ["React.js", "Google Cloud Platform"],
   },
   {
     role: "Algorithms Workshop Participant",
     org: "Google",
     date: "Jul 2026 - Aug 2026",
     description: "Technical programme on algorithmic problem-solving.",
-    skills: ["Data Structures", "Algorithms"],
   },
   {
     role: "Founder Programme Participant",
     org: "Hatch105",
     date: "May 2026",
     description: "Founder accelerator turning technical ideas into viable products.",
-    skills: ["Generative AI", "Full-Stack Development"],
   },
   {
     role: "SWE Insight Programme",
     org: "Bank of America",
     date: "Apr 2026",
     description: "Insight programme on secure financial applications.",
-    skills: ["Git", "Node.js"],
   },
 ];
 
@@ -132,16 +126,9 @@ export function Experience() {
                 <p className="mt-3 text-sm leading-relaxed text-faint">{job.role}</p>
               </div>
 
-              <div>
-                <p className="max-w-[60ch] text-base leading-relaxed text-muted md:text-[17px]">
-                  {job.description}
-                </p>
-                <div className="mt-3 flex flex-wrap gap-1.5">
-                  {job.skills.map((skill) => (
-                    <Tag key={skill}>{skill}</Tag>
-                  ))}
-                </div>
-              </div>
+              <p className="max-w-[60ch] text-base leading-relaxed text-muted md:text-[17px]">
+                {job.description}
+              </p>
 
               <p className="order-first font-mono text-[11px] uppercase leading-relaxed tracking-[0.04em] text-faint md:order-none md:text-right">
                 {job.date}

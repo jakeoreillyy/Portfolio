@@ -17,6 +17,8 @@ export const projects: Project[] = [
     description:
       "A sensory-friendly journey planner that scores Dublin city centre across 80m grid cells, using POI density from the Overpass and Nominatim APIs as a noise proxy. A custom waypoint algorithm then routes between any two points via the Google Maps API, favouring the quieter cells over the shortest path.",
     tags: ["Python", "Overpass API", "Nominatim API", "Google Maps", "REST API"],
+    href: "https://github.com/jakeoreillyy/HushPath",
+    link: { label: "View repo", kind: "repo" },
     image: {
       src: "/hushpath.webp",
       alt: "HushPath, a route planner scoring a calm path across Dublin by POI density",

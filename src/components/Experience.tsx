@@ -38,7 +38,7 @@ const jobs: Job[] = [
     role: "SWE Insight Programme",
     org: "Bank of America",
     date: "Apr 2026",
-    description: "Insight programme on secure financial applications.",
+    description: "Building secure financial applications.",
   },
 ];
 

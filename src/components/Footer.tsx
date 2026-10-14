@@ -1,11 +1,14 @@
 import { Link } from "react-router-dom";
-import { HashLink } from "./HashLink";
 import { MailIcon } from "./icons";
 import { RESUME_URL } from "../data/links";
-import { sectionLinks } from "../data/nav";
-import type { NavLink } from "../data/nav";
 
-const navigateLinks: NavLink[] = [...sectionLinks, { href: "/contact", label: "Contact" }];
+type NavLink = { href: string; label: string };
+
+const navigateLinks: NavLink[] = [
+  { href: "/", label: "Home" },
+  { href: "/blog", label: "Blog" },
+  { href: "/contact", label: "Contact" },
+];
 
 const connectLinks: NavLink[] = [
   { href: "https://github.com/jakeoreillyy", label: "GitHub" },
@@ -16,9 +19,8 @@ const connectLinks: NavLink[] = [
 
 const linkClass = "text-sm text-muted transition-colors hover:text-accent";
 
-// The href shape picks the element: off-site links get a new tab, "#" links
-// smooth-scroll via Lenis, and anything else is an in-app route (only /contact,
-// hence the mail glyph).
+// The href shape picks the element: off-site links get a new tab, and anything
+// else is an in-app route (/contact also gets the mail glyph).
 function FooterColumn({ title, links }: { title: string; links: NavLink[] }) {
   return (
     <div>
@@ -31,14 +33,12 @@ function FooterColumn({ title, links }: { title: string; links: NavLink[] }) {
                 {label}
                 <span aria-hidden="true"> ↗</span>
               </a>
-            ) : href.startsWith("#") ? (
-              <HashLink hash={href} className={linkClass}>
-                {label}
-              </HashLink>
             ) : (
               <Link to={href} className={linkClass}>
                 {label}
-                <MailIcon className="ml-1.5 inline-block size-3.5 align-[-2px]" />
+                {href === "/contact" && (
+                  <MailIcon className="ml-1.5 inline-block size-3.5 align-[-2px]" />
+                )}
               </Link>
             )}
           </li>

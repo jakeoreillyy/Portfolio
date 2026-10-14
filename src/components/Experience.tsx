@@ -90,7 +90,6 @@ export function Experience() {
 
   return (
     <Section
-      id="experience"
       title="Experience"
       srDetail="Software engineering work experience of Jake O'Reilly"
     >

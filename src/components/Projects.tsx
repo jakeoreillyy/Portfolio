@@ -16,7 +16,6 @@ export function Projects() {
 
   return (
     <Section
-      id="projects"
       title="Projects"
       srDetail="Software engineering projects built by Jake O'Reilly"
     >

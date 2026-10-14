@@ -35,7 +35,6 @@ export function Education() {
 
   return (
     <Section
-      id="education"
       title="Education"
       srDetail="Computer science education of Jake O'Reilly, software engineer in Dublin, Ireland"
     >

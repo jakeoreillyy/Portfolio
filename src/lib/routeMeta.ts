@@ -21,6 +21,13 @@ export const ROUTE_META: Record<string, RouteMeta> = {
     ogDescription:
       "Computer science student and software engineer in Dublin. Projects, experience, and how to get in touch.",
   },
+  "/blog": {
+    title: "Blog | Jake O'Reilly, Software Engineer in Dublin",
+    description:
+      "Writing by Jake O'Reilly, a software engineer based in Dublin, Ireland, on projects, engineering, and AI.",
+    ogTitle: "Blog | Jake O'Reilly",
+    ogDescription: "Writing on projects, engineering, and AI by Jake O'Reilly.",
+  },
   "/contact": {
     title: "Contact | Jake O'Reilly, Software Engineer in Dublin",
     description:

@@ -6,6 +6,7 @@ import { SITE, metaForPath, normalizePath } from "./lib/routeMeta";
 import { Nav } from "./components/Nav";
 import { Footer } from "./components/Footer";
 import Home from "./pages/Home";
+import Blog from "./pages/Blog";
 import Contact from "./pages/Contact";
 
 function setMetaContent(selector: string, content: string) {
@@ -33,26 +34,22 @@ function RouteMeta() {
   return null;
 }
 
-// Start each page at the top when switching routes, or jump to the
-// hashed section if the destination URL carries one (e.g. /#projects).
+// Start each page at the top when switching routes.
 function ScrollReset() {
-  const { pathname, hash } = useLocation();
+  const { pathname } = useLocation();
 
   useEffect(() => {
-    const target = hash ? document.getElementById(hash.slice(1)) : null;
     const lenis = lenisRef.current;
 
     if (lenis) {
       // The outgoing page's dimensions are still cached until Lenis's
-      // resize observer catches up, which clamps scrollTo before then.
+      // resize observer catches up, so refresh them before scrolling.
       lenis.resize();
-      lenis.scrollTo(target ?? 0, { immediate: true });
-    } else if (target) {
-      target.scrollIntoView();
+      lenis.scrollTo(0, { immediate: true });
     } else {
       window.scrollTo(0, 0);
     }
-  }, [pathname, hash]);
+  }, [pathname]);
 
   return null;
 }
@@ -67,9 +64,12 @@ export function AppRoutes() {
       <RouteMeta />
       <ScrollReset />
       <Nav />
-      <main>
+      {/* At least a full screen tall, so on short pages (like the empty blog)
+          the footer waits below the fold instead of riding up into view. */}
+      <main className="min-h-svh">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/blog" element={<Blog />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

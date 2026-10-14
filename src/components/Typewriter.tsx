@@ -41,8 +41,8 @@ export function Typewriter() {
 
   return (
     <span className="font-mono">
-      {/* Decorative shell prompt, deliberately the one splash of colour left on the
-          site, sharing the about.ts card's Tokyo Night palette. */}
+      {/* Decorative shell prompt in the Tokyo Night palette, deliberately the one
+          splash of colour left on the site. */}
       {/* Only the prompt itself is unbreakable: below ~334px the typed line wraps
           underneath it rather than pushing the page into a sideways scroll. */}
       <span aria-hidden="true">

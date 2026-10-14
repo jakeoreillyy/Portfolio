@@ -14,16 +14,13 @@
   /* The accent is the top tier of the neutral ramp, not a hue. */
   --color-accent: #ffffff;
   /* The one semantic hue: form validation errors. Tokyo Night's red, so it
-     stays inside the palette the code blocks already use. */
+     stays inside the palette the hero shell prompt already uses. */
   --color-danger: #f7768e;
 
-  /* Tokyo Night, shared by the about.ts card and the hero shell prompt so the
-     two terminal-flavoured elements read as one palette. Along with the brand
-     marks these are the only hues left on the site. */
-  --color-code-keyword: #bb9af7;
+  /* Tokyo Night, for the hero shell prompt. Along with the brand marks these
+     are the only hues left on the site. */
   --color-code-key: #7aa2f7;
   --color-code-string: #9ece6a;
-  --color-code-punct: #565f89;
   --color-code-text: #c0caf5;
 
   /* Archivo carries the display type; Inter the body; mono is meta/data only. */

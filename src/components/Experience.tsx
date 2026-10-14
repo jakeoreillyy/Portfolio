@@ -19,7 +19,7 @@ const jobs: Job[] = [
   {
     role: "Software Engineer Intern",
     org: "Speed-Deed",
-    date: "Jun 2026 - Present",
+    date: "Jun 2026 - Oct 2026",
     description: "Building a pre-sale property and conveyancing platform for the Irish market.",
   },
   {

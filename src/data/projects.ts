@@ -43,8 +43,8 @@ export const projects: Project[] = [
     },
   },
   {
-    id: "startup-ranker",
-    title: "Startup Ranker",
+    id: "innorank",
+    title: "InnoRank",
     eyebrow: "Web app",
     description:
       "A leaderboard that ranks startup ideas with an LLM as the judge rather than a fixed scoring formula, calling the Claude API through a FastAPI backend. New submissions are scored and folded into a single live ranking.",
@@ -53,7 +53,7 @@ export const projects: Project[] = [
     link: { label: "View repo", kind: "repo" },
     image: {
       src: "/ranker.webp",
-      alt: "Startup Ranker, a scored startup leaderboard judged by an LLM",
+      alt: "InnoRank, a scored startup leaderboard judged by an LLM",
       width: 1534,
       height: 1150,
     },

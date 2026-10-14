@@ -7,5 +7,4 @@ export const sectionLinks: NavLink[] = [
   { href: "#experience", label: "Experience" },
   { href: "#education", label: "Education" },
   { href: "#projects", label: "Projects" },
-  { href: "#skills", label: "Skills" },
 ];

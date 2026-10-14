@@ -34,11 +34,9 @@ Third-party materials
 Some files in this repository are not owned by the copyright holder, are not
 part of the Work, and are not covered by this license:
 
-1. The technology logos in `public/logos/` come from the Devicon project (MIT
-   licensed) and remain the trademarks of their respective owners.
-2. The certification badges in `public/certs/` remain the property and
+1. The certification badges in `public/certs/` remain the property and
    trademarks of their respective issuing organizations.
-3. Third-party packages declared in `package.json` are governed by their own
+2. Third-party packages declared in `package.json` are governed by their own
    licenses.
 
 This license neither grants nor restricts any rights in those materials.

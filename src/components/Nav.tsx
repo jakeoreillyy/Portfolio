@@ -28,7 +28,6 @@ export function Nav() {
       experience: "#experience",
       education: "#education",
       projects: "#projects",
-      skills: "#skills",
     };
     const sections = Object.keys(idToLink)
       .map((id) => document.getElementById(id))

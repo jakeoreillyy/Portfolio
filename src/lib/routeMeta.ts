@@ -16,7 +16,7 @@ export const ROUTE_META: Record<string, RouteMeta> = {
   "/": {
     title: "Jake O'Reilly | Software Engineer in Dublin, Ireland",
     description:
-      "Jake O'Reilly, software engineer based in Dublin, Ireland. Explore projects, work experience, education, and skills, or get in touch directly.",
+      "Jake O'Reilly, software engineer based in Dublin, Ireland. Explore projects, work experience, and education, or get in touch directly.",
     ogTitle: "Jake O'Reilly, Software Engineer",
     ogDescription:
       "Computer science student and software engineer in Dublin. Projects, experience, and how to get in touch.",

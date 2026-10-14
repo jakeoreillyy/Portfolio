@@ -5,13 +5,13 @@ import { RESUME_URL } from "../data/links";
 import { sectionLinks } from "../data/nav";
 import type { NavLink } from "../data/nav";
 
+const navigateLinks: NavLink[] = [...sectionLinks, { href: "/contact", label: "Contact" }];
+
 const connectLinks: NavLink[] = [
   { href: "https://github.com/jakeoreillyy", label: "GitHub" },
   { href: "https://www.linkedin.com/in/jake-o-reilly", label: "LinkedIn" },
   { href: "https://x.com/jakeorei", label: "X" },
   { href: RESUME_URL, label: "Resume" },
-  { href: "https://leetcode.com/u/jakeoreilly/", label: "LeetCode" },
-  { href: "/contact", label: "Contact" },
 ];
 
 const linkClass = "text-sm text-muted transition-colors hover:text-accent";
@@ -65,7 +65,7 @@ export function Footer() {
           </p>
         </div>
         <div className="flex gap-12 sm:gap-20">
-          <FooterColumn title="Navigate" links={sectionLinks} />
+          <FooterColumn title="Navigate" links={navigateLinks} />
           <FooterColumn title="Connect" links={connectLinks} />
         </div>
       </div>

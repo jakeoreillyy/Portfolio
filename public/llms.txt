@@ -2,7 +2,7 @@
 
 > Computer science student and software engineer in Dublin, Ireland.
 
-Personal portfolio site covering experience, education, and projects. Contact details and links to GitHub, LinkedIn, X, and LeetCode are included.
+Personal portfolio site covering experience, education, and projects. Contact details and links to GitHub, LinkedIn, and X are included.
 
 ## Pages
 
@@ -14,4 +14,3 @@ Personal portfolio site covering experience, education, and projects. Contact de
 - [GitHub](https://github.com/jakeoreillyy)
 - [LinkedIn](https://www.linkedin.com/in/jake-o-reilly)
 - [X](https://x.com/jakeorei)
-- [LeetCode](https://leetcode.com/u/jakeoreilly/)

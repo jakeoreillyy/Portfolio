@@ -74,7 +74,9 @@ export function Nav() {
           : "border-transparent bg-transparent"
       }`}
     >
-      <nav className="mx-auto flex min-h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
+      {/* box-content puts the padding outside max-w-7xl, so the nav's edges line
+          up with the hero and sections below it. */}
+      <nav className="mx-auto box-content flex min-h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
         <HashLink
           hash="#top"
           className="flex items-center gap-2.5 font-display text-[15px] tracking-[-0.02em] text-foreground"

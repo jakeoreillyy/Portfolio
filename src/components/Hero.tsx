@@ -39,8 +39,8 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="order-first lg:order-last">
-          <div className="relative mx-auto aspect-square w-52 overflow-hidden rounded-full border border-line sm:w-60 md:w-72">
+        <div className="order-first lg:order-last lg:mr-20">
+          <div className="relative mx-auto aspect-square w-56 overflow-hidden rounded-full border border-line sm:w-64 md:w-80">
             <img
               src="/ascii-pfp.webp"
               alt="Jake O'Reilly"

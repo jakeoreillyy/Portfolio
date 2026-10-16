@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { MailIcon } from "./icons";
 import { accentButton } from "../lib/styles";
+import { lenisRef } from "../lib/useLenis";
 
 // Contact sits apart as the pill, so it isn't listed here.
 const pageLinks = [
@@ -24,6 +25,15 @@ export function Nav() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Router won't re-navigate to the current route, so ScrollReset never fires;
+  // scroll up by hand when a link to "/" is clicked while already on it.
+  const onHomeClick = (to: string) => {
+    setOpen(false);
+    if (to !== "/" || location.pathname !== "/") return;
+    if (lenisRef.current) lenisRef.current.scrollTo(0, { lerp: 0.1 });
+    else window.scrollTo({ top: 0 });
+  };
 
   // Same type as the Contact pill beside them, so the three read as one set.
   const linkBase =
@@ -51,6 +61,7 @@ export function Nav() {
       <nav className="mx-auto box-content flex min-h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
         <Link
           to="/"
+          onClick={() => onHomeClick("/")}
           className="flex items-center gap-2.5 font-display text-[15px] tracking-[-0.02em] text-foreground"
         >
           <img
@@ -68,6 +79,7 @@ export function Nav() {
               key={to}
               to={to}
               end
+              onClick={() => onHomeClick(to)}
               className={({ isActive }) =>
                 `${linkBase} ${
                   isActive
@@ -125,7 +137,7 @@ export function Nav() {
                 key={to}
                 to={to}
                 end
-                onClick={() => setOpen(false)}
+                onClick={() => onHomeClick(to)}
                 className={({ isActive }) =>
                   `rounded-md px-2 py-2.5 font-mono text-[13px] transition-colors ${
                     isActive ? "text-foreground" : "text-muted hover:text-foreground"

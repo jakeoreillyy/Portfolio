@@ -65,7 +65,7 @@ export function Nav() {
           className="flex items-center gap-2.5 font-display text-[15px] tracking-[-0.02em] text-foreground"
         >
           <img
-            src="/ascii-pfp.webp"
+            src="/ascii-pfp-small.webp"
             alt="ASCII art portrait of Jake O'Reilly"
             width={28}
             height={28}

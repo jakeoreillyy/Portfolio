@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ArrowUpRightIcon, GitHubIcon } from "./icons";
 import { projects } from "../data/projects";
-import { Section, Tag } from "./Section";
+import { Section } from "./Section";
 import { accentButton } from "../lib/styles";
 
 // The section reads as an index: the list on the left is every project at a
@@ -92,11 +92,6 @@ export function Projects() {
               {project.title}
             </h3>
             <p className="max-w-[52ch] text-sm leading-relaxed text-muted">{project.description}</p>
-            <div className="mt-1 flex flex-wrap gap-1.5">
-              {project.tags.map((tag) => (
-                <Tag key={tag}>{tag}</Tag>
-              ))}
-            </div>
             {project.href && project.link && (
               <a
                 href={project.href}

@@ -28,12 +28,3 @@ export function Section({
     </section>
   );
 }
-
-// Small metadata pill for tech tags.
-export function Tag({ children }: { children: ReactNode }) {
-  return (
-    <span className="rounded border border-line px-2 py-0.5 font-mono text-[11.5px] text-muted">
-      {children}
-    </span>
-  );
-}

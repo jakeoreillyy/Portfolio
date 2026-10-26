@@ -6,7 +6,7 @@ type Project = {
   tags: string[];
   href?: string;
   link?: { label: string; kind: "repo" | "external" };
-  image: { src: string; alt: string; width: number; height: number };
+  image?: { src: string; alt: string; width: number; height: number };
 };
 
 export const projects: Project[] = [
@@ -24,6 +24,22 @@ export const projects: Project[] = [
       alt: "HushPath, a route planner scoring a calm path across Dublin by POI density",
       width: 1615,
       height: 974,
+    },
+  },
+  {
+    id: "precedent",
+    title: "Precedent",
+    eyebrow: "Build for Ireland",
+    description:
+      "A planning permission predictor for Irish apartment developments. Describe a site and a council, and it shows how similar past applications in the national planning register fared: grant rate, time to decision, and what tends to add delay, with links to the real cases. A FastAPI backend and pandas pipeline feed a Nuxt and MapLibre frontend, with optional Claude parsing of the description.",
+    tags: ["FastAPI", "Nuxt", "pandas", "MapLibre", "Anthropic"],
+    href: "https://github.com/jakeoreillyy/Precedent",
+    link: { label: "View repo", kind: "repo" },
+    image: {
+      src: "/precedent.webp",
+      alt: "Precedent, a 3D map of Dublin with a past apartment application selected and its decision details",
+      width: 1280,
+      height: 663,
     },
   },
   {

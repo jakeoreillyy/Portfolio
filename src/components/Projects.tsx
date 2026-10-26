@@ -75,14 +75,16 @@ export function Projects() {
 
         <div className="grid gap-8 xl:h-[24rem] xl:grid-cols-[minmax(0,24rem)_minmax(0,1fr)]">
           <div key={project.id} className="swap-in relative h-56 overflow-hidden xl:h-full">
-            <img
-              src={project.image.src}
-              alt={project.image.alt}
-              width={project.image.width}
-              height={project.image.height}
-              loading="lazy"
-              className="absolute inset-0 h-full w-full object-contain"
-            />
+            {project.image && (
+              <img
+                src={project.image.src}
+                alt={project.image.alt}
+                width={project.image.width}
+                height={project.image.height}
+                loading="lazy"
+                className="absolute inset-0 h-full w-full object-contain"
+              />
+            )}
           </div>
 
           <div key={`${project.id}-text`} className="swap-in flex flex-col gap-4">

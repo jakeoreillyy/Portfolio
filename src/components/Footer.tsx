@@ -6,7 +6,6 @@ type NavLink = { href: string; label: string };
 
 const navigateLinks: NavLink[] = [
   { href: "/", label: "Home" },
-  { href: "/blog", label: "Blog" },
   { href: "/contact", label: "Contact" },
 ];
 

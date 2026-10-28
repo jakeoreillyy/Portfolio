@@ -7,7 +7,6 @@ import { lenisRef } from "../lib/useLenis";
 // Contact sits apart as the pill, so it isn't listed here.
 const pageLinks = [
   { to: "/", label: "Home" },
-  { to: "/blog", label: "Blog" },
 ];
 
 export function Nav() {

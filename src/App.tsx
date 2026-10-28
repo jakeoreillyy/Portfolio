@@ -6,7 +6,6 @@ import { SITE, metaForPath, normalizePath } from "./lib/routeMeta";
 import { Nav } from "./components/Nav";
 import { Footer } from "./components/Footer";
 import Home from "./pages/Home";
-import Blog from "./pages/Blog";
 import Contact from "./pages/Contact";
 
 function setMetaContent(selector: string, content: string) {
@@ -64,12 +63,11 @@ export function AppRoutes() {
       <RouteMeta />
       <ScrollReset />
       <Nav />
-      {/* At least a full screen tall, so on short pages (like the empty blog)
-          the footer waits below the fold instead of riding up into view. */}
+      {/* At least a full screen tall, so on short pages the footer waits
+          below the fold instead of riding up into view. */}
       <main className="min-h-svh">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/blog" element={<Blog />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

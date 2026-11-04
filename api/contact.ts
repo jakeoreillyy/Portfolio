@@ -62,7 +62,16 @@ async function handleContact(request: Request): Promise<Response> {
     return Response.json({ error: "Contact form is not configured yet." }, { status: 500 });
   }
 
-  const { name, email, subject, message, recaptchaToken } = (await request.json()) ?? {};
+  // Parsed on its own so a malformed body is a 400 (the client's mistake)
+  // rather than the generic 500.
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return Response.json({ error: "Request body must be valid JSON." }, { status: 400 });
+  }
+
+  const { name, email, subject, message, recaptchaToken } = (body ?? {}) as Record<string, unknown>;
 
   if (
     !isNonEmptyString(name) ||

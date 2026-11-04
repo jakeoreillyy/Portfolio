@@ -13,10 +13,13 @@ export function Nav() {
   const location = useLocation();
   const onContact = location.pathname === "/contact";
   const [scrolled, setScrolled] = useState(false);
-  const [open, setOpen] = useState(false);
-
-  // Close the dropdown after navigating.
-  useEffect(() => setOpen(false), [location.pathname]);
+  // Keyed to the page it was opened on, so the dropdown closes as soon as the
+  // route changes, with no effect to reset it after navigating.
+  const [openPath, setOpenPath] = useState<string | null>(null);
+  const open = openPath === location.pathname;
+  // Drop that page once it's been left. Otherwise coming back to it (with the
+  // back button, say) would show the dropdown open again.
+  if (openPath !== null && !open) setOpenPath(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -28,7 +31,7 @@ export function Nav() {
   // Router won't re-navigate to the current route, so ScrollReset never fires;
   // scroll up by hand when a link to "/" is clicked while already on it.
   const onHomeClick = (to: string) => {
-    setOpen(false);
+    setOpenPath(null);
     if (to !== "/" || location.pathname !== "/") return;
     if (lenisRef.current) lenisRef.current.scrollTo(0, { lerp: 0.1 });
     else window.scrollTo({ top: 0 });
@@ -97,7 +100,7 @@ export function Nav() {
         </div>
         <button
           type="button"
-          onClick={() => setOpen(!open)}
+          onClick={() => setOpenPath(open ? null : location.pathname)}
           aria-expanded={open}
           aria-label="Toggle menu"
           className="-mr-1 p-1 text-muted transition-colors hover:text-foreground min-[480px]:hidden"
@@ -148,7 +151,7 @@ export function Nav() {
             ))}
             <Link
               to="/contact"
-              onClick={() => setOpen(false)}
+              onClick={() => setOpenPath(null)}
               className={`${contactStyle} mt-3 self-start`}
             >
               <MailIcon size={14} />

@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
+import type { KeyboardEvent } from "react";
 import { ArrowUpRightIcon, GitHubIcon } from "./icons";
 import { projects } from "../data/projects";
 import { Section } from "./Section";
 import { accentButton } from "../lib/styles";
+
+const tabId = (id: string) => `project-tab-${id}`;
+const panelId = (id: string) => `project-panel-${id}`;
 
 // The section reads as an index: the list on the left is every project at a
 // glance, and selecting a row swaps the single preview on the right. The frame
@@ -11,8 +15,23 @@ import { accentButton } from "../lib/styles";
 export function Projects() {
   const [active, setActive] = useState(0);
   const project = projects[active];
+  const tabs = useRef<(HTMLButtonElement | null)[]>([]);
 
-  const step = (delta: number) => setActive((i) => (i + delta + projects.length) % projects.length);
+  // Vertical tabs with automatic activation: the arrow keys (wrapping at the
+  // ends), Home and End move focus, and the focused tab is the selected one.
+  // Moving focus too means Enter or Space can't jump back to a stale tab.
+  const onTabKeyDown = (e: KeyboardEvent<HTMLButtonElement>, i: number) => {
+    const count = projects.length;
+    let next: number;
+    if (e.key === "ArrowDown") next = (i + 1) % count;
+    else if (e.key === "ArrowUp") next = (i - 1 + count) % count;
+    else if (e.key === "Home") next = 0;
+    else if (e.key === "End") next = count - 1;
+    else return;
+    e.preventDefault();
+    setActive(next);
+    tabs.current[next]?.focus();
+  };
 
   return (
     <Section
@@ -33,25 +52,27 @@ export function Projects() {
 
       <div className="mt-12 grid gap-x-12 gap-y-8 lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)]">
         <div
+          role="tablist"
+          aria-label="Projects"
+          aria-orientation="vertical"
           className="flex flex-col self-start"
-          onKeyDown={(e) => {
-            if (e.key === "ArrowDown") {
-              e.preventDefault();
-              step(1);
-            } else if (e.key === "ArrowUp") {
-              e.preventDefault();
-              step(-1);
-            }
-          }}
         >
           {projects.map((p, i) => {
             const on = i === active;
             return (
               <button
                 key={p.id}
+                ref={(el) => {
+                  tabs.current[i] = el;
+                }}
                 type="button"
-                aria-current={on}
+                role="tab"
+                id={tabId(p.id)}
+                aria-selected={on}
+                aria-controls={panelId(p.id)}
+                tabIndex={on ? 0 : -1}
                 onClick={() => setActive(i)}
+                onKeyDown={(e) => onTabKeyDown(e, i)}
                 className="flex w-full cursor-pointer items-baseline gap-3 border-b border-line py-4 text-left first:pt-0"
               >
                 <span
@@ -73,7 +94,15 @@ export function Projects() {
           })}
         </div>
 
-        <div className="grid gap-8 xl:h-[24rem] xl:grid-cols-[minmax(0,24rem)_minmax(0,1fr)]">
+        {/* Focusable itself because its first content (the screenshot and
+            heading) isn't, so Tab from the list lands on the panel. */}
+        <div
+          role="tabpanel"
+          id={panelId(project.id)}
+          aria-labelledby={tabId(project.id)}
+          tabIndex={0}
+          className="grid gap-8 xl:h-[24rem] xl:grid-cols-[minmax(0,24rem)_minmax(0,1fr)]"
+        >
           <div key={project.id} className="swap-in relative h-56 overflow-hidden xl:h-full">
             {project.image && (
               <img

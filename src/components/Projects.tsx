@@ -91,6 +91,11 @@ export function Projects() {
             <h3 className="font-display text-[clamp(1.6rem,3.4vw,2.2rem)] leading-[1.05] tracking-[-0.035em] text-foreground">
               {project.title}
             </h3>
+            {/* Pulled up into the title's space so it reads as part of the
+                heading, not as one more block in the column's spacing. */}
+            {project.award && (
+              <p className="-mt-2 font-mono text-[11px] text-faint">{project.award}</p>
+            )}
             <p className="max-w-[52ch] text-sm leading-relaxed text-muted">{project.description}</p>
             {project.links.length > 0 && (
               <div className="mt-2 flex flex-wrap gap-3">

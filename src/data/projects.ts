@@ -1,6 +1,7 @@
 type Project = {
   id: string;
   title: string;
+  award?: string;
   eyebrow: string;
   description: string;
   links: { href: string; label: string; kind: "repo" | "external" }[];
@@ -11,6 +12,7 @@ export const projects: Project[] = [
   {
     id: "hushpath",
     title: "HushPath",
+    award: "3rd place · Workday",
     eyebrow: "3rd place · Workday",
     description:
       "A sensory-friendly journey planner that scores Dublin city centre across 80m grid cells, using POI density from the Overpass and Nominatim APIs as a noise proxy. A custom waypoint algorithm then routes between any two points via the Google Maps API, favouring the quieter cells over the shortest path.",

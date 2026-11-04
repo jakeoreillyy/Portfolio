@@ -1,4 +1,3 @@
-import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { Resend } from "resend";
 
 const TO_EMAIL = process.env.CONTACT_TO_EMAIL;
@@ -31,26 +30,36 @@ async function verifyRecaptcha(token: unknown) {
   return data.success && (data.score === undefined || data.score >= 0.5);
 }
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export async function POST(request: Request): Promise<Response> {
   try {
-    await handleContact(req, res);
+    return await handleContact(request);
   } catch {
-    res.status(500).json({ error: "Something went wrong. Please try again." });
+    return Response.json({ error: "Something went wrong. Please try again." }, { status: 500 });
   }
 }
 
-async function handleContact(req: VercelRequest, res: VercelResponse) {
-  if (req.method !== "POST") {
-    res.status(405).json({ error: "Method not allowed" });
-    return;
-  }
+// Vercel answers a method the module doesn't export with an empty 405. These
+// exports keep the JSON error body for every other method.
+function methodNotAllowed() {
+  return Response.json(
+    { error: "Method not allowed" },
+    { status: 405, headers: { Allow: "POST" } },
+  );
+}
 
+export const GET = methodNotAllowed;
+export const HEAD = methodNotAllowed;
+export const OPTIONS = methodNotAllowed;
+export const PUT = methodNotAllowed;
+export const DELETE = methodNotAllowed;
+export const PATCH = methodNotAllowed;
+
+async function handleContact(request: Request): Promise<Response> {
   if (!process.env.RESEND_API_KEY || !TO_EMAIL) {
-    res.status(500).json({ error: "Contact form is not configured yet." });
-    return;
+    return Response.json({ error: "Contact form is not configured yet." }, { status: 500 });
   }
 
-  const { name, email, subject, message, recaptchaToken } = req.body ?? {};
+  const { name, email, subject, message, recaptchaToken } = (await request.json()) ?? {};
 
   if (
     !isNonEmptyString(name) ||
@@ -58,24 +67,23 @@ async function handleContact(req: VercelRequest, res: VercelResponse) {
     !isNonEmptyString(subject) ||
     !isNonEmptyString(message)
   ) {
-    res.status(400).json({ error: "Please fill in every field." });
-    return;
+    return Response.json({ error: "Please fill in every field." }, { status: 400 });
   }
 
   if (!isValidEmail(email)) {
-    res.status(400).json({ error: "Please enter a valid email address." });
-    return;
+    return Response.json({ error: "Please enter a valid email address." }, { status: 400 });
   }
 
   if (name.length > 200 || email.length > 320 || subject.length > 200 || message.length > 5000) {
-    res.status(400).json({ error: "Message is too long." });
-    return;
+    return Response.json({ error: "Message is too long." }, { status: 400 });
   }
 
   const recaptchaOk = await verifyRecaptcha(recaptchaToken);
   if (!recaptchaOk) {
-    res.status(400).json({ error: "reCAPTCHA verification failed. Please try again." });
-    return;
+    return Response.json(
+      { error: "reCAPTCHA verification failed. Please try again." },
+      { status: 400 },
+    );
   }
 
   const resend = new Resend(process.env.RESEND_API_KEY);
@@ -89,9 +97,8 @@ async function handleContact(req: VercelRequest, res: VercelResponse) {
   });
 
   if (error) {
-    res.status(502).json({ error: "Failed to send message. Please try again." });
-    return;
+    return Response.json({ error: "Failed to send message. Please try again." }, { status: 502 });
   }
 
-  res.status(200).json({ ok: true });
+  return Response.json({ ok: true });
 }

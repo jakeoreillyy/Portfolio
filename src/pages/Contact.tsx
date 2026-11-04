@@ -80,8 +80,7 @@ async function getRecaptchaToken(): Promise<string | undefined> {
 
 const EMAIL = "oreillyjake16@gmail.com";
 
-// mailto entries open in place; the rest are external links; the last has no
-// href and renders dimmer so it doesn't read as clickable.
+// mailto entries open in place; the rest are external links.
 const details = [
   { Icon: MailIcon, label: EMAIL, href: `mailto:${EMAIL}` },
   { Icon: LinkedInIcon, label: "jake-o-reilly", href: "https://www.linkedin.com/in/jake-o-reilly" },
@@ -181,31 +180,19 @@ export default function Contact() {
         </h1>
 
         <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3 border-b border-line pb-8">
-          {details.map(({ Icon, label, href }) => {
-            const inner = (
-              <>
-                <Icon size={16} className="shrink-0" />
-                {label}
-              </>
-            );
-            const base = "flex items-center gap-2 font-mono text-sm";
-            return href ? (
-              <a
-                key={label}
-                href={href}
-                {...(href.startsWith("mailto:")
-                  ? {}
-                  : { target: "_blank", rel: "noopener noreferrer" })}
-                className={`${base} text-muted transition-colors hover:text-accent`}
-              >
-                {inner}
-              </a>
-            ) : (
-              <span key={label} className={`${base} text-faint`}>
-                {inner}
-              </span>
-            );
-          })}
+          {details.map(({ Icon, label, href }) => (
+            <a
+              key={label}
+              href={href}
+              {...(href.startsWith("mailto:")
+                ? {}
+                : { target: "_blank", rel: "noopener noreferrer" })}
+              className="flex items-center gap-2 font-mono text-sm text-muted transition-colors hover:text-accent"
+            >
+              <Icon size={16} className="shrink-0" />
+              {label}
+            </a>
+          ))}
         </div>
 
         <form

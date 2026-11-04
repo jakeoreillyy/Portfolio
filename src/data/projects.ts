@@ -20,8 +20,8 @@ export const projects: Project[] = [
     image: {
       src: "/hushpath.webp",
       alt: "HushPath, a route planner scoring a calm path across Dublin by POI density",
-      width: 1615,
-      height: 974,
+      width: 1000,
+      height: 603,
     },
   },
   {
@@ -35,8 +35,8 @@ export const projects: Project[] = [
     image: {
       src: "/precedent.webp",
       alt: "Precedent, a 3D map of Dublin with a past apartment application selected and its decision details",
-      width: 1280,
-      height: 663,
+      width: 1000,
+      height: 518,
     },
   },
   {
@@ -50,8 +50,8 @@ export const projects: Project[] = [
     image: {
       src: "/threadbase.webp",
       alt: "ThreadBase, forum threads flowing into a Postgres database",
-      width: 1535,
-      height: 1024,
+      width: 1000,
+      height: 667,
     },
   },
   {
@@ -65,8 +65,8 @@ export const projects: Project[] = [
     image: {
       src: "/ranker.webp",
       alt: "InnoRank, a scored startup leaderboard judged by an LLM",
-      width: 1534,
-      height: 1150,
+      width: 1000,
+      height: 750,
     },
   },
   {
@@ -80,8 +80,8 @@ export const projects: Project[] = [
     image: {
       src: "/reservr.webp",
       alt: "Reservr, a library booking system for reserving books",
-      width: 1260,
-      height: 610,
+      width: 1000,
+      height: 484,
     },
   },
 ];

@@ -73,7 +73,8 @@ export function Footer() {
         <div className="mx-auto box-content flex max-w-7xl flex-col gap-2 px-6 py-6 text-xs text-faint sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} Jake O'Reilly. All rights reserved.</p>
           <a href="#top" className="transition-colors hover:text-accent">
-            Back to top ↑
+            Back to top
+            <span aria-hidden="true"> ↑</span>
           </a>
         </div>
       </div>

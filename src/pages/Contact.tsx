@@ -163,13 +163,8 @@ export default function Contact() {
         <>
           <form onSubmit={handleSubmit} className="mt-8 space-y-5">
             <div className="grid gap-5 sm:grid-cols-2">
-              <Field name="name" label="Name" placeholder="Andrej Karpathy" />
-              <Field
-                name="email"
-                label="Email"
-                type="email"
-                placeholder="andrejkarpathy@gmail.com"
-              />
+              <Field name="name" label="Name" placeholder="Jane Doe" />
+              <Field name="email" label="Email" type="email" placeholder="jane@example.com" />
             </div>
 
             <Field name="subject" label="Subject" placeholder="A question about your work" />

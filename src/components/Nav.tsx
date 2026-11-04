@@ -10,7 +10,6 @@ const pageLinks = [
 
 export function Nav() {
   const location = useLocation();
-  const onContact = location.pathname === "/contact";
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -30,10 +29,12 @@ export function Nav() {
     "after:absolute after:inset-x-0 after:-bottom-1.5 after:h-px after:origin-left " +
     "after:bg-accent after:transition-transform after:duration-300 hover:after:scale-x-100";
 
-  // On /contact the pill is already "arrived", so it renders pre-filled.
-  const contactStyle = onContact
-    ? "inline-flex items-center gap-1.5 rounded border border-accent bg-accent px-3.5 py-1.5 font-mono text-[13px] text-background"
-    : accentButton;
+  // On /contact the pill is already "arrived", so it renders pre-filled. No
+  // `end` on its NavLink, so /contact/ counts as arrived too.
+  const contactStyle = ({ isActive }: { isActive: boolean }) =>
+    isActive
+      ? "inline-flex items-center gap-1.5 rounded border border-accent bg-accent px-3.5 py-1.5 font-mono text-[13px] text-background"
+      : accentButton;
 
   const barLine = "absolute left-0 block h-[2px] w-5 rounded-full bg-current";
 
@@ -80,10 +81,10 @@ export function Nav() {
               {label}
             </NavLink>
           ))}
-          <Link to="/contact" className={contactStyle}>
+          <NavLink to="/contact" className={contactStyle}>
             <MailIcon size={14} />
             Contact
-          </Link>
+          </NavLink>
         </div>
         <button
           type="button"
@@ -136,14 +137,14 @@ export function Nav() {
                 {label}
               </NavLink>
             ))}
-            <Link
+            <NavLink
               to="/contact"
               onClick={() => setOpen(false)}
-              className={`${contactStyle} mt-3 self-start`}
+              className={(state) => `${contactStyle(state)} mt-3 self-start`}
             >
               <MailIcon size={14} />
               Contact
-            </Link>
+            </NavLink>
           </div>
         </div>
       </div>

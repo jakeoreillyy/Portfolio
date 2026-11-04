@@ -5,6 +5,10 @@ const END = new Date(2028, 4, 31); // May 2028
 const SPAN = END.getTime() - START.getTime();
 const TOTAL_YEARS = 4;
 
+// en-US, not en-GB: current ICU abbreviates September as "Sept" in en-GB. A
+// fixed locale also keeps the prerendered labels the same as the browser's.
+const monthYear = new Intl.DateTimeFormat("en-US", { month: "short", year: "numeric" });
+
 const at = (date: Date) => Math.min(Math.max((date.getTime() - START.getTime()) / SPAN, 0), 1);
 
 // Calendar-year checkpoints after the start. September sits about three
@@ -51,8 +55,12 @@ export function Education() {
 
       <div className="mt-9">
         <div className="relative mb-2 h-4 font-mono text-[11px] tabular-nums">
-          <span className="absolute left-0 whitespace-nowrap text-muted">Sep 2024</span>
-          <span className="absolute right-0 whitespace-nowrap text-muted">May 2028</span>
+          <span className="absolute left-0 whitespace-nowrap text-muted">
+            {monthYear.format(START)}
+          </span>
+          <span className="absolute right-0 whitespace-nowrap text-muted">
+            {monthYear.format(END)}
+          </span>
         </div>
 
         <div className="relative h-px bg-line">

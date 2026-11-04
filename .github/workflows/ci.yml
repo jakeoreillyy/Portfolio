@@ -1,0 +1,25 @@
+# Catches anything that would fail Vercel's build, or the lint and format
+# checks, before it reaches a deploy.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# npm ci runs dependencies' install scripts, so the token gets no write access.
+permissions: read-all
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          # engines.node, so CI runs the same Node version Vercel deploys with.
+          node-version-file: package.json
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: npm run build

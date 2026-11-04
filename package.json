@@ -12,6 +12,7 @@
     "build": "tsc --noEmit && vite build && node scripts/prerender.mjs",
     "preview": "vite preview",
     "lint": "eslint .",
+    "test": "vitest run",
     "format": "prettier --write src api scripts index.html *.ts *.json",
     "format:check": "prettier --check src api scripts index.html *.ts *.json"
   },
@@ -41,6 +42,7 @@
     "tailwindcss": "^4.1.0",
     "typescript": "~5.9.0",
     "typescript-eslint": "^8.63.0",
-    "vite": "^7.1.0"
+    "vite": "^7.1.0",
+    "vitest": "^5.1.0"
   }
 }

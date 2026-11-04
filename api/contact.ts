@@ -2,7 +2,7 @@ import { Resend } from "resend";
 // The .js extension is required: Vercel runs this file as native ESM, which
 // won't resolve an extensionless import. TypeScript and Vercel's file tracing
 // both map it back to the .ts source.
-import { MAX_LENGTH } from "../src/lib/contactLimits.js";
+import { isNonEmptyString, validateContact } from "./_lib/validation.js";
 
 const TO_EMAIL = process.env.CONTACT_TO_EMAIL;
 // Without a verified domain this falls back to Resend's testing sender, which
@@ -11,14 +11,6 @@ const TO_EMAIL = process.env.CONTACT_TO_EMAIL;
 const FROM_EMAIL = process.env.CONTACT_FROM_EMAIL || "Portfolio Contact <onboarding@resend.dev>";
 const RECAPTCHA_SECRET = process.env.RECAPTCHA_SECRET_KEY;
 const RECAPTCHA_TIMEOUT_MS = 5000;
-
-function isNonEmptyString(value: unknown): value is string {
-  return typeof value === "string" && value.trim().length > 0;
-}
-
-function isValidEmail(value: string) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-}
 
 async function verifyRecaptcha(token: unknown) {
   // Fail closed in production: a missing secret there means the env var was
@@ -97,30 +89,14 @@ async function handleContact(request: Request): Promise<Response> {
     return Response.json({ error: "Request body must be valid JSON." }, { status: 400 });
   }
 
-  const { name, email, subject, message, recaptchaToken } = (body ?? {}) as Record<string, unknown>;
-
-  if (
-    !isNonEmptyString(name) ||
-    !isNonEmptyString(email) ||
-    !isNonEmptyString(subject) ||
-    !isNonEmptyString(message)
-  ) {
-    return Response.json({ error: "Please fill in every field." }, { status: 400 });
+  const result = validateContact(body);
+  if (!result.ok) {
+    return Response.json({ error: result.error }, { status: 400 });
   }
+  const { name, email, subject, message } = result.fields;
 
-  if (!isValidEmail(email)) {
-    return Response.json({ error: "Please enter a valid email address." }, { status: 400 });
-  }
-
-  if (
-    name.length > MAX_LENGTH.name ||
-    email.length > MAX_LENGTH.email ||
-    subject.length > MAX_LENGTH.subject ||
-    message.length > MAX_LENGTH.message
-  ) {
-    return Response.json({ error: "Message is too long." }, { status: 400 });
-  }
-
+  // Validation passed, so the body is an object.
+  const { recaptchaToken } = body as Record<string, unknown>;
   const recaptchaOk = await verifyRecaptcha(recaptchaToken);
   if (!recaptchaOk) {
     return Response.json(

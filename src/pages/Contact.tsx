@@ -218,11 +218,12 @@ export default function Contact() {
             className="mt-8 space-y-5"
           >
             <div className="grid gap-5 sm:grid-cols-2">
-              <Field name="name" label="Name" placeholder="Andrej Karpathy" />
+              <Field name="name" label="Name" autoComplete="name" placeholder="Andrej Karpathy" />
               <Field
                 name="email"
                 label="Email"
                 type="email"
+                autoComplete="email"
                 placeholder="andrejkarpathy@gmail.com"
               />
             </div>

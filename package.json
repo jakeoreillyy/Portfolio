@@ -13,7 +13,8 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "format": "prettier --write src api scripts index.html *.ts *.json",
-    "format:check": "prettier --check src api scripts index.html *.ts *.json"
+    "format:check": "prettier --check src api scripts index.html *.ts *.json",
+    "check": "tsc --noEmit && npm run lint && npm run format:check"
   },
   "dependencies": {
     "@fontsource/archivo": "^5.3.0",

@@ -9,11 +9,13 @@
     "moduleResolution": "bundler",
     "moduleDetection": "force",
     "verbatimModuleSyntax": true,
+    // Lets the build scripts stay plain .mjs; files with // @ts-check get checked.
+    "allowJs": true,
     "noEmit": true,
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["api", "vite.config.ts"]
+  "include": ["api", "vite.config.ts", "scripts"]
 }

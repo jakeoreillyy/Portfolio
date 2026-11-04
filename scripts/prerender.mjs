@@ -1,3 +1,4 @@
+// @ts-check
 // Runs after `vite build`. Renders each route to static HTML in Node via
 // react-dom/server (see src/entry-server.tsx), then bakes that markup and the
 // route's metadata into the built index.html — so crawlers that don't execute
@@ -27,6 +28,11 @@ if (!template.includes(ROOT_DIV)) {
 // Every substitution goes through here so a template change that breaks a
 // pattern fails the build, instead of silently shipping the empty shell or
 // the home page's metadata.
+/**
+ * @param {string} html
+ * @param {string | RegExp} pattern
+ * @param {(match: string, ...groups: string[]) => string} replacer
+ */
 function mustReplace(html, pattern, replacer) {
   if (!html.match(pattern)) throw new Error(`prerender: template has no match for ${pattern}`);
   return html.replace(pattern, replacer);
@@ -35,6 +41,7 @@ function mustReplace(html, pattern, replacer) {
 // Everything substituted below lands in element text or inside a double-quoted
 // attribute, so a stray quote or ampersand in a description would otherwise
 // truncate the tag or be read as an entity.
+/** @param {string} value */
 function escapeHtml(value) {
   return value.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
 }
@@ -42,11 +49,22 @@ function escapeHtml(value) {
 // Replace the content="" of the <meta> carrying the given attribute (e.g.
 // name="description" or property="og:url"). [^>]* also spans newlines, so it
 // matches whether or not the build kept the tag on one line.
+/**
+ * @param {string} html
+ * @param {string} attr
+ * @param {string} value
+ */
 function setMetaContent(html, attr, value) {
   const re = new RegExp(`(<meta[^>]*${attr}[^>]*content=")[^"]*(")`);
   return mustReplace(html, re, (_m, before, after) => before + escapeHtml(value) + after);
 }
 
+/**
+ * @param {string} html
+ * @param {string} body
+ * @param {import("../src/lib/routeMeta").RouteMeta} meta
+ * @param {string} url
+ */
 function applyRoute(html, body, meta, url) {
   html = mustReplace(
     html,

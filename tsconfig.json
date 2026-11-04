@@ -1,19 +1,7 @@
 {
-  "compilerOptions": {
-    "target": "ES2022",
-    "useDefineForClassFields": true,
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
-    "skipLibCheck": true,
-    "moduleResolution": "bundler",
-    "moduleDetection": "force",
-    "verbatimModuleSyntax": true,
-    "noEmit": true,
-    "jsx": "react-jsx",
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
-  },
-  "include": ["src", "api", "vite.config.ts"]
+  // The app runs in the browser and api/, vite.config.ts and scripts/ run in
+  // Node, so each side gets its own config with the right globals. Type-check
+  // with `tsc -b`: a plain `tsc` here has no files of its own to check.
+  "files": [],
+  "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }]
 }

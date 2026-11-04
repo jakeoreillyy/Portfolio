@@ -15,10 +15,7 @@ export function Projects() {
   const step = (delta: number) => setActive((i) => (i + delta + projects.length) % projects.length);
 
   return (
-    <Section
-      title="Projects"
-      srDetail="Software engineering projects built by Jake O'Reilly"
-    >
+    <Section title="Projects" srDetail="Software engineering projects built by Jake O'Reilly">
       {/* Only the active project's description renders visibly (see below) —
           this lists all of them for crawlers, since clicking through the
           index isn't something a crawler does. Hidden from assistive tech so

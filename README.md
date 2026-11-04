@@ -53,6 +53,7 @@ The site runs fine without these; they're only needed for the contact form to ac
 | `npm run lint` | Run ESLint |
 | `npm run format` | Format with Prettier |
 | `npm run format:check` | Check formatting without changing files |
+| `npm run check` | Type-check, lint, and check formatting (what CI runs) |
 
 ## License
 

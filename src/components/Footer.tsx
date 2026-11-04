@@ -66,7 +66,7 @@ export function Footer() {
             Jake O'Reilly
           </Link>
           <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted">
-            Building from Dublin, Ireland. ☘️🇮🇪
+            Building from Dublin, Ireland. ☘️
           </p>
         </div>
         <div className="flex gap-12 sm:gap-20">

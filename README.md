@@ -40,6 +40,7 @@ The site runs fine without these; they're only needed for the contact form to ac
 | --- | --- |
 | `RESEND_API_KEY` | Resend API key that sends the email |
 | `CONTACT_TO_EMAIL` | Address the contact form delivers to |
+| `CONTACT_FROM_EMAIL` | Sender address on a domain verified in Resend (optional; defaults to Resend's testing sender) |
 | `VITE_RECAPTCHA_SITE_KEY` | reCAPTCHA v3 site key (optional; leave blank to disable) |
 | `RECAPTCHA_SECRET_KEY` | reCAPTCHA v3 secret key (optional) |
 

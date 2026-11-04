@@ -1,7 +1,10 @@
 import { Resend } from "resend";
 
 const TO_EMAIL = process.env.CONTACT_TO_EMAIL;
-const FROM_EMAIL = "Portfolio Contact <onboarding@resend.dev>";
+// Without a verified domain this falls back to Resend's testing sender, which
+// only delivers to the account's own address and is more likely to be
+// filtered as spam. A blank value (as in .env.example) also falls back.
+const FROM_EMAIL = process.env.CONTACT_FROM_EMAIL || "Portfolio Contact <onboarding@resend.dev>";
 const RECAPTCHA_SECRET = process.env.RECAPTCHA_SECRET_KEY;
 const RECAPTCHA_TIMEOUT_MS = 5000;
 

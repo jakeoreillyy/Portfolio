@@ -186,7 +186,33 @@ export default function Contact() {
               {status !== "sending" && <span aria-hidden="true">→</span>}
             </button>
 
-            <p className="font-mono text-xs text-faint">Protected by reCAPTCHA.</p>
+            <div className="space-y-1.5 font-mono text-xs text-faint">
+              <p>Protected by reCAPTCHA.</p>
+              {/* Draft for Jake to reword. Visitors should know what the form keeps, what
+                  it's for, and that reCAPTCHA shares data with Google before they send. */}
+              <p className="leading-relaxed">
+                I only use your name, email and message to reply to you. reCAPTCHA sends some data
+                to Google, and Google's{" "}
+                <a
+                  href="https://policies.google.com/privacy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline underline-offset-2 transition-colors hover:text-accent"
+                >
+                  Privacy Policy
+                </a>{" "}
+                and{" "}
+                <a
+                  href="https://policies.google.com/terms"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline underline-offset-2 transition-colors hover:text-accent"
+                >
+                  Terms
+                </a>{" "}
+                apply.
+              </p>
+            </div>
 
             <div aria-live="polite" className="empty:hidden">
               {status === "sent" && (

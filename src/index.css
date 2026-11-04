@@ -3,11 +3,8 @@
 @theme {
   /* True neutral ramp: pure black ground, greys with no colour cast. */
   --color-background: #000000;
-  --color-surface: #0d0d0d;
   --color-line: #1f1f1f;
-  --color-line-strong: #2b2b2b;
   --color-line-bright: #3f3f3f;
-  --color-raised: #141414;
   --color-foreground: #f2f2f2;
   --color-muted: #9a9a9a;
   --color-faint: #757575; /* 4.56:1 on black, AA for the small meta text */

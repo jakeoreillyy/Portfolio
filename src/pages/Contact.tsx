@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { ComponentProps, SubmitEvent } from "react";
 import { LinkedInIcon, MailIcon, XIcon } from "../components/icons";
+import { MAX_LENGTH } from "../lib/contactLimits";
 
 const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY as string | undefined;
 
@@ -163,16 +164,27 @@ export default function Contact() {
         <>
           <form onSubmit={handleSubmit} className="mt-8 space-y-5">
             <div className="grid gap-5 sm:grid-cols-2">
-              <Field name="name" label="Name" placeholder="Andrej Karpathy" />
+              <Field
+                name="name"
+                label="Name"
+                placeholder="Andrej Karpathy"
+                maxLength={MAX_LENGTH.name}
+              />
               <Field
                 name="email"
                 label="Email"
                 type="email"
                 placeholder="andrejkarpathy@gmail.com"
+                maxLength={MAX_LENGTH.email}
               />
             </div>
 
-            <Field name="subject" label="Subject" placeholder="A question about your work" />
+            <Field
+              name="subject"
+              label="Subject"
+              placeholder="A question about your work"
+              maxLength={MAX_LENGTH.subject}
+            />
 
             <Field
               name="message"
@@ -180,6 +192,7 @@ export default function Contact() {
               textarea
               rows={6}
               placeholder="Hey Jake, I'd love to hear more about how you approached one of your projects."
+              maxLength={MAX_LENGTH.message}
             />
 
             <button

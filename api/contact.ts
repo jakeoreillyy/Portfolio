@@ -1,81 +1,108 @@
-import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { Resend } from "resend";
+// The .js extension is required: Vercel runs this file as native ESM, which
+// won't resolve an extensionless import. TypeScript and Vercel's file tracing
+// both map it back to the .ts source.
+import { isNonEmptyString, validateContact } from "./_lib/validation.js";
 
 const TO_EMAIL = process.env.CONTACT_TO_EMAIL;
-const FROM_EMAIL = "Portfolio Contact <onboarding@resend.dev>";
+// Without a verified domain this falls back to Resend's testing sender, which
+// only delivers to the account's own address and is more likely to be
+// filtered as spam. A blank value (as in .env.example) also falls back.
+const FROM_EMAIL = process.env.CONTACT_FROM_EMAIL || "Portfolio Contact <onboarding@resend.dev>";
 const RECAPTCHA_SECRET = process.env.RECAPTCHA_SECRET_KEY;
-
-function isNonEmptyString(value: unknown): value is string {
-  return typeof value === "string" && value.trim().length > 0;
-}
-
-function isValidEmail(value: string) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-}
+const RECAPTCHA_TIMEOUT_MS = 5000;
 
 async function verifyRecaptcha(token: unknown) {
   // Fail closed in production: a missing secret there means the env var was
-  // dropped, and skipping the check would quietly turn this into an open relay.
-  // Locally it's fine to run without reCAPTCHA configured.
+  // dropped. Skipping the check would let bots spam the inbox and use up the
+  // Resend quota. Locally it's fine to run without reCAPTCHA configured.
   if (!RECAPTCHA_SECRET) return process.env.NODE_ENV !== "production";
 
   if (!isNonEmptyString(token)) return false;
 
-  const res = await fetch("https://www.google.com/recaptcha/api/siteverify", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({ secret: RECAPTCHA_SECRET, response: token }),
-  });
-
-  const data = (await res.json()) as { success: boolean; score?: number };
-  return data.success && (data.score === undefined || data.score >= 0.5);
-}
-
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+  let data: { success: boolean; score?: number; action?: string };
   try {
-    await handleContact(req, res);
-  } catch {
-    res.status(500).json({ error: "Something went wrong. Please try again." });
+    const res = await fetch("https://www.google.com/recaptcha/api/siteverify", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({ secret: RECAPTCHA_SECRET, response: token }),
+      // A slow or hung call would otherwise hold the request open until the
+      // function itself times out.
+      signal: AbortSignal.timeout(RECAPTCHA_TIMEOUT_MS),
+    });
+    data = await res.json();
+  } catch (error) {
+    // Count a timeout as a failed check. The visitor gets the usual reCAPTCHA
+    // error and can try again.
+    if (error instanceof DOMException && error.name === "TimeoutError") {
+      console.error(`contact: reCAPTCHA verification timed out after ${RECAPTCHA_TIMEOUT_MS} ms`);
+      return false;
+    }
+    throw error;
+  }
+
+  // Google recommends checking the action too, so only tokens minted for this
+  // form (the action Contact.tsx passes to grecaptcha.execute) get through.
+  return (
+    data.success && data.action === "contact" && (data.score === undefined || data.score >= 0.5)
+  );
+}
+
+export async function POST(request: Request): Promise<Response> {
+  try {
+    return await handleContact(request);
+  } catch (error) {
+    // Vercel keeps only what the function logs, so without this a 500 leaves
+    // nothing to debug from.
+    console.error("contact: unexpected error", error);
+    return Response.json({ error: "Something went wrong. Please try again." }, { status: 500 });
   }
 }
 
-async function handleContact(req: VercelRequest, res: VercelResponse) {
-  if (req.method !== "POST") {
-    res.status(405).json({ error: "Method not allowed" });
-    return;
-  }
+// Vercel answers a method the module doesn't export with an empty 405. These
+// exports keep the JSON error body for every other method.
+function methodNotAllowed() {
+  return Response.json(
+    { error: "Method not allowed" },
+    { status: 405, headers: { Allow: "POST" } },
+  );
+}
 
+export const GET = methodNotAllowed;
+export const HEAD = methodNotAllowed;
+export const OPTIONS = methodNotAllowed;
+export const PUT = methodNotAllowed;
+export const DELETE = methodNotAllowed;
+export const PATCH = methodNotAllowed;
+
+async function handleContact(request: Request): Promise<Response> {
   if (!process.env.RESEND_API_KEY || !TO_EMAIL) {
-    res.status(500).json({ error: "Contact form is not configured yet." });
-    return;
+    return Response.json({ error: "Contact form is not configured yet." }, { status: 500 });
   }
 
-  const { name, email, subject, message, recaptchaToken } = req.body ?? {};
-
-  if (
-    !isNonEmptyString(name) ||
-    !isNonEmptyString(email) ||
-    !isNonEmptyString(subject) ||
-    !isNonEmptyString(message)
-  ) {
-    res.status(400).json({ error: "Please fill in every field." });
-    return;
+  // Parsed on its own so a malformed body is a 400 (the client's mistake)
+  // rather than the generic 500.
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return Response.json({ error: "Request body must be valid JSON." }, { status: 400 });
   }
 
-  if (!isValidEmail(email)) {
-    res.status(400).json({ error: "Please enter a valid email address." });
-    return;
+  const result = validateContact(body);
+  if (!result.ok) {
+    return Response.json({ error: result.error }, { status: 400 });
   }
+  const { name, email, subject, message } = result.fields;
 
-  if (name.length > 200 || email.length > 320 || subject.length > 200 || message.length > 5000) {
-    res.status(400).json({ error: "Message is too long." });
-    return;
-  }
-
+  // Validation passed, so the body is an object.
+  const { recaptchaToken } = body as Record<string, unknown>;
   const recaptchaOk = await verifyRecaptcha(recaptchaToken);
   if (!recaptchaOk) {
-    res.status(400).json({ error: "reCAPTCHA verification failed. Please try again." });
-    return;
+    return Response.json(
+      { error: "reCAPTCHA verification failed. Please try again." },
+      { status: 400 },
+    );
   }
 
   const resend = new Resend(process.env.RESEND_API_KEY);
@@ -89,9 +116,11 @@ async function handleContact(req: VercelRequest, res: VercelResponse) {
   });
 
   if (error) {
-    res.status(502).json({ error: "Failed to send message. Please try again." });
-    return;
+    // Resend's SDK only logs failures outside production, so on Vercel this
+    // line is the only record of why a send failed.
+    console.error(`contact: Resend failed to send (${error.name}): ${error.message}`);
+    return Response.json({ error: "Failed to send message. Please try again." }, { status: 502 });
   }
 
-  res.status(200).json({ ok: true });
+  return Response.json({ ok: true });
 }

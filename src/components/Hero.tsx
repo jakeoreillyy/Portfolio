@@ -19,6 +19,9 @@ export function Hero() {
           <h1 className="font-display text-[clamp(2.75rem,7.5vw,6rem)] leading-[0.95] font-normal tracking-[-0.04em]">
             Jake O'Reilly
           </h1>
+          <p className="mt-5 text-sm text-balance text-muted sm:text-base md:text-lg">
+            Incoming SDE intern on AWS Lambda. Computer science at TU Dublin.
+          </p>
           {/* Typewriter carries its own sr-only description of the rotating roles. */}
           <p className="mt-5 text-sm sm:text-lg md:text-xl">
             <Typewriter />

@@ -1,3 +1,5 @@
-// Off-site URLs used in more than one place, kept here so they can't drift.
-export const RESUME_URL =
-  "https://drive.google.com/file/d/1g9zu01wSZb98pxBCtKQLQGVbjlgI6hR5/view?usp=drive_link";
+// Links used in more than one place, kept here so they can't drift.
+
+// Served from public/, so replacing that file updates every Resume link.
+export const RESUME_URL = "/resume.pdf";
+export const EMAIL = "oreillyjake16@gmail.com";

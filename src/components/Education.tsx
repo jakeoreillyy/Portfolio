@@ -45,7 +45,7 @@ export function Education() {
         <p className="mt-1.5 text-sm text-muted">
           Technological University Dublin
           <span className="text-faint"> · </span>
-          <span className="font-mono text-xs text-faint tabular-nums">3.5 GPA</span>
+          <span className="font-mono text-xs text-faint tabular-nums">3.5/4.0 GPA</span>
         </p>
       </div>
 

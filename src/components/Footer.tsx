@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { MailIcon } from "./icons";
-import { RESUME_URL } from "../data/links";
+import { EMAIL, RESUME_URL } from "../data/links";
 
 type NavLink = { href: string; label: string };
 
@@ -14,12 +14,15 @@ const connectLinks: NavLink[] = [
   { href: "https://www.linkedin.com/in/jake-o-reilly", label: "LinkedIn" },
   { href: "https://x.com/jakeorei", label: "X" },
   { href: RESUME_URL, label: "Resume" },
+  { href: `mailto:${EMAIL}`, label: "Email" },
 ];
 
 const linkClass = "text-sm text-muted transition-colors hover:text-accent";
 
-// The href shape picks the element: off-site links get a new tab, and anything
-// else is an in-app route (/contact also gets the mail glyph).
+// The href shape picks the element: off-site links and files (the resume PDF)
+// get a new tab, mailto opens the mail app in place, and anything else is an
+// in-app route (/contact also gets the mail glyph). A file must not go through
+// the router, which would treat it as an unknown route and redirect home.
 function FooterColumn({ title, links }: { title: string; links: NavLink[] }) {
   return (
     <div>
@@ -27,10 +30,14 @@ function FooterColumn({ title, links }: { title: string; links: NavLink[] }) {
       <ul className="mt-4 space-y-2.5">
         {links.map(({ href, label }) => (
           <li key={label}>
-            {href.startsWith("http") ? (
+            {href.startsWith("http") || href.endsWith(".pdf") ? (
               <a href={href} target="_blank" rel="noopener noreferrer" className={linkClass}>
                 {label}
                 <span aria-hidden="true"> ↗</span>
+              </a>
+            ) : href.startsWith("mailto:") ? (
+              <a href={href} className={linkClass}>
+                {label}
               </a>
             ) : (
               <Link to={href} className={linkClass}>
@@ -60,7 +67,7 @@ export function Footer() {
             Jake O'Reilly
           </Link>
           <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted">
-            Building from Dublin, Ireland. ☘️🇮🇪
+            Building from Dublin, Ireland. ☘️
           </p>
         </div>
         <div className="flex gap-12 sm:gap-20">

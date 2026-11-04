@@ -19,9 +19,10 @@ const connectLinks: NavLink[] = [
 
 const linkClass = "text-sm text-muted transition-colors hover:text-accent";
 
-// The href shape picks the element: off-site links get a new tab, mailto opens
-// the mail app in place, and anything else is an in-app route (/contact also
-// gets the mail glyph).
+// The href shape picks the element: off-site links and files (the resume PDF)
+// get a new tab, mailto opens the mail app in place, and anything else is an
+// in-app route (/contact also gets the mail glyph). A file must not go through
+// the router, which would treat it as an unknown route and redirect home.
 function FooterColumn({ title, links }: { title: string; links: NavLink[] }) {
   return (
     <div>
@@ -29,7 +30,7 @@ function FooterColumn({ title, links }: { title: string; links: NavLink[] }) {
       <ul className="mt-4 space-y-2.5">
         {links.map(({ href, label }) => (
           <li key={label}>
-            {href.startsWith("http") ? (
+            {href.startsWith("http") || href.endsWith(".pdf") ? (
               <a href={href} target="_blank" rel="noopener noreferrer" className={linkClass}>
                 {label}
                 <span aria-hidden="true"> ↗</span>

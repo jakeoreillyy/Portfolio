@@ -119,7 +119,7 @@ function Field({
   );
 }
 
-type Status = "idle" | "sending" | "sent" | "error";
+type Status = "idle" | "sending" | "sent" | "error" | "blocked";
 
 export default function Contact() {
   useRecaptchaBadge();
@@ -143,6 +143,14 @@ export default function Contact() {
 
     const form = e.currentTarget;
     const recaptchaToken = await getRecaptchaToken();
+
+    // No token means reCAPTCHA was blocked or failed to load, and the server
+    // would refuse the message. Point to email instead of sending it.
+    if (RECAPTCHA_SITE_KEY && !recaptchaToken) {
+      setStatus("blocked");
+      return;
+    }
+
     const data = { ...Object.fromEntries(new FormData(form)), recaptchaToken };
 
     try {
@@ -246,6 +254,18 @@ export default function Contact() {
               )}
               {status === "error" && error && (
                 <p className="font-mono text-xs text-danger">{error}</p>
+              )}
+              {status === "blocked" && (
+                <p className="font-mono text-xs text-danger">
+                  Your message wasn't sent because reCAPTCHA couldn't load. Please email me at{" "}
+                  <a
+                    href={`mailto:${EMAIL}`}
+                    className="underline transition-colors hover:text-accent"
+                  >
+                    {EMAIL}
+                  </a>{" "}
+                  instead.
+                </p>
               )}
             </div>
           </form>

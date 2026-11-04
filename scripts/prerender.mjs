@@ -88,7 +88,7 @@ try {
   const { render } = await vite.ssrLoadModule("/src/entry-server.tsx");
   // Taking the route list from where the route metadata lives means a new
   // route can't be added to the site and silently miss being prerendered.
-  const { ROUTES } = await vite.ssrLoadModule("/src/lib/routeMeta.ts");
+  const { ROUTES, SITE } = await vite.ssrLoadModule("/src/lib/routeMeta.ts");
 
   // No route matches this path, so it renders the app's NotFound page. That
   // goes to the root 404.html, which Vercel serves with a real 404 status for
@@ -119,6 +119,23 @@ try {
     await writeFile(outPath, doc);
     console.log(`Prerendered ${route} -> ${path.relative(distDir, outPath)}`);
   }
+
+  // Built from ROUTES so a new page is listed without a hand edit. Every deploy
+  // rebuilds every page, so the build date stands in as lastmod.
+  const lastmod = new Date().toISOString().slice(0, 10);
+  const urls = ROUTES.map(
+    (route) =>
+      `  <url>\n    <loc>${SITE}${route}</loc>\n    <lastmod>${lastmod}</lastmod>\n  </url>`,
+  );
+  const sitemap = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ...urls,
+    "</urlset>",
+    "",
+  ].join("\n");
+  await writeFile(path.join(distDir, "sitemap.xml"), sitemap);
+  console.log("Wrote sitemap.xml");
 } finally {
   await vite.close();
 }

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { MailIcon } from "./icons";
 import { RESUME_URL } from "../data/links";
 

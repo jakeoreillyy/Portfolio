@@ -1,5 +1,5 @@
 import { renderToString } from "react-dom/server";
-import { StaticRouter } from "react-router-dom";
+import { StaticRouter } from "react-router";
 import { AppRoutes } from "./App";
 import { SITE, metaForPath, normalizePath, type RouteMeta } from "./lib/routeMeta";
 

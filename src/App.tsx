@@ -1,5 +1,12 @@
-import { useEffect } from "react";
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { useEffect, useRef } from "react";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+  useNavigationType,
+} from "react-router-dom";
 import { Analytics } from "@vercel/analytics/react";
 import { useLenis, lenisRef } from "./lib/useLenis";
 import { SITE, metaForPath, normalizePath } from "./lib/routeMeta";
@@ -33,14 +40,26 @@ function RouteMeta() {
   return null;
 }
 
-// Start each page at the top when switching routes.
+// Start each page at the top. Keyed on the location key rather than the path:
+// every navigation gets a new key, and a link to the page already open is a
+// replace navigation, so Home and name links scroll up there too.
 function ScrollReset() {
-  const { pathname } = useLocation();
+  const { key, pathname } = useLocation();
+  const navigationType = useNavigationType();
+  const lastPage = useRef<string | null>(null);
 
   useEffect(() => {
+    const page = normalizePath(pathname);
+    const samePage = page === lastPage.current;
+    lastPage.current = page;
     const lenis = lenisRef.current;
 
-    if (lenis) {
+    if (samePage) {
+      // Back and forward within a page keep the browser's own scroll position.
+      if (navigationType === "POP") return;
+      if (lenis) lenis.scrollTo(0, { lerp: 0.1 });
+      else window.scrollTo({ top: 0, behavior: "smooth" });
+    } else if (lenis) {
       // The outgoing page's dimensions are still cached until Lenis's
       // resize observer catches up, so refresh them before scrolling.
       lenis.resize();
@@ -48,7 +67,7 @@ function ScrollReset() {
     } else {
       window.scrollTo(0, 0);
     }
-  }, [pathname]);
+  }, [key, pathname, navigationType]);
 
   return null;
 }

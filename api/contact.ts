@@ -3,6 +3,7 @@ import { Resend } from "resend";
 const TO_EMAIL = process.env.CONTACT_TO_EMAIL;
 const FROM_EMAIL = "Portfolio Contact <onboarding@resend.dev>";
 const RECAPTCHA_SECRET = process.env.RECAPTCHA_SECRET_KEY;
+const RECAPTCHA_TIMEOUT_MS = 5000;
 
 function isNonEmptyString(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0;
@@ -20,13 +21,27 @@ async function verifyRecaptcha(token: unknown) {
 
   if (!isNonEmptyString(token)) return false;
 
-  const res = await fetch("https://www.google.com/recaptcha/api/siteverify", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({ secret: RECAPTCHA_SECRET, response: token }),
-  });
+  let data: { success: boolean; score?: number; action?: string };
+  try {
+    const res = await fetch("https://www.google.com/recaptcha/api/siteverify", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({ secret: RECAPTCHA_SECRET, response: token }),
+      // A slow or hung call would otherwise hold the request open until the
+      // function itself times out.
+      signal: AbortSignal.timeout(RECAPTCHA_TIMEOUT_MS),
+    });
+    data = await res.json();
+  } catch (error) {
+    // Count a timeout as a failed check. The visitor gets the usual reCAPTCHA
+    // error and can try again.
+    if (error instanceof DOMException && error.name === "TimeoutError") {
+      console.error(`contact: reCAPTCHA verification timed out after ${RECAPTCHA_TIMEOUT_MS} ms`);
+      return false;
+    }
+    throw error;
+  }
 
-  const data = (await res.json()) as { success: boolean; score?: number; action?: string };
   // Google recommends checking the action too, so only tokens minted for this
   // form (the action Contact.tsx passes to grecaptcha.execute) get through.
   return (

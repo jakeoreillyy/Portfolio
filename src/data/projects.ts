@@ -60,7 +60,7 @@ export const projects: Project[] = [
     eyebrow: "Web app",
     description:
       "A leaderboard that ranks startup ideas with an LLM as the judge rather than a fixed scoring formula, calling the Claude API through a FastAPI backend. New submissions are scored and folded into a single live ranking.",
-    href: "https://github.com/jakeoreillyy/Startup-Idea-Ranker",
+    href: "https://github.com/jakeoreillyy/InnoRank",
     link: { label: "View repo", kind: "repo" },
     image: {
       src: "/ranker.webp",

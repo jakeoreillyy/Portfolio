@@ -10,6 +10,12 @@ export default tseslint.config(
     files: ["**/*.{ts,tsx}"],
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
   },
+  // Plain JS here is build tooling that runs in Node (this file, scripts/).
+  {
+    files: ["**/*.{js,mjs}"],
+    extends: [js.configs.recommended],
+    languageOptions: { globals: globals.node },
+  },
   {
     files: ["src/**/*.{ts,tsx}"],
     languageOptions: { globals: globals.browser },

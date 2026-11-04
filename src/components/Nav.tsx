@@ -54,7 +54,7 @@ export function Nav() {
         >
           <img
             src="/ascii-pfp-small.webp"
-            alt="ASCII art portrait of Jake O'Reilly"
+            alt=""
             width={28}
             height={28}
             className="size-7 rounded-full border border-line"

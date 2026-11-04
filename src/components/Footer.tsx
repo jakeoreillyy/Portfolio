@@ -2,14 +2,14 @@ import { Link } from "react-router-dom";
 import { MailIcon } from "./icons";
 import { RESUME_URL } from "../data/links";
 
-type NavLink = { href: string; label: string };
+type FooterLink = { href: string; label: string };
 
-const navigateLinks: NavLink[] = [
+const navigateLinks: FooterLink[] = [
   { href: "/", label: "Home" },
   { href: "/contact", label: "Contact" },
 ];
 
-const connectLinks: NavLink[] = [
+const connectLinks: FooterLink[] = [
   { href: "https://github.com/jakeoreillyy", label: "GitHub" },
   { href: "https://www.linkedin.com/in/jake-o-reilly", label: "LinkedIn" },
   { href: "https://x.com/jakeorei", label: "X" },
@@ -20,7 +20,7 @@ const linkClass = "text-sm text-muted transition-colors hover:text-accent";
 
 // The href shape picks the element: off-site links get a new tab, and anything
 // else is an in-app route (/contact also gets the mail glyph).
-function FooterColumn({ title, links }: { title: string; links: NavLink[] }) {
+function FooterColumn({ title, links }: { title: string; links: FooterLink[] }) {
   return (
     <div>
       <p className="font-mono text-xs tracking-[0.2em] text-faint uppercase">{title}</p>
@@ -73,7 +73,8 @@ export function Footer() {
         <div className="mx-auto box-content flex max-w-7xl flex-col gap-2 px-6 py-6 text-xs text-faint sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} Jake O'Reilly. All rights reserved.</p>
           <a href="#top" className="transition-colors hover:text-accent">
-            Back to top ↑
+            Back to top
+            <span aria-hidden="true"> ↑</span>
           </a>
         </div>
       </div>

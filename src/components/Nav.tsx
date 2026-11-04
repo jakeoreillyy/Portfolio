@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { MailIcon } from "./icons";
-import { accentButton } from "../lib/styles";
-import { lenisRef } from "../lib/useLenis";
+import { accentButton, accentButtonActive } from "../lib/styles";
 
 // Contact sits apart as the pill, so it isn't listed here.
 const pageLinks = [
@@ -11,9 +10,11 @@ const pageLinks = [
 
 export function Nav() {
   const location = useLocation();
-  const onContact = location.pathname === "/contact";
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const menuId = useId();
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
 
   // Close the dropdown after navigating.
   useEffect(() => setOpen(false), [location.pathname]);
@@ -25,14 +26,20 @@ export function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Router won't re-navigate to the current route, so ScrollReset never fires;
-  // scroll up by hand when a link to "/" is clicked while already on it.
-  const onHomeClick = (to: string) => {
-    setOpen(false);
-    if (to !== "/" || location.pathname !== "/") return;
-    if (lenisRef.current) lenisRef.current.scrollTo(0, { lerp: 0.1 });
-    else window.scrollTo({ top: 0 });
-  };
+  // Escape closes the menu wherever focus is. Focus inside the panel moves to
+  // the toggle first, since the closed panel is inert and would drop it.
+  useEffect(() => {
+    if (!open) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      if (panelRef.current?.contains(document.activeElement)) toggleRef.current?.focus();
+      setOpen(false);
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [open]);
 
   // Same type as the Contact pill beside them, so the three read as one set.
   const linkBase =
@@ -40,10 +47,10 @@ export function Nav() {
     "after:absolute after:inset-x-0 after:-bottom-1.5 after:h-px after:origin-left " +
     "after:bg-accent after:transition-transform after:duration-300 hover:after:scale-x-100";
 
-  // On /contact the pill is already "arrived", so it renders pre-filled.
-  const contactStyle = onContact
-    ? "inline-flex items-center gap-1.5 rounded border border-accent bg-accent px-3.5 py-1.5 font-mono text-[13px] text-background"
-    : accentButton;
+  // On /contact the pill is already "arrived", so it renders pre-filled. No
+  // `end` on its NavLink, so /contact/ counts as arrived too.
+  const contactStyle = ({ isActive }: { isActive: boolean }) =>
+    isActive ? accentButtonActive : accentButton;
 
   const barLine = "absolute left-0 block h-[2px] w-5 rounded-full bg-current";
 
@@ -60,12 +67,12 @@ export function Nav() {
       <nav className="mx-auto box-content flex min-h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
         <Link
           to="/"
-          onClick={() => onHomeClick("/")}
+          onClick={() => setOpen(false)}
           className="flex items-center gap-2.5 font-display text-[15px] tracking-[-0.02em] text-foreground"
         >
           <img
             src="/ascii-pfp-small.webp"
-            alt="ASCII art portrait of Jake O'Reilly"
+            alt=""
             width={28}
             height={28}
             className="size-7 rounded-full border border-line"
@@ -78,7 +85,7 @@ export function Nav() {
               key={to}
               to={to}
               end
-              onClick={() => onHomeClick(to)}
+              onClick={() => setOpen(false)}
               className={({ isActive }) =>
                 `${linkBase} ${
                   isActive
@@ -90,15 +97,17 @@ export function Nav() {
               {label}
             </NavLink>
           ))}
-          <Link to="/contact" className={contactStyle}>
+          <NavLink to="/contact" className={contactStyle}>
             <MailIcon size={14} />
             Contact
-          </Link>
+          </NavLink>
         </div>
         <button
+          ref={toggleRef}
           type="button"
           onClick={() => setOpen(!open)}
           aria-expanded={open}
+          aria-controls={menuId}
           aria-label="Toggle menu"
           className="-mr-1 p-1 text-muted transition-colors hover:text-foreground min-[480px]:hidden"
         >
@@ -124,6 +133,8 @@ export function Nav() {
       {/* `inert` while collapsed keeps the panel out of both the tab order and
           the accessibility tree, so screen readers don't read a second nav. */}
       <div
+        ref={panelRef}
+        id={menuId}
         inert={!open}
         className={`grid overflow-hidden transition-all duration-300 ease-out min-[480px]:hidden ${
           open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
@@ -136,7 +147,7 @@ export function Nav() {
                 key={to}
                 to={to}
                 end
-                onClick={() => onHomeClick(to)}
+                onClick={() => setOpen(false)}
                 className={({ isActive }) =>
                   `rounded-md px-2 py-2.5 font-mono text-[13px] transition-colors ${
                     isActive ? "text-foreground" : "text-muted hover:text-foreground"
@@ -146,14 +157,14 @@ export function Nav() {
                 {label}
               </NavLink>
             ))}
-            <Link
+            <NavLink
               to="/contact"
               onClick={() => setOpen(false)}
-              className={`${contactStyle} mt-3 self-start`}
+              className={(state) => `${contactStyle(state)} mt-3 self-start`}
             >
               <MailIcon size={14} />
               Contact
-            </Link>
+            </NavLink>
           </div>
         </div>
       </div>

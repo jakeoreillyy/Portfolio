@@ -1,11 +1,16 @@
+import { useToday } from "../lib/hydration";
 import { Section } from "./Section";
 
 const START = new Date(2024, 8, 1); // September 2024
 const END = new Date(2028, 4, 31); // May 2028
-const SPAN = END.getTime() - START.getTime();
+// Positions are measured in calendar days, not timestamps: a timestamp shifts
+// with the time zone's daylight saving, and the prerendered bar (built in UTC)
+// has to match the visitor's first render to the digit for hydration.
+const day = (date: Date) => Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
+const SPAN = day(END) - day(START);
 const TOTAL_YEARS = 4;
 
-const at = (date: Date) => Math.min(Math.max((date.getTime() - START.getTime()) / SPAN, 0), 1);
+const at = (date: Date) => Math.min(Math.max((day(date) - day(START)) / SPAN, 0), 1);
 
 // Calendar-year checkpoints after the start. September sits about three
 // quarters of the way through 2024, so the first gap is visibly the short one.
@@ -29,7 +34,7 @@ function yearOfStudy(now: Date) {
 }
 
 export function Education() {
-  const now = new Date();
+  const now = useToday();
   const progress = at(now);
   const currentYear = now.getFullYear();
 

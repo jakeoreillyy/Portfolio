@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { MailIcon } from "./icons";
 import { RESUME_URL } from "../data/links";
+import { useToday } from "../lib/hydration";
 
 type NavLink = { href: string; label: string };
 
@@ -48,6 +49,8 @@ function FooterColumn({ title, links }: { title: string; links: NavLink[] }) {
 }
 
 export function Footer() {
+  const year = useToday().getFullYear();
+
   return (
     <footer className="border-t border-line">
       {/* box-content keeps both rows the same width as the sections above. */}
@@ -71,7 +74,7 @@ export function Footer() {
 
       <div className="border-t border-line">
         <div className="mx-auto box-content flex max-w-7xl flex-col gap-2 px-6 py-6 text-xs text-faint sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} Jake O'Reilly. All rights reserved.</p>
+          <p>© {year} Jake O'Reilly. All rights reserved.</p>
           <a href="#top" className="transition-colors hover:text-accent">
             Back to top ↑
           </a>

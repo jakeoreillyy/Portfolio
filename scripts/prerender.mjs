@@ -3,9 +3,10 @@
 // route's metadata into the built index.html — so crawlers that don't execute
 // JS (and AI crawlers that don't wait for it) still see the real page content.
 //
-// The client bundle still loads and re-renders on top afterwards (main.tsx
-// uses createRoot, not hydrateRoot), so this only changes what's in the
-// initial HTML, not how the site behaves for visitors.
+// The client bundle then hydrates this markup rather than rendering the page
+// again (see main.tsx), so its first render has to produce exactly the same
+// HTML. Anything that differs in the browser, like the date or a media query,
+// waits until hydration is done (see src/lib/hydration.ts).
 import { createServer } from "vite";
 import { readFile, mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
@@ -47,7 +48,7 @@ function setMetaContent(html, attr, value) {
   return mustReplace(html, re, (_m, before, after) => before + escapeHtml(value) + after);
 }
 
-function applyRoute(html, body, meta, url) {
+function applyRoute(html, route, body, meta, url) {
   html = mustReplace(
     html,
     /<title>[^<]*<\/title>/,
@@ -62,7 +63,13 @@ function applyRoute(html, body, meta, url) {
     /(<link[^>]*rel="canonical"[^>]*href=")[^"]*(")/,
     (_m, before, after) => before + escapeHtml(url) + after,
   );
-  return mustReplace(html, ROOT_DIV, () => `<div id="root">${body}</div>`);
+  // data-route tells the client which page this markup is, since servers fall
+  // back to the home page's HTML for other paths and it mustn't hydrate that.
+  return mustReplace(
+    html,
+    ROOT_DIV,
+    () => `<div id="root" data-route="${escapeHtml(route)}">${body}</div>`,
+  );
 }
 
 const vite = await createServer({
@@ -92,7 +99,7 @@ try {
       throw new Error(`prerender: ${route} markup has dev URLs, not built asset paths`);
     }
 
-    const doc = applyRoute(template, body, meta, url);
+    const doc = applyRoute(template, route, body, meta, url);
 
     const outPath =
       route === "/" ? path.join(distDir, "index.html") : path.join(distDir, route, "index.html");

@@ -33,7 +33,10 @@ async function verifyRecaptcha(token: unknown) {
 export async function POST(request: Request): Promise<Response> {
   try {
     return await handleContact(request);
-  } catch {
+  } catch (error) {
+    // Vercel keeps only what the function logs, so without this a 500 leaves
+    // nothing to debug from.
+    console.error("contact: unexpected error", error);
     return Response.json({ error: "Something went wrong. Please try again." }, { status: 500 });
   }
 }

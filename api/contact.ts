@@ -1,4 +1,8 @@
 import { Resend } from "resend";
+// The .js extension is required: Vercel runs this file as native ESM, which
+// won't resolve an extensionless import. TypeScript and Vercel's file tracing
+// both map it back to the .ts source.
+import { MAX_LENGTH } from "../src/lib/contactLimits.js";
 
 const TO_EMAIL = process.env.CONTACT_TO_EMAIL;
 // Without a verified domain this falls back to Resend's testing sender, which
@@ -108,7 +112,12 @@ async function handleContact(request: Request): Promise<Response> {
     return Response.json({ error: "Please enter a valid email address." }, { status: 400 });
   }
 
-  if (name.length > 200 || email.length > 320 || subject.length > 200 || message.length > 5000) {
+  if (
+    name.length > MAX_LENGTH.name ||
+    email.length > MAX_LENGTH.email ||
+    subject.length > MAX_LENGTH.subject ||
+    message.length > MAX_LENGTH.message
+  ) {
     return Response.json({ error: "Message is too long." }, { status: 400 });
   }
 

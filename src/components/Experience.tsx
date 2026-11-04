@@ -119,9 +119,9 @@ export function Experience() {
 
               <div className="grid gap-y-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)_9rem] md:items-baseline md:gap-x-6 lg:gap-x-10 md:gap-y-0">
                 <div>
-                  <p className="font-display text-[clamp(1.75rem,3.2vw,2.5rem)] leading-[1.05] tracking-[-0.035em] text-foreground">
+                  <h3 className="font-display text-[clamp(1.75rem,3.2vw,2.5rem)] leading-[1.05] tracking-[-0.035em] text-foreground">
                     {job.org}
-                  </p>
+                  </h3>
                   <p className="mt-3 text-sm leading-relaxed text-faint">{job.role}</p>
                 </div>
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { MailIcon } from "./icons";
-import { accentButton } from "../lib/styles";
+import { accentButton, accentButtonActive } from "../lib/styles";
 
 // Contact sits apart as the pill, so it isn't listed here.
 const pageLinks = [
@@ -32,9 +32,7 @@ export function Nav() {
   // On /contact the pill is already "arrived", so it renders pre-filled. No
   // `end` on its NavLink, so /contact/ counts as arrived too.
   const contactStyle = ({ isActive }: { isActive: boolean }) =>
-    isActive
-      ? "inline-flex items-center gap-1.5 rounded border border-accent bg-accent px-3.5 py-1.5 font-mono text-[13px] text-background"
-      : accentButton;
+    isActive ? accentButtonActive : accentButton;
 
   const barLine = "absolute left-0 block h-[2px] w-5 rounded-full bg-current";
 

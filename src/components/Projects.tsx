@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { KeyboardEvent } from "react";
 import { ArrowUpRightIcon, GitHubIcon } from "./icons";
 import { projects } from "../data/projects";
@@ -15,6 +15,23 @@ const panelId = (id: string) => `project-panel-${id}`;
 export function Projects() {
   const [active, setActive] = useState(0);
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const [preload, setPreload] = useState(false);
+
+  // The screenshots are lazy, so none of them costs the first paint, and a
+  // hidden panel's image would otherwise wait until it is selected. Once the
+  // section is in view, load them all so switching doesn't show an empty frame.
+  useEffect(() => {
+    const grid = gridRef.current;
+    if (!grid) return;
+    const observer = new IntersectionObserver((entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      setPreload(true);
+      observer.disconnect();
+    });
+    observer.observe(grid);
+    return () => observer.disconnect();
+  }, []);
 
   // Vertical tabs with automatic activation: the arrow keys (wrapping at the
   // ends), Home and End move focus, and the focused tab is the selected one.
@@ -37,7 +54,10 @@ export function Projects() {
       title="Projects"
       srDetail="Software engineering projects built by Jake O'Reilly"
     >
-      <div className="mt-12 grid gap-x-12 gap-y-8 lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)]">
+      <div
+        ref={gridRef}
+        className="mt-12 grid gap-x-12 gap-y-8 lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)]"
+      >
         <div
           role="tablist"
           aria-label="Projects"
@@ -102,7 +122,7 @@ export function Projects() {
                   alt={project.image.alt}
                   width={project.image.width}
                   height={project.image.height}
-                  loading="lazy"
+                  loading={preload ? "eager" : "lazy"}
                   className="absolute inset-0 h-full w-full object-contain"
                 />
               )}

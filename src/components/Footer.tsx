@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { MailIcon } from "./icons";
-import { RESUME_URL } from "../data/links";
+import { EMAIL, RESUME_URL } from "../data/links";
 
 type NavLink = { href: string; label: string };
 
@@ -14,12 +14,14 @@ const connectLinks: NavLink[] = [
   { href: "https://www.linkedin.com/in/jake-o-reilly", label: "LinkedIn" },
   { href: "https://x.com/jakeorei", label: "X" },
   { href: RESUME_URL, label: "Resume" },
+  { href: `mailto:${EMAIL}`, label: "Email" },
 ];
 
 const linkClass = "text-sm text-muted transition-colors hover:text-accent";
 
-// The href shape picks the element: off-site links get a new tab, and anything
-// else is an in-app route (/contact also gets the mail glyph).
+// The href shape picks the element: off-site links get a new tab, mailto opens
+// the mail app in place, and anything else is an in-app route (/contact also
+// gets the mail glyph).
 function FooterColumn({ title, links }: { title: string; links: NavLink[] }) {
   return (
     <div>
@@ -31,6 +33,10 @@ function FooterColumn({ title, links }: { title: string; links: NavLink[] }) {
               <a href={href} target="_blank" rel="noopener noreferrer" className={linkClass}>
                 {label}
                 <span aria-hidden="true"> ↗</span>
+              </a>
+            ) : href.startsWith("mailto:") ? (
+              <a href={href} className={linkClass}>
+                {label}
               </a>
             ) : (
               <Link to={href} className={linkClass}>

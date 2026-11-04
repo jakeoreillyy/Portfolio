@@ -100,6 +100,9 @@ async function handleContact(request: Request): Promise<Response> {
   });
 
   if (error) {
+    // Resend's SDK only logs failures outside production, so on Vercel this
+    // line is the only record of why a send failed.
+    console.error(`contact: Resend failed to send (${error.name}): ${error.message}`);
     return Response.json({ error: "Failed to send message. Please try again." }, { status: 502 });
   }
 

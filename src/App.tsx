@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import { useLenis, lenisRef } from "./lib/useLenis";
 import { SITE, metaForPath, normalizePath } from "./lib/routeMeta";
 import { Nav } from "./components/Nav";
@@ -74,6 +75,7 @@ export function AppRoutes() {
       </main>
       <Footer />
       <Analytics />
+      <SpeedInsights />
     </>
   );
 }

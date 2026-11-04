@@ -26,8 +26,12 @@ async function verifyRecaptcha(token: unknown) {
     body: new URLSearchParams({ secret: RECAPTCHA_SECRET, response: token }),
   });
 
-  const data = (await res.json()) as { success: boolean; score?: number };
-  return data.success && (data.score === undefined || data.score >= 0.5);
+  const data = (await res.json()) as { success: boolean; score?: number; action?: string };
+  // Google recommends checking the action too, so only tokens minted for this
+  // form (the action Contact.tsx passes to grecaptcha.execute) get through.
+  return (
+    data.success && data.action === "contact" && (data.score === undefined || data.score >= 0.5)
+  );
 }
 
 export async function POST(request: Request): Promise<Response> {

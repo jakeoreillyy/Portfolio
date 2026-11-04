@@ -5,9 +5,7 @@ import { accentButton } from "../lib/styles";
 import { lenisRef } from "../lib/useLenis";
 
 // Contact sits apart as the pill, so it isn't listed here.
-const pageLinks = [
-  { to: "/", label: "Home" },
-];
+const pageLinks = [{ to: "/", label: "Home" }];
 
 export function Nav() {
   const location = useLocation();

@@ -89,7 +89,7 @@ const details = [
 ];
 
 const fieldClass =
-  "w-full rounded border border-line bg-background px-3.5 pt-4 pb-2 text-sm text-foreground placeholder:text-faint transition-colors focus:border-accent";
+  "w-full rounded border border-faint bg-background px-3.5 pt-4 pb-2 text-sm text-foreground placeholder:text-faint transition-colors focus:border-accent";
 
 // Floating label notched into the field's top border.
 function Field({

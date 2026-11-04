@@ -58,6 +58,11 @@ export const projects: Project[] = [
         label: "View repo",
         kind: "repo",
       },
+      {
+        href: "https://threadbase-d8a4ccf7145c.herokuapp.com/docs",
+        label: "Live API docs",
+        kind: "external",
+      },
     ],
     image: {
       src: "/threadbase.webp",

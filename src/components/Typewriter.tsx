@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useHydrated } from "../lib/hydration";
 import { prefersReducedMotion } from "../lib/prefersReducedMotion";
 
 const words = ["computer science student", "software engineer", "ai engineer"];
@@ -12,7 +13,9 @@ export function Typewriter() {
   const [text, setText] = useState("");
   const [index, setIndex] = useState(0);
   const [deleting, setDeleting] = useState(false);
-  const [reduced] = useState(prefersReducedMotion);
+  // The prerender can't know the visitor's preference and builds the animated
+  // state, so hydration starts from that and the preference applies after.
+  const reduced = useHydrated() && prefersReducedMotion();
 
   useEffect(() => {
     if (reduced) return;

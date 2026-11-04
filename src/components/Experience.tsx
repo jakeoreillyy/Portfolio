@@ -47,17 +47,15 @@ export function Experience() {
   const dotRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const [fill, setFill] = useState(0);
   const [activeCount, setActiveCount] = useState(0);
+  // Reduced motion: skip the scroll-linked animation and show it complete. The
+  // fill is then 100% rather than a measured height, so it stays full after a
+  // resize.
+  const [reduced] = useState(prefersReducedMotion);
+  const litCount = reduced ? jobs.length : activeCount;
 
   useEffect(() => {
     const rail = railRef.current;
-    if (!rail) return;
-
-    // Reduced motion: skip the scroll-linked animation, show it complete.
-    if (prefersReducedMotion()) {
-      setFill(rail.getBoundingClientRect().height);
-      setActiveCount(jobs.length);
-      return;
-    }
+    if (!rail || reduced) return;
 
     let raf = 0;
     const update = () => {
@@ -86,7 +84,7 @@ export function Experience() {
       window.removeEventListener("resize", onScroll);
       if (raf) cancelAnimationFrame(raf);
     };
-  }, []);
+  }, [reduced]);
 
   return (
     <Section title="Experience">
@@ -99,7 +97,7 @@ export function Experience() {
         <span
           aria-hidden
           className="absolute left-[7px] top-0 w-px -translate-x-1/2 bg-accent"
-          style={{ height: fill }}
+          style={{ height: reduced ? "100%" : fill }}
         />
 
         {/* role="list" because Safari drops the list semantics of a list with
@@ -113,7 +111,7 @@ export function Experience() {
                 }}
                 aria-hidden
                 className={`absolute left-[7px] top-[14px] size-[13px] -translate-x-1/2 rounded-full border-2 transition-colors duration-500 ${
-                  i < activeCount ? "border-accent bg-accent" : "border-line bg-background"
+                  i < litCount ? "border-accent bg-accent" : "border-line bg-background"
                 }`}
               />
 

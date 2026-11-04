@@ -19,7 +19,7 @@ My personal portfolio site: projects, experience, and a contact form.
 
 ## Running locally
 
-**Prerequisites:** Node 22 and npm.
+**Prerequisites:** Node 24 and npm.
 
 ```bash
 git clone https://github.com/jakeoreillyy/portfolio.git

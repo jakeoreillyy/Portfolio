@@ -47,17 +47,15 @@ export function Experience() {
   const dotRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const [fill, setFill] = useState(0);
   const [activeCount, setActiveCount] = useState(0);
+  // Reduced motion: skip the scroll-linked animation and show it complete. The
+  // fill is then 100% rather than a measured height, so it stays full after a
+  // resize.
+  const [reduced] = useState(prefersReducedMotion);
+  const litCount = reduced ? jobs.length : activeCount;
 
   useEffect(() => {
     const rail = railRef.current;
-    if (!rail) return;
-
-    // Reduced motion: skip the scroll-linked animation, show it complete.
-    if (prefersReducedMotion()) {
-      setFill(rail.getBoundingClientRect().height);
-      setActiveCount(jobs.length);
-      return;
-    }
+    if (!rail || reduced) return;
 
     let raf = 0;
     const update = () => {
@@ -86,13 +84,10 @@ export function Experience() {
       window.removeEventListener("resize", onScroll);
       if (raf) cancelAnimationFrame(raf);
     };
-  }, []);
+  }, [reduced]);
 
   return (
-    <Section
-      title="Experience"
-      srDetail="Software engineering work experience of Jake O'Reilly"
-    >
+    <Section title="Experience">
       <div ref={railRef} className="relative mt-10">
         {/* rail track + scroll-linked progress fill */}
         <span
@@ -102,39 +97,43 @@ export function Experience() {
         <span
           aria-hidden
           className="absolute left-[7px] top-0 w-px -translate-x-1/2 bg-accent"
-          style={{ height: fill }}
+          style={{ height: reduced ? "100%" : fill }}
         />
 
-        {jobs.map((job, i) => (
-          <div key={`${job.org} ${job.date}`} className="relative pb-20 pl-10 last:pb-0">
-            <span
-              ref={(el) => {
-                dotRefs.current[i] = el;
-              }}
-              aria-hidden
-              className={`absolute left-[7px] top-[14px] size-[13px] -translate-x-1/2 rounded-full border-2 transition-colors duration-500 ${
-                i < activeCount ? "border-accent bg-accent" : "border-line bg-background"
-              }`}
-            />
+        {/* role="list" because Safari drops the list semantics of a list with
+            no markers, and Tailwind's reset removes them. */}
+        <ol role="list">
+          {jobs.map((job, i) => (
+            <li key={`${job.org} ${job.date}`} className="relative pb-20 pl-10 last:pb-0">
+              <span
+                ref={(el) => {
+                  dotRefs.current[i] = el;
+                }}
+                aria-hidden
+                className={`absolute left-[7px] top-[14px] size-[13px] -translate-x-1/2 rounded-full border-2 transition-colors duration-500 ${
+                  i < litCount ? "border-accent bg-accent" : "border-line bg-background"
+                }`}
+              />
 
-            <div className="grid gap-y-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)_9rem] md:items-baseline md:gap-x-6 lg:gap-x-10 md:gap-y-0">
-              <div>
-                <p className="font-display text-[clamp(1.75rem,3.2vw,2.5rem)] leading-[1.05] tracking-[-0.035em] text-foreground">
-                  {job.org}
+              <div className="grid gap-y-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)_9rem] md:items-baseline md:gap-x-6 lg:gap-x-10 md:gap-y-0">
+                <div>
+                  <h3 className="font-display text-[clamp(1.75rem,3.2vw,2.5rem)] leading-[1.05] tracking-[-0.035em] text-foreground">
+                    {job.org}
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed text-faint">{job.role}</p>
+                </div>
+
+                <p className="max-w-[60ch] text-base leading-relaxed text-muted md:text-[17px]">
+                  {job.description}
                 </p>
-                <p className="mt-3 text-sm leading-relaxed text-faint">{job.role}</p>
+
+                <p className="order-first font-mono text-[11px] uppercase leading-relaxed tracking-[0.04em] text-faint md:order-none md:text-right">
+                  {job.date}
+                </p>
               </div>
-
-              <p className="max-w-[60ch] text-base leading-relaxed text-muted md:text-[17px]">
-                {job.description}
-              </p>
-
-              <p className="order-first font-mono text-[11px] uppercase leading-relaxed tracking-[0.04em] text-faint md:order-none md:text-right">
-                {job.date}
-              </p>
-            </div>
-          </div>
-        ))}
+            </li>
+          ))}
+        </ol>
       </div>
     </Section>
   );

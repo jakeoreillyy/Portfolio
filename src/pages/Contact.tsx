@@ -1,8 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { ComponentProps, SubmitEvent } from "react";
 import { LinkedInIcon, MailIcon, XIcon } from "../components/icons";
 
 const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY as string | undefined;
+// How long a submit waits for reCAPTCHA to load and return a token. Long
+// enough for a slow phone connection, short enough not to strand "Sending…".
+const RECAPTCHA_TIMEOUT_MS = 10_000;
 
 declare global {
   interface Window {
@@ -13,16 +16,19 @@ declare global {
   }
 }
 
-function useRecaptchaScript() {
+// The script is about 340 KiB and a second of CPU on a phone, so it's added
+// once someone starts on the form rather than when the page loads.
+function loadRecaptcha(siteKey: string) {
+  const script = document.createElement("script");
+  script.src = `https://www.google.com/recaptcha/api.js?render=${siteKey}`;
+  script.async = true;
+  document.head.appendChild(script);
+  return script;
+}
+
+function useRecaptchaBadge() {
   useEffect(() => {
     if (!RECAPTCHA_SITE_KEY) return;
-
-    if (!window.grecaptcha) {
-      const script = document.createElement("script");
-      script.src = `https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`;
-      script.async = true;
-      document.head.appendChild(script);
-    }
 
     // Reveal the reCAPTCHA badge only while this page is mounted so it never
     // shows on the landing page (the badge otherwise persists across routes).
@@ -31,18 +37,34 @@ function useRecaptchaScript() {
   }, []);
 }
 
+// Waits for the script, adding it if the form hasn't yet, then asks for a
+// token. Resolves undefined rather than hanging if the script fails to load
+// or the whole exchange outlasts the timeout.
 async function getRecaptchaToken(): Promise<string | undefined> {
-  if (!RECAPTCHA_SITE_KEY || !window.grecaptcha) return undefined;
+  if (!RECAPTCHA_SITE_KEY) return undefined;
 
   return new Promise((resolve) => {
-    window.grecaptcha!.ready(async () => {
-      try {
-        const token = await window.grecaptcha!.execute(RECAPTCHA_SITE_KEY, { action: "contact" });
-        resolve(token);
-      } catch {
-        resolve(undefined);
-      }
-    });
+    const timer = setTimeout(() => resolve(undefined), RECAPTCHA_TIMEOUT_MS);
+    const finish = (token?: string) => {
+      clearTimeout(timer);
+      resolve(token);
+    };
+    const execute = () =>
+      window.grecaptcha?.ready(async () => {
+        try {
+          finish(await window.grecaptcha!.execute(RECAPTCHA_SITE_KEY, { action: "contact" }));
+        } catch {
+          finish();
+        }
+      });
+
+    if (window.grecaptcha) {
+      execute();
+    } else {
+      const script = loadRecaptcha(RECAPTCHA_SITE_KEY);
+      script.addEventListener("load", execute);
+      script.addEventListener("error", () => finish());
+    }
   });
 }
 
@@ -90,9 +112,19 @@ function Field({
 type Status = "idle" | "sending" | "sent" | "error";
 
 export default function Contact() {
-  useRecaptchaScript();
+  useRecaptchaBadge();
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
+  const recaptchaRequested = useRef(false);
+
+  // Start fetching reCAPTCHA on the form's first focus or input, so it's
+  // usually ready by the time someone sends. If this fetch fails, the
+  // submit tries again.
+  function requestRecaptcha() {
+    if (recaptchaRequested.current || !RECAPTCHA_SITE_KEY) return;
+    recaptchaRequested.current = true;
+    if (!window.grecaptcha) loadRecaptcha(RECAPTCHA_SITE_KEY);
+  }
 
   async function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -161,7 +193,12 @@ export default function Contact() {
         </>
 
         <>
-          <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+          <form
+            onSubmit={handleSubmit}
+            onFocus={requestRecaptcha}
+            onInput={requestRecaptcha}
+            className="mt-8 space-y-5"
+          >
             <div className="grid gap-5 sm:grid-cols-2">
               <Field name="name" label="Name" placeholder="Andrej Karpathy" />
               <Field

@@ -62,6 +62,15 @@ function applyRoute(html, body, meta, url) {
     /(<link[^>]*rel="canonical"[^>]*href=")[^"]*(")/,
     (_m, before, after) => before + escapeHtml(url) + after,
   );
+  // The template's robots meta applies to every page. A noindex page (the 404)
+  // adds noindex in front of it rather than a second robots tag.
+  if (meta.noindex) {
+    html = mustReplace(
+      html,
+      /(<meta[^>]*name="robots"[^>]*content=")/,
+      (_m, before) => `${before}noindex, `,
+    );
+  }
   return mustReplace(html, ROOT_DIV, () => `<div id="root">${body}</div>`);
 }
 
@@ -79,9 +88,15 @@ try {
   const { render } = await vite.ssrLoadModule("/src/entry-server.tsx");
   // Taking the route list from where the route metadata lives means a new
   // route can't be added to the site and silently miss being prerendered.
-  const { ROUTES } = await vite.ssrLoadModule("/src/lib/routeMeta.ts");
+  const { ROUTES, SITE } = await vite.ssrLoadModule("/src/lib/routeMeta.ts");
 
-  for (const route of ROUTES) {
+  // No route matches this path, so it renders the app's NotFound page. That
+  // goes to the root 404.html, which Vercel serves with a real 404 status for
+  // any path no file or rewrite matches. Its canonical and og:url come out as
+  // /404, which is itself a 404, so they can't point crawlers at a real page.
+  const NOT_FOUND_ROUTE = "/404";
+
+  for (const route of [...ROUTES, NOT_FOUND_ROUTE]) {
     const { html: body, meta, url } = render(route);
 
     // Rendering goes through Vite's dev loader, which resolves asset imports
@@ -95,11 +110,32 @@ try {
     const doc = applyRoute(template, body, meta, url);
 
     const outPath =
-      route === "/" ? path.join(distDir, "index.html") : path.join(distDir, route, "index.html");
+      route === "/"
+        ? path.join(distDir, "index.html")
+        : route === NOT_FOUND_ROUTE
+          ? path.join(distDir, "404.html")
+          : path.join(distDir, route, "index.html");
     await mkdir(path.dirname(outPath), { recursive: true });
     await writeFile(outPath, doc);
     console.log(`Prerendered ${route} -> ${path.relative(distDir, outPath)}`);
   }
+
+  // Built from ROUTES so a new page is listed without a hand edit. Every deploy
+  // rebuilds every page, so the build date stands in as lastmod.
+  const lastmod = new Date().toISOString().slice(0, 10);
+  const urls = ROUTES.map(
+    (route) =>
+      `  <url>\n    <loc>${SITE}${route}</loc>\n    <lastmod>${lastmod}</lastmod>\n  </url>`,
+  );
+  const sitemap = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ...urls,
+    "</urlset>",
+    "",
+  ].join("\n");
+  await writeFile(path.join(distDir, "sitemap.xml"), sitemap);
+  console.log("Wrote sitemap.xml");
 } finally {
   await vite.close();
 }

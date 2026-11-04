@@ -10,6 +10,8 @@ export type RouteMeta = {
   description: string;
   ogTitle: string;
   ogDescription: string;
+  // Keeps the page out of search results. Only the 404 page sets it.
+  noindex?: boolean;
 };
 
 export const ROUTE_META: Record<string, RouteMeta> = {
@@ -42,7 +44,19 @@ export function normalizePath(pathname: string) {
   return pathname.replace(/(.)\/+$/, "$1");
 }
 
-// Unknown paths fall back to the home metadata (the client redirects them to /).
+// The 404 page's metadata. It stays out of ROUTE_META, which lists the site's
+// real pages, so it never counts as one of them.
+export const NOT_FOUND_META: RouteMeta = {
+  title: "Page not found | Jake O'Reilly",
+  description:
+    "This page doesn't exist. Visit the home page for Jake O'Reilly's projects, experience, and contact details.",
+  ogTitle: "Page not found",
+  ogDescription:
+    "This page doesn't exist. Visit the home page for Jake O'Reilly's projects, experience, and contact details.",
+  noindex: true,
+};
+
+// Unknown paths render the 404 page, so they get its metadata.
 export function metaForPath(pathname: string): RouteMeta {
-  return ROUTE_META[normalizePath(pathname)] ?? ROUTE_META["/"];
+  return ROUTE_META[normalizePath(pathname)] ?? NOT_FOUND_META;
 }

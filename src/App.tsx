@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Analytics } from "@vercel/analytics/react";
 import { useLenis, lenisRef } from "./lib/useLenis";
 import { SITE, metaForPath, normalizePath } from "./lib/routeMeta";
@@ -7,12 +7,13 @@ import { Nav } from "./components/Nav";
 import { Footer } from "./components/Footer";
 import Home from "./pages/Home";
 import Contact from "./pages/Contact";
+import NotFound from "./pages/NotFound";
 
 function setMetaContent(selector: string, content: string) {
   document.querySelector<HTMLMetaElement>(selector)?.setAttribute("content", content);
 }
 
-// Keep the title, description, Open Graph and canonical tags in step with the
+// Keep the title, description, robots, Open Graph and canonical tags in step with the
 // current route (the prerender pass bakes the same set into each static page).
 function RouteMeta() {
   const { pathname } = useLocation();
@@ -25,6 +26,15 @@ function RouteMeta() {
     setMetaContent('meta[property="og:title"]', meta.ogTitle);
     setMetaContent('meta[property="og:description"]', meta.ogDescription);
     setMetaContent('meta[property="og:url"]', url);
+
+    // The 404 page adds noindex in front of the robots directives index.html
+    // gives every page. Other pages drop it again, since a visit can start on
+    // the 404 page and navigate from there.
+    const robots = document.querySelector<HTMLMetaElement>('meta[name="robots"]');
+    if (robots) {
+      const rest = robots.content.replace(/^noindex, /, "");
+      robots.content = meta.noindex ? `noindex, ${rest}` : rest;
+    }
 
     const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
     if (canonical) canonical.href = url;
@@ -69,7 +79,7 @@ export function AppRoutes() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       <Footer />

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { MailIcon } from "./icons";
 import { accentButton, accentButtonActive } from "../lib/styles";
@@ -12,6 +12,9 @@ export function Nav() {
   const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const menuId = useId();
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
 
   // Close the dropdown after navigating.
   useEffect(() => setOpen(false), [location.pathname]);
@@ -22,6 +25,21 @@ export function Nav() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Escape closes the menu wherever focus is. Focus inside the panel moves to
+  // the toggle first, since the closed panel is inert and would drop it.
+  useEffect(() => {
+    if (!open) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      if (panelRef.current?.contains(document.activeElement)) toggleRef.current?.focus();
+      setOpen(false);
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [open]);
 
   // Same type as the Contact pill beside them, so the three read as one set.
   const linkBase =
@@ -85,9 +103,11 @@ export function Nav() {
           </NavLink>
         </div>
         <button
+          ref={toggleRef}
           type="button"
           onClick={() => setOpen(!open)}
           aria-expanded={open}
+          aria-controls={menuId}
           aria-label="Toggle menu"
           className="-mr-1 p-1 text-muted transition-colors hover:text-foreground min-[480px]:hidden"
         >
@@ -113,6 +133,8 @@ export function Nav() {
       {/* `inert` while collapsed keeps the panel out of both the tab order and
           the accessibility tree, so screen readers don't read a second nav. */}
       <div
+        ref={panelRef}
+        id={menuId}
         inert={!open}
         className={`grid overflow-hidden transition-all duration-300 ease-out min-[480px]:hidden ${
           open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"

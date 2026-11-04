@@ -7,6 +7,8 @@ type Job = {
   org: string;
   date: string;
   description: string;
+  // Concrete results, listed under the description where there are some to show.
+  highlights?: string[];
 };
 
 const jobs: Job[] = [
@@ -21,6 +23,12 @@ const jobs: Job[] = [
     org: "Speed-Deed",
     date: "Jun 2026 - Oct 2026",
     description: "Built a pre-sale property and conveyancing platform for the Irish market.",
+    highlights: [
+      "Cut per-dashboard query volume ~95% (19 live queries to one snapshot read) by architecting a cron-driven PostHog/PostgreSQL/Recharts pipeline that pre-computes funnel, timing, and cost metrics into a single row.",
+      "Restored a production upload failure affecting live pilot users in under 10 minutes by tracing 429 errors to a database migration that had not been applied to production and running it against the live instance mid-pilot.",
+      "Gave admins visibility into third-party spend across 4 categories by building an immutable cost-events ledger that logs each priced action at a frozen FX rate and survives property deletion.",
+      "Closed 4 authorization and data-integrity gaps by locking sensitive write endpoints to the owning user and making retried webhooks and reopened tasks apply their effect only once, preventing duplicate charges and corrupted task state.",
+    ],
   },
   {
     role: "Algorithms Workshop Participant",
@@ -125,9 +133,18 @@ export function Experience() {
                 <p className="mt-3 text-sm leading-relaxed text-faint">{job.role}</p>
               </div>
 
-              <p className="max-w-[60ch] text-base leading-relaxed text-muted md:text-[17px]">
-                {job.description}
-              </p>
+              <div className="max-w-[60ch]">
+                <p className="text-base leading-relaxed text-muted md:text-[17px]">
+                  {job.description}
+                </p>
+                {job.highlights && (
+                  <ul className="mt-4 list-disc space-y-2 pl-4 text-sm leading-relaxed text-muted marker:text-faint">
+                    {job.highlights.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
 
               <p className="order-first font-mono text-[11px] uppercase leading-relaxed tracking-[0.04em] text-faint md:order-none md:text-right">
                 {job.date}

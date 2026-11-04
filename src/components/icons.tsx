@@ -71,14 +71,6 @@ export function ArrowUpRightIcon(props: IconProps) {
   );
 }
 
-export function ChevronIcon({ dir, ...props }: IconProps & { dir: "left" | "right" }) {
-  return (
-    <Outline {...props}>
-      {dir === "left" ? <path d="M15 18l-6-6 6-6" /> : <path d="M9 18l6-6-6-6" />}
-    </Outline>
-  );
-}
-
 export function GitHubIcon(props: IconProps) {
   return (
     <Solid {...props}>

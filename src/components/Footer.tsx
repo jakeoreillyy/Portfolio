@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { MailIcon } from "./icons";
-import { RESUME_URL } from "../data/links";
+import { GITHUB_URL, LINKEDIN_URL, RESUME_URL, X_URL } from "../data/links";
 
 type NavLink = { href: string; label: string };
 
@@ -10,9 +10,9 @@ const navigateLinks: NavLink[] = [
 ];
 
 const connectLinks: NavLink[] = [
-  { href: "https://github.com/jakeoreillyy", label: "GitHub" },
-  { href: "https://www.linkedin.com/in/jake-o-reilly", label: "LinkedIn" },
-  { href: "https://x.com/jakeorei", label: "X" },
+  { href: GITHUB_URL, label: "GitHub" },
+  { href: LINKEDIN_URL, label: "LinkedIn" },
+  { href: X_URL, label: "X" },
   { href: RESUME_URL, label: "Resume" },
 ];
 

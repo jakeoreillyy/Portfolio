@@ -1,10 +1,7 @@
 import { Typewriter } from "./Typewriter";
 import { PortraitLight } from "./PortraitLight";
 import { FileTextIcon, GitHubIcon, LinkedInIcon } from "./icons";
-import { RESUME_URL } from "../data/links";
-
-const GITHUB_URL = "https://github.com/jakeoreillyy";
-const LINKEDIN_URL = "https://www.linkedin.com/in/jake-o-reilly";
+import { GITHUB_URL, LINKEDIN_URL, RESUME_URL } from "../data/links";
 
 // All three links are the same control; the brand marks carry the only colour.
 const socialLink =

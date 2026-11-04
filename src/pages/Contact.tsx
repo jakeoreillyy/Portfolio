@@ -3,6 +3,7 @@ import type { ComponentProps, SubmitEvent } from "react";
 import { LinkedInIcon, MailIcon, XIcon } from "../components/icons";
 
 const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY as string | undefined;
+const RECAPTCHA_SCRIPT_ID = "recaptcha-script";
 // How long a submit waits for reCAPTCHA to load and return a token. Long
 // enough for a slow phone connection, short enough not to strand "Sending…".
 const RECAPTCHA_TIMEOUT_MS = 10_000;
@@ -17,11 +18,20 @@ declare global {
 }
 
 // The script is about 340 KiB and a second of CPU on a phone, so it's added
-// once someone starts on the form rather than when the page loads.
+// once someone starts on the form rather than when the page loads. An
+// existing tag is found by id: window.grecaptcha only exists once the script
+// has run, so checking that would add a second copy during the download.
 function loadRecaptcha(siteKey: string) {
+  const existing = document.getElementById(RECAPTCHA_SCRIPT_ID);
+  if (existing instanceof HTMLScriptElement) return existing;
+
   const script = document.createElement("script");
+  script.id = RECAPTCHA_SCRIPT_ID;
   script.src = `https://www.google.com/recaptcha/api.js?render=${siteKey}`;
   script.async = true;
+  // Drop a tag that failed to load (an ad blocker, say), so the next submit
+  // adds a fresh one instead of waiting on it.
+  script.addEventListener("error", () => script.remove());
   document.head.appendChild(script);
   return script;
 }
@@ -123,7 +133,7 @@ export default function Contact() {
   function requestRecaptcha() {
     if (recaptchaRequested.current || !RECAPTCHA_SITE_KEY) return;
     recaptchaRequested.current = true;
-    if (!window.grecaptcha) loadRecaptcha(RECAPTCHA_SITE_KEY);
+    loadRecaptcha(RECAPTCHA_SITE_KEY);
   }
 
   async function handleSubmit(e: SubmitEvent<HTMLFormElement>) {

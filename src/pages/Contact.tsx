@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { ComponentProps, SubmitEvent } from "react";
 import { LinkedInIcon, MailIcon, XIcon } from "../components/icons";
+import { EMAIL, LINKEDIN_URL, X_URL } from "../data/links";
 
 const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY as string | undefined;
 
@@ -46,14 +47,12 @@ async function getRecaptchaToken(): Promise<string | undefined> {
   });
 }
 
-const EMAIL = "oreillyjake16@gmail.com";
-
 // mailto entries open in place; the rest are external links; the last has no
 // href and renders dimmer so it doesn't read as clickable.
 const details = [
   { Icon: MailIcon, label: EMAIL, href: `mailto:${EMAIL}` },
-  { Icon: LinkedInIcon, label: "jake-o-reilly", href: "https://www.linkedin.com/in/jake-o-reilly" },
-  { Icon: XIcon, label: "@jakeorei", href: "https://x.com/jakeorei" },
+  { Icon: LinkedInIcon, label: "jake-o-reilly", href: LINKEDIN_URL },
+  { Icon: XIcon, label: "@jakeorei", href: X_URL },
 ];
 
 const fieldClass =

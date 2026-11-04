@@ -83,6 +83,7 @@ export function Projects() {
                 className="flex w-full cursor-pointer items-baseline gap-3 border-b border-line py-4 text-left first:pt-0"
               >
                 <span
+                  aria-hidden="true"
                   className={`font-mono text-[11px] tabular-nums transition-colors ${
                     on ? "text-foreground" : "text-faint"
                   }`}

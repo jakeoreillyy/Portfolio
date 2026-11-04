@@ -1,11 +1,5 @@
 import { Section } from "./Section";
-
-const START = new Date(2024, 8, 1); // September 2024
-const END = new Date(2028, 4, 31); // May 2028
-const SPAN = END.getTime() - START.getTime();
-const TOTAL_YEARS = 4;
-
-const at = (date: Date) => Math.min(Math.max((date.getTime() - START.getTime()) / SPAN, 0), 1);
+import { START, END, TOTAL_YEARS, at, yearOfStudy } from "../lib/studyProgress";
 
 // Calendar-year checkpoints after the start. September sits about three
 // quarters of the way through 2024, so the first gap is visibly the short one.
@@ -21,12 +15,6 @@ const modules = [
   "Object-Oriented Programming",
   "Data Analysis",
 ];
-
-function yearOfStudy(now: Date) {
-  const months =
-    (now.getFullYear() - START.getFullYear()) * 12 + (now.getMonth() - START.getMonth());
-  return Math.min(Math.max(Math.floor(months / 12) + 1, 1), TOTAL_YEARS);
-}
 
 export function Education() {
   const now = new Date();

@@ -53,6 +53,8 @@ The site runs fine without these; they're only needed for the contact form to ac
 | `npm run lint` | Run ESLint |
 | `npm run format` | Format with Prettier |
 | `npm run format:check` | Check formatting without changing files |
+| `npm test` | Run the unit tests with Vitest |
+| `npm run test:e2e` | Build, serve with `vite preview` and run the Playwright smoke test (run `npx playwright install chromium` once first) |
 
 ## License
 

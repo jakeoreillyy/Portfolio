@@ -50,10 +50,7 @@ export function Projects() {
   };
 
   return (
-    <Section
-      title="Projects"
-      srDetail="Software engineering projects built by Jake O'Reilly"
-    >
+    <Section title="Projects">
       <div
         ref={gridRef}
         className="mt-12 grid gap-x-12 gap-y-8 lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)]"

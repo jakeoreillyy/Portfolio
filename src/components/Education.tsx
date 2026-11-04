@@ -34,10 +34,7 @@ export function Education() {
   const currentYear = now.getFullYear();
 
   return (
-    <Section
-      title="Education"
-      srDetail="Computer science education of Jake O'Reilly, software engineer in Dublin, Ireland"
-    >
+    <Section title="Education">
       <div className="mt-10">
         <p className="font-display text-[clamp(1.3rem,2.3vw,1.7rem)] leading-[1.15] tracking-[-0.03em] text-foreground">
           BSc Computer Science

@@ -176,101 +176,97 @@ export default function Contact() {
   return (
     <section className="px-6 pt-32 pb-24 sm:pt-40">
       <div className="mx-auto w-full max-w-3xl">
-        <>
-          <h1 className="font-display text-[clamp(2.5rem,6.5vw,4.5rem)] leading-[0.98] tracking-[-0.04em] text-balance">
-            Get in touch.
-          </h1>
+        <h1 className="font-display text-[clamp(2.5rem,6.5vw,4.5rem)] leading-[0.98] tracking-[-0.04em] text-balance">
+          Get in touch.
+        </h1>
 
-          <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3 border-b border-line pb-8">
-            {details.map(({ Icon, label, href }) => {
-              const inner = (
-                <>
-                  <Icon size={16} className="shrink-0" />
-                  {label}
-                </>
-              );
-              const base = "flex items-center gap-2 font-mono text-sm";
-              return href ? (
-                <a
-                  key={label}
-                  href={href}
-                  {...(href.startsWith("mailto:")
-                    ? {}
-                    : { target: "_blank", rel: "noopener noreferrer" })}
-                  className={`${base} text-muted transition-colors hover:text-accent`}
-                >
-                  {inner}
-                </a>
-              ) : (
-                <span key={label} className={`${base} text-faint`}>
-                  {inner}
-                </span>
-              );
-            })}
-          </div>
-        </>
+        <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3 border-b border-line pb-8">
+          {details.map(({ Icon, label, href }) => {
+            const inner = (
+              <>
+                <Icon size={16} className="shrink-0" />
+                {label}
+              </>
+            );
+            const base = "flex items-center gap-2 font-mono text-sm";
+            return href ? (
+              <a
+                key={label}
+                href={href}
+                {...(href.startsWith("mailto:")
+                  ? {}
+                  : { target: "_blank", rel: "noopener noreferrer" })}
+                className={`${base} text-muted transition-colors hover:text-accent`}
+              >
+                {inner}
+              </a>
+            ) : (
+              <span key={label} className={`${base} text-faint`}>
+                {inner}
+              </span>
+            );
+          })}
+        </div>
 
-        <>
-          <form
-            onSubmit={handleSubmit}
-            onFocus={requestRecaptcha}
-            onInput={requestRecaptcha}
-            className="mt-8 space-y-5"
-          >
-            <div className="grid gap-5 sm:grid-cols-2">
-              <Field name="name" label="Name" autoComplete="name" placeholder="Andrej Karpathy" />
-              <Field
-                name="email"
-                label="Email"
-                type="email"
-                autoComplete="email"
-                placeholder="andrejkarpathy@gmail.com"
-              />
-            </div>
-
-            <Field name="subject" label="Subject" placeholder="A question about your work" />
-
+        <form
+          onSubmit={handleSubmit}
+          onFocus={requestRecaptcha}
+          onInput={requestRecaptcha}
+          className="mt-8 space-y-5"
+        >
+          <div className="grid gap-5 sm:grid-cols-2">
+            <Field name="name" label="Name" autoComplete="name" placeholder="Andrej Karpathy" />
             <Field
-              name="message"
-              label="Message"
-              textarea
-              rows={6}
-              placeholder="Hey Jake, I'd love to hear more about how you approached one of your projects."
+              name="email"
+              label="Email"
+              type="email"
+              autoComplete="email"
+              placeholder="andrejkarpathy@gmail.com"
             />
+          </div>
 
-            <button
-              type="submit"
-              disabled={status === "sending"}
-              className="inline-flex cursor-pointer items-center gap-2 rounded border border-accent px-4 py-2.5 font-mono text-sm text-accent transition-colors hover:bg-accent hover:text-background disabled:cursor-default disabled:opacity-50"
-            >
-              {status === "sending" ? "Sending…" : "Send message"}
-              {status !== "sending" && <span aria-hidden="true">→</span>}
-            </button>
+          <Field name="subject" label="Subject" placeholder="A question about your work" />
 
-            <p className="font-mono text-xs text-faint">Protected by reCAPTCHA.</p>
+          <Field
+            name="message"
+            label="Message"
+            textarea
+            rows={6}
+            placeholder="Hey Jake, I'd love to hear more about how you approached one of your projects."
+          />
 
-            <div aria-live="polite" className="empty:hidden">
-              {status === "sent" && (
-                <p className="font-mono text-xs text-accent">Thanks, I'll get back to you soon.</p>
-              )}
-              {status === "error" && error && (
-                <p className="font-mono text-xs text-danger">{error}</p>
-              )}
-              {status === "blocked" && (
-                <p className="font-mono text-xs text-danger">
-                  Your message wasn't sent because reCAPTCHA couldn't load. Please email me at{" "}
-                  <a
-                    href={`mailto:${EMAIL}`}
-                    className="underline transition-colors hover:text-accent"
-                  >
-                    {EMAIL}
-                  </a>{" "}
-                  instead.
-                </p>
-              )}
-            </div>
-          </form>
-        </>
+          <button
+            type="submit"
+            disabled={status === "sending"}
+            className="inline-flex cursor-pointer items-center gap-2 rounded border border-accent px-4 py-2.5 font-mono text-sm text-accent transition-colors hover:bg-accent hover:text-background disabled:cursor-default disabled:opacity-50"
+          >
+            {status === "sending" ? "Sending…" : "Send message"}
+            {status !== "sending" && <span aria-hidden="true">→</span>}
+          </button>
+
+          <p className="font-mono text-xs text-faint">Protected by reCAPTCHA.</p>
+
+          <div aria-live="polite" className="empty:hidden">
+            {status === "sent" && (
+              <p className="font-mono text-xs text-accent">Thanks, I'll get back to you soon.</p>
+            )}
+            {status === "error" && error && (
+              <p className="font-mono text-xs text-danger">{error}</p>
+            )}
+            {status === "blocked" && (
+              <p className="font-mono text-xs text-danger">
+                Your message wasn't sent because reCAPTCHA couldn't load. Please email me at{" "}
+                <a
+                  href={`mailto:${EMAIL}`}
+                  className="underline transition-colors hover:text-accent"
+                >
+                  {EMAIL}
+                </a>{" "}
+                instead.
+              </p>
+            )}
+          </div>
+        </form>
       </div>
     </section>
   );
